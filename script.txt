@@ -1,0 +1,38 @@
+load resources/test.jpg test
+red-component test test-red-component
+green-component test test-green-component
+blue-component test test-blue-component
+save resources/test-red-component.jpg test-red-component
+save resources/test-green-component.jpg test-green-component
+save resources/test-blue-component.jpg test-blue-component
+luma-component test test-luma-component
+save resources/test-luma-component.jpg test-luma-component
+value-component test test-value-component
+save resources/test-value-component.jpg test-value-component
+intensity-component test test-intensity-component
+save resources/test-intensity-component.jpg test-intensity-component
+rgb-split test test-r test-g test-b
+save resources/test-r.jpg test-r
+save resources/test-g.jpg test-g
+save resources/test-b.jpg test-b
+rgb-combine test-rgb-combine test-r test-g test-b
+save resources/test-rgb-combine.png test-rgb-combine
+quit
+save resources/test.ppm test
+load resources/test.ppm test-ppm
+save resources/test-ppm.png test-ppm
+brighten 100 test test-brighten-100
+save resources/test-brighten-100.jpg test-brighten-100
+brighten -100 test test-brighten--100
+save resources/test-brighten--100.jpg test-brighten--100
+blur test test-blur
+save resources/test-blur.jpg test-blur
+sharpen test test-sharpen
+save resources/test-sharpen.jpg test-sharpen
+sepia test test-sepia
+save resources/test-sepia.jpg test-sepia
+vertical-flip test test-flip-vertically
+save resources/test-flip-vertically.jpg test-flip-vertically
+horizontal-flip test test-flip-horizontally
+save resources/test-flip-horizontally.jpg test-flip-horizontally
+quit
