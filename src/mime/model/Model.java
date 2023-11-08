@@ -112,9 +112,22 @@ public interface Model {
    */
   void getBrightnessComponent(String imageName, Brightness brightness, String newImageName);
 
-  boolean containsImage(String arg);
+  /**
+   * Checks if the image is present in the model.
+   *
+   * @param imageName
+   * @return true if the image is present in the model, false otherwise.
+   */
+  boolean containsImage(String imageName);
 
-  void compressImage(String imageName, int percentage, String newImageName);
+  /**
+   * This method compresses the image by the given percentage.
+   *
+   * @param percentage percentage by which the image is to be compressed.
+   * @param imageName name of the image.
+   * @param newImageName name of the new image.
+   */
+  void compressImage( int percentage, String imageName, String newImageName);
 
 
   /**

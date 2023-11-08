@@ -14,7 +14,7 @@ public class CompressCommand implements Command {
     ArgValidator.validate(args, 3);
     if (model.containsImage(args[1])) {
       if (!model.containsImage(args[2])) {
-        model.compressImage(args[0], Integer.parseInt(args[1]), args[2]);
+        model.compressImage(Integer.parseInt(args[0]), args[1], args[2]);
       } else {
         throw new IllegalArgumentException("Image " + args[2] + " already exists.");
       }
