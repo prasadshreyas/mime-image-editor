@@ -28,5 +28,7 @@ out/
 
 # hidden files
 .DS_Store
-.+*
+.idea/
 
+# misc
+checklist.md
