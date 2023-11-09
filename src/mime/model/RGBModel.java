@@ -31,19 +31,16 @@ public class RGBModel extends AbstractModel {
   public void compressImage(int percentage, String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
     int[][][] channels = image.getChannels();
-    double[][] compressedRedChannel = HaarWaveletCompression.compressChannel(channels[0],
-            percentage);
-    double[][] compressedGreenChannel = HaarWaveletCompression.compressChannel(channels[1], percentage);
-    double[][] compressedBlueChannel = HaarWaveletCompression.compressChannel(channels[2], percentage);
+    int[][][] decompressedChannels = new int[3][][];
 
-    // Decompress the image to check if the compression works
-    int[][] decompressedRedChannel = HaarWaveletCompression.decompressChannel(compressedRedChannel);
-    int[][] decompressedGreenChannel = HaarWaveletCompression.decompressChannel(compressedGreenChannel);
-    int[][] decompressedBlueChannel = HaarWaveletCompression.decompressChannel(compressedBlueChannel);
+    for (int i = 0; i < 3; i++) { // Assuming 0 is red, 1 is green, and 2 is blue
+      // Compress
+      decompressedChannels[i] = Compression.compressAndUncompress(channels[i], percentage);
 
+    }
 
-    Image compressedImage = new RGBImage(decompressedRedChannel, decompressedGreenChannel,
-            decompressedBlueChannel);
+    // Create a new image with the decompressed channels and add it to the collection
+    Image compressedImage = new RGBImage(decompressedChannels[0], decompressedChannels[1], decompressedChannels[2]);
     images.put(newImageName, compressedImage);
   }
 

@@ -1,4 +1,8 @@
-load resources/test.jpg test
+load resources/manhattan-small.png test
+compress 90 test test-compress-90
+save resources/test-compress-90.jpg test-compress-90
+quit
+run-script script.txt
 red-component test test-red-component
 green-component test test-green-component
 blue-component test test-blue-component
