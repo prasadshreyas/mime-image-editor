@@ -21,7 +21,7 @@ public class Histogram {
     return histogramImage;
   }
 
-  private static void calculateHistograms(BufferedImage img, int[] redHistogram, int[] greenHistogram, int[] blueHistogram) {
+  static void calculateHistograms(BufferedImage img, int[] redHistogram, int[] greenHistogram, int[] blueHistogram) {
     for (int i = 0; i < img.getWidth(); i++) {
       for (int j = 0; j < img.getHeight(); j++) {
         Color pixelColor = new Color(img.getRGB(i, j), true);
