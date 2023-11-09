@@ -9,6 +9,10 @@ import static mime.model.Compression.invHaar2D;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This class tests the Compression class.
+
+ */
 public class CompressionTest {
 
   @Test
@@ -52,7 +56,7 @@ public class CompressionTest {
     assertArrayEquals(expected3, actual3, 0.00001);
 
     // Test case 4 - from the assignment
-    double[] input4 = {5, 3, 2, 4,2, 1, 0, 3};
+    double[] input4 = {5, 3, 2, 4, 2, 1, 0, 3};
     double[] expected4 = {7.071, 2.828, 1.000, 0.000, 1.414, -1.414, 0.707, -2.121};
     double[] actual4 = Compression.T(input4, input4.length);
 
@@ -73,7 +77,6 @@ public class CompressionTest {
     assertArrayEquals(expected1, actual1, 0.001);
 
 
-
     double[] input3 = {};
     double[] expectedOutput3 = {};
     assertArrayEquals(expectedOutput3, Compression.I(input3, input3.length), 0.0);
@@ -89,15 +92,25 @@ public class CompressionTest {
     // Apply the method with threshold of 1.0
     Compression.setBelowThreshold(matrix, 1.0);
     double[][] expected = {
-            { 0.0, 1.0, 5.0 },
-            { 2.3, 0.0, -2.2 },
-            { -3.0, 4.5, 0.0 }
+            {0.0, 1.0, 5.0},
+            {2.3, 0.0, -2.2},
+            {-3.0, 4.5, 0.0}
     };
     assertArrayEquals(expected, matrix);
+
+    Compression.setBelowThreshold(matrix, 10.0);
+    expected = new double[][]{
+            {0.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0}
+    };
+    assertArrayEquals(expected, matrix);
+
+
   }
 
   @Test
-  public void testCompressAndUncompress(){
+  public void testCompressAndUncompress() {
     int[][] matrix = new int[][]{
             {5, 4},
             {3, 2}
@@ -110,7 +123,7 @@ public class CompressionTest {
   }
 
   @Test
-  public void testHaar2D(){
+  public void testHaar2D() {
     double[][] matrix = new double[][]{
             {5, 4},
             {3, 2}
@@ -131,7 +144,7 @@ public class CompressionTest {
   }
 
   @Test
-  public void testInvHaar2D(){
+  public void testInvHaar2D() {
     double[][] matrix = new double[][]{
             {7, 1},
             {2, 0}
@@ -147,8 +160,37 @@ public class CompressionTest {
         assertEquals(expected[i][j], matrix[i][j], 0.1);
       }
     }
+  }
+
+  @Test
+  public void testcalculateThreshold(){
+    double[][] matrix = new double[][]{
+            {7, 1},
+            {2, 0}
+    };
+
+    double threshold = Compression.calculateThreshold(matrix, 0.5, 2, 2);
+    assertEquals(1.0, threshold, 0.1);
+
+
+    threshold = Compression.calculateThreshold(matrix, 0.1, 1, 1);
+    assertEquals(7.0, threshold, 0.1);
+
+    threshold = Compression.calculateThreshold(matrix, 0.99, 1, 1);
+    assertEquals(7.0, threshold, 0.1);
+
+    matrix = new double[][]{
+            {7, 1, 0},
+            {2, 0, 0},
+            {0, 0, 0},
+    };
+
+    threshold = Compression.calculateThreshold(matrix, 0.5, 2, 2);
+    assertEquals(1.0, threshold, 0.1);
 
 
   }
+
+
 
 }

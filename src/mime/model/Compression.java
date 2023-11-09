@@ -7,7 +7,6 @@ import java.util.Arrays;
  */
 public class Compression {
 
-
   public static int[][] compressAndUncompress(int[][] matrix, int compressionRatio) {
 
     int height = matrix.length;
@@ -72,29 +71,32 @@ public class Compression {
    * @return The compression threshold.
    */
   public static double calculateThreshold(double[][] X, double compressionRatio, int height, int width) {
-    int totalElements = height * width;
-    double[] temp = new double[totalElements];
-    int count = 0;
+    double[] flattenedMatrix = flattenMatrix(X, height, width);
+    Arrays.sort(flattenedMatrix);
+    int valuesToKeep = calculateValuesToKeep(flattenedMatrix.length, compressionRatio);
+    return findThreshold(flattenedMatrix, valuesToKeep);
+  }
 
-    // Store absolute values of all elements in X into temp, traverse only till height and width
+  private static int calculateValuesToKeep(int totalElements, double compressionRatio) {
+    int valuesToKeep = (int) (totalElements * (compressionRatio));
+    // Ensure that valuesToKeep is within the array bounds
+    return Math.max(0, Math.min(valuesToKeep, totalElements - 1));
+  }
+
+  private static double findThreshold(double[] sortedArray, int valuesToKeep) {
+    // Adjust index to account for zero-based array indexing
+    return sortedArray[sortedArray.length - valuesToKeep - 1];
+  }
+
+  private static double[] flattenMatrix(double[][] X, int height, int width) {
+    double[] temp = new double[height * width];
+    int count = 0;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         temp[count++] = Math.abs(X[i][j]);
       }
     }
-
-    // Sort temp to find the threshold
-    Arrays.sort(temp);
-
-    // Calculate the index for the compression threshold
-    int valuesToKeep = (int) (totalElements * (1 - compressionRatio));
-    // Ensure that valuesToKeep is within the array bounds
-    valuesToKeep = Math.max(0, Math.min(valuesToKeep, totalElements - 1));
-
-    // Find the threshold value
-    double threshold = temp[totalElements - valuesToKeep - 1]; // Adjust index to account for zero-based array indexing
-
-    return threshold;
+    return temp;
   }
 
 
