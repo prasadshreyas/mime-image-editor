@@ -5,18 +5,24 @@ import java.util.HashMap;
 
 import mime.model.image.Image;
 import mime.model.image.RGBImage;
+import mime.model.operations.Compression;
+import mime.model.operations.Histogram;
+import mime.model.operations.ImageProcessor;
 
 /**
  * This class represents the model of the image in the RGB color space.
  */
-public class RGBModel extends AbstractModel {
+public class RGBModel implements Model {
   private HashMap<String, Image> images;
+  private ImageProcessor imageProcessor;
+
 
   /**
    * Constructs HashMap of images.
    */
   public RGBModel() {
     images = new HashMap<>();
+    imageProcessor = new ImageProcessor();
   }
 
   @Override
@@ -30,18 +36,41 @@ public class RGBModel extends AbstractModel {
   @Override
   public void compressImage(int percentage, String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
+
+    Compression compression = new Compression();
+
     int[][][] channels = image.getChannels();
     int[][][] decompressedChannels = new int[3][][];
 
     for (int i = 0; i < 3; i++) { // Assuming 0 is red, 1 is green, and 2 is blue
       // Compress
-      decompressedChannels[i] = Compression.compressAndUncompress(channels[i], percentage);
+      decompressedChannels[i] = compression.compressAndUncompress(channels[i], percentage);
 
     }
 
     // Create a new image with the decompressed channels and add it to the collection
     Image compressedImage = new RGBImage(decompressedChannels[0], decompressedChannels[1], decompressedChannels[2]);
     images.put(newImageName, compressedImage);
+  }
+
+  @Override
+  public void levelAdjuster(String imageName, int shadow, int mid, int highlight, String newImageName) {
+
+  }
+
+  @Override
+  public void histogram(String imageName, String newImageName) {
+
+    Image image = getExistingImage(imageName);
+    BufferedImage img1 = image.getBufferedImage();
+    Histogram h = new Histogram(img1);
+    BufferedImage histogram1 = h.createHistogram();
+    images.put(newImageName, new RGBImage(histogram1));
+  }
+
+  @Override
+  public void colorCorrection(String imageName, String newImageName, int splitValue) {
+
   }
 
 
@@ -63,128 +92,50 @@ public class RGBModel extends AbstractModel {
   @Override
   public void brighten(int increment, String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
-    int[][][] channels = image.getChannels();
-    for (int row = 0; row < image.getHeight(); row++) {
-      for (int col = 0; col < image.getWidth(); col++) {
-        for (int channel = 0; channel < 3; channel++) {
-          channels[channel][row][col] = channels[channel][row][col] + increment;
-        }
-      }
-    }
-
-    Image brightenedImage = new RGBImage(channels[0], channels[1], channels[2]);
+    Image brightenedImage = imageProcessor.getBrightenedImage(increment, image);
 
     images.put(newImageName, brightenedImage);
   }
 
-  @Override
+
+
+
   public void blur(String imageName, String newImageName) {
-    double[][] filter = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16}, {1.0 / 16, 2.0 / 16, 1.0 / 16}};
     Image image = getExistingImage(imageName);
-
-    if (images.containsKey(newImageName)) {
-      throw new IllegalArgumentException("Image " + newImageName + " already exists.");
-    }
-
-    int[][][] channels = image.getChannels();
-
-    for (int channel = 0; channel < 3; channel++) {
-      channels[channel] = applyFilter(channels[channel], filter);
-    }
-
-    Image blurredImage = new RGBImage(channels[0], channels[1], channels[2]);
-
+    Image blurredImage = imageProcessor.blur(image);
     images.put(newImageName, blurredImage);
-
   }
 
-  @Override
   public void sharpen(String imageName, String newImageName) {
-    double[][] filter = {{-1, -1, -1}, {-1, 9, -1}, {-1, -1, -1}};
     Image image = getExistingImage(imageName);
-
-    if (images.containsKey(newImageName)) {
-      throw new IllegalArgumentException("Image " + newImageName + " already exists.");
-    }
-
-    int[][][] channels = image.getChannels();
-
-    for (int channel = 0; channel < 3; channel++) {
-      channels[channel] = applyFilter(channels[channel], filter);
-    }
-
-    Image sharpenedImage = new RGBImage(channels[0], channels[1], channels[2]);
-
+    Image sharpenedImage = imageProcessor.sharpen(image);
     images.put(newImageName, sharpenedImage);
-
   }
 
 
   @Override
   public void flipVertically(String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
-    int[][][] channels = image.getChannels();
-    for (int channel = 0; channel < 3; channel++) {
-      channels[channel] = flipChannel(channels[channel], true, false);
-    }
-    Image flippedImage = new RGBImage(channels[0], channels[1], channels[2]);
+    Image flippedImage = imageProcessor.flipVertically(image);
     images.put(newImageName, flippedImage);
-
   }
 
 
   @Override
   public void flipHorizontally(String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
-    int[][][] channels = image.getChannels();
-    for (int channel = 0; channel < 3; channel++) {
-      channels[channel] = flipChannel(channels[channel], false, true);
-    }
-    Image flippedImage = new RGBImage(channels[0], channels[1], channels[2]);
+    Image flippedImage = imageProcessor.flipHorizontally(image);
     images.put(newImageName, flippedImage);
   }
 
 
   @Override
   public void sepia(String imageName, String newImageName) {
-
     Image image = getExistingImage(imageName);
-    int height = image.getHeight();
-    int width = image.getWidth();
-
-    int[][][] channels = image.getChannels();
-    int[][] redChannel = channels[0];
-    int[][] greenChannel = channels[1];
-    int[][] blueChannel = channels[2];
-
-    int[][] sepiaRedChannel = new int[height][width];
-    int[][] sepiaGreenChannel = new int[height][width];
-    int[][] sepiaBlueChannel = new int[height][width];
-
-    for (int x = 0; x < height; x++) {
-      for (int y = 0; y < width; y++) {
-        // Original RGB values
-        int originalRed = redChannel[x][y];
-        int originalGreen = greenChannel[x][y];
-        int originalBlue = blueChannel[x][y];
-
-        // Calculate new RGB values
-        int newRed = clamp((int) (0.393 * originalRed + 0.769 * originalGreen + 0.189 * originalBlue));
-        int newGreen = clamp((int) (0.349 * originalRed + 0.686 * originalGreen + 0.168 * originalBlue));
-        int newBlue = clamp((int) (0.272 * originalRed + 0.534 * originalGreen + 0.131 * originalBlue));
-
-        // Assign new values to the sepia channels
-        sepiaRedChannel[x][y] = newRed;
-        sepiaGreenChannel[x][y] = newGreen;
-        sepiaBlueChannel[x][y] = newBlue;
-      }
-    }
-
-    Image sepiaImage = new RGBImage(sepiaRedChannel, sepiaGreenChannel, sepiaBlueChannel);
+    Image sepiaImage = imageProcessor.sepia(image);
     images.put(newImageName, sepiaImage);
-
-
   }
+
 
   @Override
   public void rgbSplit(String imageName, String imageNameRed, String imageNameGreen, String imageNameBlue) {
@@ -270,6 +221,46 @@ public class RGBModel extends AbstractModel {
     resultImage = new RGBImage(brightnessChannel, brightnessChannel, brightnessChannel);
 
     images.put(newImageName, resultImage);
+
+  }
+
+  int clamp(int value) {
+    return Math.min(Math.max(value, 0), 255);
+  }
+
+  @Override
+  public void splitView(String img1, String img2, int percentage) {
+    Image image = getExistingImage(img1);
+    Image image2 = getExistingImage(img2);
+    int[][][] channels = image.getChannels();
+    int[][][] channels2 = image2.getChannels();
+    int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];
+    int width = image.getWidth();
+    int newWidth = (int) (width * (percentage / 100.0));
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < newWidth; j++) {
+        newChannels[0][i][j] = channels[0][i][j];
+        newChannels[1][i][j] = channels[1][i][j];
+        newChannels[2][i][j] = channels[2][i][j];
+      }
+      for (int j = newWidth; j < image.getWidth(); j++) {
+        newChannels[0][i][j] = channels2[0][i][j];
+        newChannels[1][i][j] = channels2[1][i][j];
+        newChannels[2][i][j] = channels2[2][i][j];
+      }
+    }
+
+    // Add a vertical line to separate the two images
+    for (int i = 0; i < image.getHeight(); i++) {
+      newChannels[0][i][newWidth] = 0;
+      newChannels[1][i][newWidth] = 0;
+      newChannels[2][i][newWidth] = 0;
+    }
+
+
+    Image splitImage = new RGBImage(newChannels[0], newChannels[1], newChannels[2]);
+    images.put(img2, splitImage);
 
   }
 

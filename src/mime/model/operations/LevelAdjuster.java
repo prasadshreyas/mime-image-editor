@@ -1,12 +1,20 @@
-package mime.model;
+package mime.model.operations;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class LevelAdjuster {
 
-  public static BufferedImage adjustLevels(BufferedImage img, int black, int mid, int white) {
+  public BufferedImage adjustLevels(BufferedImage img, int black, int mid, int white) throws ArithmeticException, IllegalArgumentException {
     if (black < 0 || black > 255 || mid < 0 || mid > 255 || white < 0 || white > 255) {
       throw new IllegalArgumentException("Black, mid, and white values must be between 0 and 255");
+    }
+
+    if (black >= mid || mid >= white) {
+      throw new IllegalArgumentException("Black must be less than mid, and mid must be less than white");
+    }
+
+    if (black == 0 && mid == 128 && white == 255) {
+      return img; // No adjustment needed
     }
 
     double[] coefficients = fitQuadraticCurve(black, mid, white);
@@ -14,12 +22,11 @@ public class LevelAdjuster {
 
     for (int i = 0; i < img.getWidth(); i++) {
       for (int j = 0; j < img.getHeight(); j++) {
-        Color originalColor = new Color(img.getRGB(i, j), true); // Support alpha channel
+        Color originalColor = new Color(img.getRGB(i, j)); // Support alpha channel
         int red = adjustColorValue(originalColor.getRed(), coefficients);
         int green = adjustColorValue(originalColor.getGreen(), coefficients);
         int blue = adjustColorValue(originalColor.getBlue(), coefficients);
-        int alpha = originalColor.getAlpha(); // Preserve the alpha value
-        Color adjustedColor = new Color(red, green, blue, alpha);
+        Color adjustedColor = new Color(red, green, blue);
         adjustedImage.setRGB(i, j, adjustedColor.getRGB());
       }
     }
@@ -27,7 +34,7 @@ public class LevelAdjuster {
     return adjustedImage;
   }
 
-  private static double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
+    double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
     double A = Math.pow(shadow, 2) * (mid - highlight) - shadow * (Math.pow(mid, 2) - Math.pow(highlight, 2)) + mid * Math.pow(highlight, 2) - highlight * Math.pow(mid, 2);
 
     if (A == 0) {
@@ -45,7 +52,7 @@ public class LevelAdjuster {
     return new double[]{a, b, c};
   }
 
-  private static int adjustColorValue(int colorValue, double[] coefficients) {
+  int adjustColorValue(int colorValue, double[] coefficients) {
     double a = coefficients[0];
     double b = coefficients[1];
     double c = coefficients[2];

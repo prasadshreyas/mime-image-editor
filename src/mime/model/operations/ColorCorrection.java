@@ -1,16 +1,24 @@
-package mime.model;
+package mime.model.operations;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import mime.model.operations.Histogram;
+
 public class ColorCorrection {
+  int[] redHistogram;
+  int[] greenHistogram;
+  int[] blueHistogram;
+  BufferedImage img;
+  public  ColorCorrection() {
+    this.redHistogram = new int[256];
+    this.greenHistogram = new int[256];
+    this.blueHistogram = new int[256];
+  }
 
   // Method to correct the color of an input image
-  public static BufferedImage correctColor(BufferedImage img) {
+  public BufferedImage correctColor(BufferedImage img) {
     // Calculate histograms
-    int[] redHistogram = new int[256];
-    int[] greenHistogram = new int[256];
-    int[] blueHistogram = new int[256];
-    Histogram.calculateHistograms(img, redHistogram, greenHistogram, blueHistogram);
+    calculateHistograms();
 
     // Find peaks for color correction
     int redPeak = findMeaningfulPeak(redHistogram);
@@ -38,8 +46,19 @@ public class ColorCorrection {
     return correctedImage;
   }
 
+  private void calculateHistograms() {
+    for (int i = 0; i < img.getWidth(); i++) {
+      for (int j = 0; j < img.getHeight(); j++) {
+        Color pixelColor = new Color(img.getRGB(i, j), true);
+        redHistogram[pixelColor.getRed()]++;
+        greenHistogram[pixelColor.getGreen()]++;
+        blueHistogram[pixelColor.getBlue()]++;
+      }
+    }
+  }
+
   // Helper method to find the meaningful peak within the given range
-  private static int findMeaningfulPeak(int[] histogram) {
+  private int findMeaningfulPeak(int[] histogram) {
     int peakIndex = 0;
     int peakValue = 0;
 
@@ -54,7 +73,7 @@ public class ColorCorrection {
   }
 
   // Helper method to clamp color values to valid range
-  private static int clampColorValue(int value) {
+  private int clampColorValue(int value) {
     return Math.min(Math.max(value, 0), 255);
   }
 }

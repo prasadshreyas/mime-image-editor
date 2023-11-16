@@ -11,17 +11,43 @@ public class BlurCommand implements Command {
 
   @Override
   public void execute(String[] args) {
-    ArgValidator.validate(args, 2);
-    if (model.containsImage(args[0])) {
-      if (!model.containsImage(args[1])) {
-        model.blur(args[0], args[1]);
-      } else {
-        throw new IllegalArgumentException("New Image already exists");
-      }
-    } else {
+
+    int[] expectedLength = {2, 4};
+    ArgValidator.validate(args, expectedLength);
+    int splitValue = 0;
+
+    if (!model.containsImage(args[0])) {
       throw new IllegalArgumentException("No such image exists");
     }
+    if (model.containsImage(args[1])) {
+      throw new IllegalArgumentException("New Image already exists");
+    }
+    if (args.length == 2){
+      model.blur(args[0], args[1]);
+    }
+    if (args.length == 4) {
+      if (!args[2].equals("-split")) {
+        throw new IllegalArgumentException("Invalid argument: " + args[2]);
+      }
+      try {
+        splitValue = Integer.parseInt(args[3]);
+        // Check if split value is between 0 and 100
+        if (splitValue < 0 || splitValue > 100) {
+          throw new IllegalArgumentException("Split value must be between 0 and 100");
+        }
+        model.splitView(args[0], args[1], splitValue);
+
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Split value must be an integer");
+      }
+    }
+
 
   }
 }
+
+
+
+
+
 

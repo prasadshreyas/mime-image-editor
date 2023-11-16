@@ -8,11 +8,13 @@ import java.util.Scanner;
 import mime.controller.commands.BlueComponentCommand;
 import mime.controller.commands.BlurCommand;
 import mime.controller.commands.BrightenCommand;
+import mime.controller.commands.ColorCorrectCommand;
 import mime.controller.commands.Command;
 import mime.controller.commands.CompressCommand;
 import mime.controller.commands.FlipHorizontallyCommand;
 import mime.controller.commands.FlipVerticallyCommand;
 import mime.controller.commands.GreenComponentCommand;
+import mime.controller.commands.HistogramCommand;
 import mime.controller.commands.IntensityComponentCommand;
 import mime.controller.commands.LoadCommand;
 import mime.controller.commands.LumaComponentCommand;
@@ -71,6 +73,8 @@ public class Controller {
     commands.put("green-component", new GreenComponentCommand(model));
     commands.put("blue-component", new BlueComponentCommand(model));
     commands.put("compress", new CompressCommand(model));
+    commands.put("color-correct", new ColorCorrectCommand(model));
+    commands.put("histogram", new HistogramCommand(model));
   }
 
   /**

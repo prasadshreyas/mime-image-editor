@@ -1,4 +1,4 @@
-package mime.model;
+package mime.model.operations;
 
 import java.util.Arrays;
 
@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Compression {
 
-  public static int[][] compressAndUncompress(int[][] matrix, int compressionRatio) {
+  public int[][] compressAndUncompress(int[][] matrix, int compressionRatio) {
 
     int height = matrix.length;
     int width = matrix[0].length;
@@ -49,7 +49,7 @@ public class Compression {
    * @param X                The matrix to be compressed.
    * @param threshold        The threshold to be applied.
    */
-  public static void setBelowThreshold(double[][] X, double threshold) {
+  public void setBelowThreshold(double[][] X, double threshold) {
     // Apply threshold to compress the elements in the matrix X
     for (int i = 0; i < X.length; i++) {
       for (int j = 0; j < X[i].length; j++) {
@@ -70,25 +70,25 @@ public class Compression {
    * @param width            The width of the original matrix.
    * @return The compression threshold.
    */
-  public static double calculateThreshold(double[][] X, double compressionRatio, int height, int width) {
+  public double calculateThreshold(double[][] X, double compressionRatio, int height, int width) {
     double[] flattenedMatrix = flattenMatrix(X, height, width);
     Arrays.sort(flattenedMatrix);
     int valuesToKeep = calculateValuesToKeep(flattenedMatrix.length, compressionRatio);
     return findThreshold(flattenedMatrix, valuesToKeep);
   }
 
-  private static int calculateValuesToKeep(int totalElements, double compressionRatio) {
+  private int calculateValuesToKeep(int totalElements, double compressionRatio) {
     int valuesToKeep = (int) (totalElements * (compressionRatio));
     // Ensure that valuesToKeep is within the array bounds
     return Math.max(0, Math.min(valuesToKeep, totalElements - 1));
   }
 
-  private static double findThreshold(double[] sortedArray, int valuesToKeep) {
+  private double findThreshold(double[] sortedArray, int valuesToKeep) {
     // Adjust index to account for zero-based array indexing
     return sortedArray[sortedArray.length - valuesToKeep - 1];
   }
 
-  private static double[] flattenMatrix(double[][] X, int height, int width) {
+  private double[] flattenMatrix(double[][] X, int height, int width) {
     double[] temp = new double[height * width];
     int count = 0;
     for (int i = 0; i < height; i++) {
@@ -106,7 +106,7 @@ public class Compression {
    * @param X The matrix to be transformed.
    * @param s The size of the square matrix.
    */
-  public static void haar2D(double[][] X, int s) {
+  public void haar2D(double[][] X, int s) {
     int c = s;
     while (c > 1) {
       for (int i = 0; i < c; i++) {
@@ -131,7 +131,7 @@ public class Compression {
     }
   }
 
-  public static void invHaar2D(double[][] X, int s) {
+  public void invHaar2D(double[][] X, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
@@ -163,7 +163,7 @@ public class Compression {
    * @param l The size of the array.
    * @return The transformed array.
    */
-  public static double[] I(double[] s, int l) {
+  public double[] I(double[] s, int l) {
     double[] result = new double[l];
     int m = 2; // Start with the smallest grouping of 2
 
@@ -201,7 +201,7 @@ public class Compression {
    * @param m The size of the array.
    * @return The transformed array.
    */
-  public static double[] T(double[] s, int m) {
+  public double[] T(double[] s, int m) {
     while (m > 1) {
       double[] temp = new double[m];
       for (int i = 0; i < m; i++) {
@@ -224,7 +224,7 @@ public class Compression {
    * @param s      The next power of two.
    * @return The padded matrix.
    */
-  public static double[][] padToNextPowerOfTwo(int[][] matrix, int s) {
+  public double[][] padToNextPowerOfTwo(int[][] matrix, int s) {
     double[][] newMatrix = new double[s][s];
     for (int i = 0; i < matrix.length; i++) {
       for (int j = 0; j < matrix[i].length; j++) {
@@ -242,7 +242,7 @@ public class Compression {
    * @param width  The original width of the matrix.
    * @return The unpadded matrix.
    */
-  public static double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
+  public double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
     double[][] newMatrix = new double[height][width];
     for (int i = 0; i < newMatrix.length; i++) {
       for (int j = 0; j < newMatrix[i].length; j++) {

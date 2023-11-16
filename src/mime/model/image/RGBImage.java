@@ -24,11 +24,11 @@ public class RGBImage implements Image {
   public RGBImage(BufferedImage bufferedImage) {
     this.width = bufferedImage.getWidth();
     this.height = bufferedImage.getHeight();
-
     this.redChannel = getChannelFromBufferedImage(16, bufferedImage);
     this.greenChannel = getChannelFromBufferedImage(8, bufferedImage);
     this.blueChannel = getChannelFromBufferedImage(0, bufferedImage);
   }
+
 
   /**
    * Constructs a RGBImage object.

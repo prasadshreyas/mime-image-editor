@@ -27,10 +27,12 @@
 - [ ] Allow an optional percentage parameter for the split view in the script commands for these operations.
 
 ### Command-Line Script File Input
-- [ ] Enable the processing of a script file via a command-line argument (e.g., `-file name-of-script.txt`).
-- [ ] Run and process the script file commands automatically on program execution with the correct command-line argument.
-- [ ] Maintain interactive command entry when no script file is specified.
-- [ ] Update USEME file with all the supported script commands.
+- [X] Enable the processing of a script file via a command-line argument (e.g., `-file 
+  name-of-script.txt`).
+- [X] Run and process the script file commands automatically on program execution with the 
+  correct command-line argument.
+- [X] Maintain interactive command entry when no script file is specified.
+- [X] Update README file with all the supported script commands.
 
 ### Design Considerations & Documentation
 - [ ] Analyze and document design changes required for the new features in the README file.

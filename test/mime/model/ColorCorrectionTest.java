@@ -7,14 +7,16 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import static org.junit.Assert.*;
+import mime.model.operations.ColorCorrection;
 
 public class ColorCorrectionTest {
+  ColorCorrection colorCorrection = new ColorCorrection();
+
   @Test
   public void testCorrectColor() {
     try {
       BufferedImage inputImage = ImageIO.read(new File("resources/galaxy.png"));
-      BufferedImage correctedImage = ColorCorrection.correctColor(inputImage);
+      BufferedImage correctedImage = colorCorrection.correctColor(inputImage);
       ImageIO.write(correctedImage, "png", new File("resources/corrected-galaxy.png"));
 
 

@@ -1,11 +1,11 @@
 package mime.controller.commands;
 
+import mime.controller.commands.Command;
 import mime.model.Model;
 
-public class SharpenCommand implements Command {
+public class ColorCorrectCommand implements Command {
   private final Model model;
-
-  public SharpenCommand(Model model) {
+  public ColorCorrectCommand(Model model) {
     this.model = model;
   }
 
@@ -14,16 +14,13 @@ public class SharpenCommand implements Command {
 
     int[] expectedLength = {2, 4};
     ArgValidator.validate(args, expectedLength);
-    int splitValue;
+    int splitValue = 0;
 
     if (!model.containsImage(args[0])) {
       throw new IllegalArgumentException("No such image exists");
     }
     if (model.containsImage(args[1])) {
       throw new IllegalArgumentException("New Image already exists");
-    }
-    if (args.length == 2){
-      model.sharpen(args[0], args[1]);
     }
     if (args.length == 4) {
       if (!args[2].equals("-split")) {
@@ -35,12 +32,11 @@ public class SharpenCommand implements Command {
         if (splitValue < 0 || splitValue > 100) {
           throw new IllegalArgumentException("Split value must be between 0 and 100");
         }
-        model.splitView(args[0], args[1], splitValue);
-
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException("Split value must be an integer");
       }
     }
 
+    model.colorCorrection(args[0], args[1], splitValue);
   }
 }

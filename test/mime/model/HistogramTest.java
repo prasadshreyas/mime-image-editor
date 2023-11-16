@@ -7,7 +7,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import static org.junit.Assert.*;
+import mime.model.operations.Histogram;
 
 public class HistogramTest {
   @Test
@@ -21,8 +21,9 @@ public class HistogramTest {
     catch (Exception e) {
       System.out.println(e);
     }
+    Histogram h = new Histogram(img1);
 
-    BufferedImage histogram1 = Histogram.createHistogram(img1);
+    BufferedImage histogram1 = h.createHistogram();
 
     // save the histogram image
     try {

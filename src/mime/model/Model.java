@@ -131,9 +131,42 @@ public interface Model {
 
 
   /**
+   * This method adjusts the levels of the image by the given shadow, midtone and highlight values.
+   * @param imageName name of the image.
+   * @param shadow shadow value.
+   * @param midtone midtone value.
+   * @param highlight highlight value.
+   * @param newImageName name of the new image.
+   */
+  void levelAdjuster(String imageName, int shadow, int midtone, int highlight, String newImageName);
+
+  /**
+   * Given an image, this method returns the histogram of the image.
+   * @param imageName name of the image.
+   * @param newImageName name of the histogram image.
+   */
+  void histogram(String imageName, String newImageName);
+
+  /**
+   * This method color corrects the image by adjusting the peaks of the histogram.
+   * @param imageName name of the image.
+   * @param newImageName name of the new image.
+   */
+  void colorCorrection(String imageName, String newImageName, int splitValue);
+
+  /**
+   * This method splits the view of the image into two parts.
+   * @param arg name of the image.
+   * @param arg1 name of the new image.
+   * @param splitValue value at which the image is to be split.
+   */
+  void splitView(String arg, String arg1, int splitValue);
+
+
+  /**
    * Enum representing the color components of the image.
    */
-  public enum Channel {
+  enum Channel {
     RED, GREEN, BLUE
   }
 
