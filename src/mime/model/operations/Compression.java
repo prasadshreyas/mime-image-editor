@@ -234,7 +234,7 @@ public class Compression {
       }
 
       // Prepare for the next iteration by copying the results back to s
-      if (m >= 0){
+      if (m >= 0) {
         System.arraycopy(result, 0, s, 0, m);
       }
 
