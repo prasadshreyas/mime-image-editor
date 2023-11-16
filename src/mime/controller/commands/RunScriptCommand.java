@@ -28,7 +28,7 @@ public class RunScriptCommand implements Command {
     try (Scanner scanner = new Scanner(new FileReader(inputFilePath))) {
       while (scanner.hasNextLine()) {
         String curLine = scanner.nextLine().trim();
-        if (curLine.isEmpty() || curLine.startsWith("#")){
+        if (curLine.isEmpty() || curLine.startsWith("#")) {
           continue;
         }
 

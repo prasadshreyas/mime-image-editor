@@ -16,7 +16,8 @@ public class Compression {
 
 
   /**
-   * Constructs a new Compression object initializing
+   * Constructs a new Compression object initializing the original image, its height and width and
+   * the compression ratio.
    */
   public Compression(Image image, int percentage) {
     this.originalImage = image;
@@ -233,7 +234,9 @@ public class Compression {
       }
 
       // Prepare for the next iteration by copying the results back to s
-      if (m >= 0) System.arraycopy(result, 0, s, 0, m);
+      if (m >= 0){
+        System.arraycopy(result, 0, s, 0, m);
+      }
 
       m *= 2; // Double the grouping size for the next iteration
     }
