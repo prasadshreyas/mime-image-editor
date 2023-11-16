@@ -59,7 +59,7 @@ This the high-level architecture diagram for the program:
 ### Model
 The model is responsible for the data and the logic of the program.
 
-![Model](res/MODEL.png)
+![Model](res/model.png)
 
 
 ### View
