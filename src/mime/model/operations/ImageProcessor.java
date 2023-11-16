@@ -1,5 +1,6 @@
 package mime.model.operations;
 
+import mime.model.Model;
 import mime.model.image.Image;
 import mime.model.image.RGBImage;
 
@@ -189,5 +190,110 @@ public class ImageProcessor {
 
     Image brightenedImage = new RGBImage(channels[0], channels[1], channels[2]);
     return brightenedImage;
+  }
+
+  /**
+   * Returns a new image with the greyscale component of the given brightness
+   * @param brightness the brightness to use
+   * @param image the image to darken
+   * @return the darkened image
+   */
+  public Image getGrayscaleImage(Model.Brightness brightness, Image image) {
+    int[][][] channels = image.getChannels();
+
+    int height = image.getHeight();
+    int width = image.getWidth();
+
+    int[][] brightnessChannel = new int[height][width];
+    Image resultImage;
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        int redValue = channels[0][i][j];
+        int greenValue = channels[1][i][j];
+        int blueValue = channels[2][i][j];
+        int componentValue;
+
+        switch (brightness) {
+          case LUMA:
+            componentValue = (int) (0.2126 * redValue + 0.7152 * greenValue + 0.0722 * blueValue);
+            break;
+          case INTENSITY:
+            componentValue = (redValue + greenValue + blueValue) / 3;
+            break;
+          default: // Assuming default case to be VALUE
+            componentValue = Math.max(redValue, Math.max(greenValue, blueValue));
+            break;
+        }
+        brightnessChannel[i][j] = clamp(componentValue);
+      }
+    }
+
+    resultImage = new RGBImage(brightnessChannel, brightnessChannel, brightnessChannel);
+    return resultImage;
+  }
+
+  public static Image getSplitImage(int percentage, Image image, Image image2) {
+    int[][][] channels = image.getChannels();
+    int[][][] channels2 = image2.getChannels();
+    int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];
+    int width = image.getWidth();
+    int newWidth = (int) (width * (percentage / 100.0));
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < newWidth; j++) {
+        newChannels[0][i][j] = channels[0][i][j];
+        newChannels[1][i][j] = channels[1][i][j];
+        newChannels[2][i][j] = channels[2][i][j];
+      }
+      for (int j = newWidth; j < image.getWidth(); j++) {
+        newChannels[0][i][j] = channels2[0][i][j];
+        newChannels[1][i][j] = channels2[1][i][j];
+        newChannels[2][i][j] = channels2[2][i][j];
+      }
+    }
+
+    // Add a vertical line to separate the two images
+    for (int i = 0; i < image.getHeight(); i++) {
+      newChannels[0][i][newWidth] = 0;
+      newChannels[1][i][newWidth] = 0;
+      newChannels[2][i][newWidth] = 0;
+    }
+
+
+    Image splitImage = new RGBImage(newChannels[0], newChannels[1], newChannels[2]);
+    return splitImage;
+  }
+
+  public Image getSplitView(int percentage, Image image, Image image2) {
+    int[][][] channels = image.getChannels();
+    int[][][] channels2 = image2.getChannels();
+    int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];
+    int width = image.getWidth();
+    int newWidth = (int) (width * (percentage / 100.0));
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < newWidth; j++) {
+        newChannels[0][i][j] = channels[0][i][j];
+        newChannels[1][i][j] = channels[1][i][j];
+        newChannels[2][i][j] = channels[2][i][j];
+      }
+      for (int j = newWidth; j < image.getWidth(); j++) {
+        newChannels[0][i][j] = channels2[0][i][j];
+        newChannels[1][i][j] = channels2[1][i][j];
+        newChannels[2][i][j] = channels2[2][i][j];
+      }
+    }
+
+    // Add a vertical line to separate the two images
+    for (int i = 0; i < image.getHeight(); i++) {
+      newChannels[0][i][newWidth] = 0;
+      newChannels[1][i][newWidth] = 0;
+      newChannels[2][i][newWidth] = 0;
+    }
+
+
+    Image splitImage = new RGBImage(newChannels[0], newChannels[1], newChannels[2]);
+    return splitImage;
   }
 }

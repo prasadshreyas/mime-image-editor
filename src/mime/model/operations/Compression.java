@@ -2,54 +2,98 @@ package mime.model.operations;
 
 import java.util.Arrays;
 
+import mime.model.image.Image;
+import mime.model.image.RGBImage;
+
 /**
- * This class represents the model of the image in the RGB color space.
+ * This class represents the Compression operation for an RGB image.
  */
 public class Compression {
+  Image originalImage;
+  int originalHeight;
+  int originalWidth;
+  double compressionRatio;
 
-  public int[][] compressAndUncompress(int[][] matrix, int compressionRatio) {
 
-    int height = matrix.length;
-    int width = matrix[0].length;
+  /**
+   * Constructs a new Compression object initializing
+   */
+  public Compression(Image image, int percentage) {
+    this.originalImage = image;
+    this.originalHeight = image.getHeight();
+    this.originalWidth = image.getWidth();
+    this.compressionRatio = percentage / 100.0;
+  }
 
-    int s = calculateNextPowerOfTwo(Math.max(height, width));
+  public Image compressAndUncompress() {
 
-    double[][] paddedMatrix = padToNextPowerOfTwo(matrix, s);
+    int[][][] uncompressedChannels = new int[3][][];
+
+    int s = Math.max(calculateNextPowerOfTwo(originalHeight),
+            calculateNextPowerOfTwo(originalWidth));
+
+    double paddedMatrix[][][] = padToNextPowerOfTwo(originalImage.getChannels(), s);
 
     // Apply the Haar wavelet transform
-    haar2D(paddedMatrix, s);
-
-    // Calculate the compression threshold
-    double threshold = calculateThreshold(paddedMatrix, compressionRatio / 100.0, height, width);
-
-    // Apply the threshold to compress the elements in the matrix X
-    setBelowThreshold(paddedMatrix, threshold);
-
-    // Apply the inverse Haar wavelet transform
-    invHaar2D(paddedMatrix, s);
-
-    double[][] unPaddedMatrix = unpadToOriginalSize(paddedMatrix, height, width);
-
-    int[][] unPaddedMatrixInt = new int[height][width];
-
-    for (int i = 0; i < unPaddedMatrix.length; i++) {
-      for (int j = 0; j < unPaddedMatrix[i].length; j++) {
-        unPaddedMatrixInt[i][j] = (int) Math.round(unPaddedMatrix[i][j]);
-      }
+    double transformedMatrix[][][] = new double[3][s][s];
+    for (int i = 0; i < 3; i++) {
+      transformedMatrix[i] = haar2D(paddedMatrix[i], s);
     }
 
-    return unPaddedMatrixInt;
+    // Calculate the compression threshold
+    double threshold = calculateThreshold(transformedMatrix, originalHeight, originalWidth);
 
+
+    // for all channels now,
+    for (int i = 0; i < 3; i++) {
+
+      // Apply the threshold to compress the elements in the matrix X
+      transformedMatrix[i] = setBelowThreshold(transformedMatrix[i], threshold);
+
+
+      // Apply the inverse Haar wavelet transform
+      transformedMatrix[i] = invHaar2D(transformedMatrix[i], s);
+
+
+      double[][] unPaddedMatrix = unpadToOriginalSize(transformedMatrix[i], originalHeight, originalWidth);
+
+      int[][] unPaddedMatrixInt = new int[unPaddedMatrix.length][unPaddedMatrix[0].length];
+
+      for (int j = 0; j < unPaddedMatrix.length; j++) {
+        for (int k = 0; k < unPaddedMatrix[j].length; k++) {
+          unPaddedMatrixInt[j][k] = (int) Math.round(unPaddedMatrix[j][k]);
+        }
+      }
+      uncompressedChannels[i] = unPaddedMatrixInt;
+    }
+
+    return new RGBImage(uncompressedChannels[0], uncompressedChannels[1], uncompressedChannels[2]);
+
+  }
+
+
+  /**
+   * Calculates the next power of two of the given number.
+   *
+   * @param n The number to calculate the next power of two.
+   * @return The next power of two of the given number.
+   */
+  private int calculateNextPowerOfTwo(int n) {
+    int power = 1;
+    while (power < n) {
+      power *= 2;
+    }
+    return power;
   }
 
 
   /**
    * Applies the threshold to the given matrix.
    *
-   * @param X                The matrix to be compressed.
-   * @param threshold        The threshold to be applied.
+   * @param X         The matrix to be compressed.
+   * @param threshold The threshold to be applied.
    */
-  public void setBelowThreshold(double[][] X, double threshold) {
+  private double[][] setBelowThreshold(double[][] X, double threshold) {
     // Apply threshold to compress the elements in the matrix X
     for (int i = 0; i < X.length; i++) {
       for (int j = 0; j < X[i].length; j++) {
@@ -58,19 +102,18 @@ public class Compression {
         }
       }
     }
+    return X;
   }
-
 
   /**
    * Calculates the compression threshold for the given matrix.
    *
-   * @param X                The padded matrix.
-   * @param compressionRatio The compression ratio.
-   * @param height           The height of the original matrix.
-   * @param width            The width of the original matrix.
+   * @param X      The padded matrix.
+   * @param height The height of the original matrix.
+   * @param width  The width of the original matrix.
    * @return The compression threshold.
    */
-  public double calculateThreshold(double[][] X, double compressionRatio, int height, int width) {
+  private double calculateThreshold(double[][][] X, int height, int width) {
     double[] flattenedMatrix = flattenMatrix(X, height, width);
     Arrays.sort(flattenedMatrix);
     int valuesToKeep = calculateValuesToKeep(flattenedMatrix.length, compressionRatio);
@@ -78,7 +121,7 @@ public class Compression {
   }
 
   private int calculateValuesToKeep(int totalElements, double compressionRatio) {
-    int valuesToKeep = (int) (totalElements * (compressionRatio));
+    int valuesToKeep = (int) (totalElements * (1 - compressionRatio));
     // Ensure that valuesToKeep is within the array bounds
     return Math.max(0, Math.min(valuesToKeep, totalElements - 1));
   }
@@ -88,26 +131,26 @@ public class Compression {
     return sortedArray[sortedArray.length - valuesToKeep - 1];
   }
 
-  private double[] flattenMatrix(double[][] X, int height, int width) {
-    double[] temp = new double[height * width];
+  private double[] flattenMatrix(double[][][] X, int height, int width) {
+    double[] temp = new double[height * width * 3]; // 3 for the three color channels
     int count = 0;
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        temp[count++] = Math.abs(X[i][j]);
+    for (int c = 0; c < 3; c++) {
+      for (int i = 0; i < height; i++) {
+        System.arraycopy(X[c][i], 0, temp, count, width);
+        count += width;
       }
     }
+
     return temp;
   }
-
 
   /**
    * Applies the Haar wavelet transform to the given matrix.
    *
    * @param X The matrix to be transformed.
-   * @param s The size of the square matrix.
+   * @param c The size of the square matrix.
    */
-  public void haar2D(double[][] X, int s) {
-    int c = s;
+  private double[][] haar2D(double[][] X, int c) {
     while (c > 1) {
       for (int i = 0; i < c; i++) {
         // Apply transform T to each row
@@ -129,9 +172,10 @@ public class Compression {
       }
       c = c / 2;
     }
+    return X;
   }
 
-  public void invHaar2D(double[][] X, int s) {
+  private double[][] invHaar2D(double[][] X, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
@@ -154,6 +198,7 @@ public class Compression {
       }
       c = c * 2;
     }
+    return X;
   }
 
   /**
@@ -163,7 +208,7 @@ public class Compression {
    * @param l The size of the array.
    * @return The transformed array.
    */
-  public double[] I(double[] s, int l) {
+  private double[] I(double[] s, int l) {
     double[] result = new double[l];
     int m = 2; // Start with the smallest grouping of 2
 
@@ -193,7 +238,6 @@ public class Compression {
     return result;
   }
 
-
   /**
    * Applies the Haar wavelet transform to the given array.
    *
@@ -201,7 +245,7 @@ public class Compression {
    * @param m The size of the array.
    * @return The transformed array.
    */
-  public double[] T(double[] s, int m) {
+  private double[] T(double[] s, int m) {
     while (m > 1) {
       double[] temp = new double[m];
       for (int i = 0; i < m; i++) {
@@ -216,22 +260,27 @@ public class Compression {
     return s;
   }
 
-
   /**
    * Pads the matrix to the next power of two.
    *
-   * @param matrix The matrix to be padded.
-   * @param s      The next power of two.
+   * @param channels The channels to be padded.
+   * @param s        The next power of two.
    * @return The padded matrix.
    */
-  public double[][] padToNextPowerOfTwo(int[][] matrix, int s) {
-    double[][] newMatrix = new double[s][s];
-    for (int i = 0; i < matrix.length; i++) {
-      for (int j = 0; j < matrix[i].length; j++) {
-        newMatrix[i][j] = matrix[i][j];
+  private double[][][] padToNextPowerOfTwo(int[][][] channels, int s) {
+
+    double[][][] paddedChannels = new double[channels.length][s][s];
+
+    for (int i = 0; i < channels.length; i++) {
+      for (int j = 0; j < channels[i].length; j++) {
+        for (int k = 0; k < channels[i][j].length; k++) {
+          paddedChannels[i][j][k] = channels[i][j][k];
+        }
       }
     }
-    return newMatrix;
+
+    return paddedChannels;
+
   }
 
   /**
@@ -242,7 +291,7 @@ public class Compression {
    * @param width  The original width of the matrix.
    * @return The unpadded matrix.
    */
-  public double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
+  private double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
     double[][] newMatrix = new double[height][width];
     for (int i = 0; i < newMatrix.length; i++) {
       for (int j = 0; j < newMatrix[i].length; j++) {
@@ -250,21 +299,6 @@ public class Compression {
       }
     }
     return newMatrix;
-  }
-
-
-  /**
-   * Calculates the next power of two of the given number.
-   *
-   * @param n The number to calculate the next power of two.
-   * @return The next power of two of the given number.
-   */
-  public static int calculateNextPowerOfTwo(int n) {
-    int power = 1;
-    while (power < n) {
-      power *= 2;
-    }
-    return power;
   }
 
 

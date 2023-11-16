@@ -3,6 +3,9 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the blue component of an image.
+ */
 public class BlueComponentCommand implements Command {
   private final Model model;
 

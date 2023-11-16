@@ -1,0 +1,7 @@
+load resources/test.jpg test
+red-component test test-red
+compress 10 test-red test-red-compress-10
+save resources/test-red-compress-10.jpg test-red-compress-10
+compress 90 test-red test-red-compress-90
+save resources/test-red-compress-90.jpg test-red-compress-90
+quit

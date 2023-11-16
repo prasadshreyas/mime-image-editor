@@ -5,9 +5,11 @@ import java.util.HashMap;
 
 import mime.model.image.Image;
 import mime.model.image.RGBImage;
+import mime.model.operations.ColorCorrection;
 import mime.model.operations.Compression;
 import mime.model.operations.Histogram;
 import mime.model.operations.ImageProcessor;
+import mime.model.operations.LevelAdjuster;
 
 /**
  * This class represents the model of the image in the RGB color space.
@@ -37,30 +39,24 @@ public class RGBModel implements Model {
   public void compressImage(int percentage, String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
 
-    Compression compression = new Compression();
+    Compression compression = new Compression(image, percentage);
+    System.out.println("Compressing image...");
+    Image newImage = compression.compressAndUncompress();
 
-    int[][][] channels = image.getChannels();
-    int[][][] decompressedChannels = new int[3][][];
-
-    for (int i = 0; i < 3; i++) { // Assuming 0 is red, 1 is green, and 2 is blue
-      // Compress
-      decompressedChannels[i] = compression.compressAndUncompress(channels[i], percentage);
-
-    }
-
-    // Create a new image with the decompressed channels and add it to the collection
-    Image compressedImage = new RGBImage(decompressedChannels[0], decompressedChannels[1], decompressedChannels[2]);
-    images.put(newImageName, compressedImage);
+    images.put(newImageName, newImage);
   }
 
   @Override
   public void levelAdjuster(String imageName, int shadow, int mid, int highlight, String newImageName) {
-
+    Image image = getExistingImage(imageName);
+    LevelAdjuster levelAdjuster = new LevelAdjuster();
+    BufferedImage adjustedImage = levelAdjuster.adjustLevels(image.getBufferedImage(), shadow, mid, highlight);
+    Image rgbImage = new RGBImage(adjustedImage);
+    images.put(newImageName, rgbImage);
   }
 
   @Override
   public void histogram(String imageName, String newImageName) {
-
     Image image = getExistingImage(imageName);
     BufferedImage img1 = image.getBufferedImage();
     Histogram h = new Histogram(img1);
@@ -69,8 +65,12 @@ public class RGBModel implements Model {
   }
 
   @Override
-  public void colorCorrection(String imageName, String newImageName, int splitValue) {
-
+  public void colorCorrection(String imageName, String newImageName) {
+    Image image = getExistingImage(imageName);
+    ColorCorrection colorCorrection = new ColorCorrection();
+    BufferedImage correctedImage = colorCorrection.correctColor(image.getBufferedImage());
+    Image rgbImage = new RGBImage(correctedImage);
+    images.put(newImageName, rgbImage);
   }
 
 
@@ -96,8 +96,6 @@ public class RGBModel implements Model {
 
     images.put(newImageName, brightenedImage);
   }
-
-
 
 
   public void blur(String imageName, String newImageName) {
@@ -188,81 +186,19 @@ public class RGBModel implements Model {
   @Override
   public void getBrightnessComponent(String imageName, Brightness brightness, String newImageName) {
     Image image = getExistingImage(imageName);
-    int[][][] channels = image.getChannels();
-
-    int height = image.getHeight();
-    int width = image.getWidth();
-
-    int[][] brightnessChannel = new int[height][width];
-    Image resultImage;
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int redValue = channels[0][i][j];
-        int greenValue = channels[1][i][j];
-        int blueValue = channels[2][i][j];
-        int componentValue;
-
-        switch (brightness) {
-          case LUMA:
-            componentValue = (int) (0.2126 * redValue + 0.7152 * greenValue + 0.0722 * blueValue);
-            break;
-          case INTENSITY:
-            componentValue = (redValue + greenValue + blueValue) / 3;
-            break;
-          default: // Assuming default case to be VALUE
-            componentValue = Math.max(redValue, Math.max(greenValue, blueValue));
-            break;
-        }
-        brightnessChannel[i][j] = clamp(componentValue);
-      }
-    }
-
-    resultImage = new RGBImage(brightnessChannel, brightnessChannel, brightnessChannel);
-
+    Image resultImage = imageProcessor.getGrayscaleImage(brightness, image);
     images.put(newImageName, resultImage);
-
-  }
-
-  int clamp(int value) {
-    return Math.min(Math.max(value, 0), 255);
   }
 
   @Override
   public void splitView(String img1, String img2, int percentage) {
     Image image = getExistingImage(img1);
     Image image2 = getExistingImage(img2);
-    int[][][] channels = image.getChannels();
-    int[][][] channels2 = image2.getChannels();
-    int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];
-    int width = image.getWidth();
-    int newWidth = (int) (width * (percentage / 100.0));
-
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < newWidth; j++) {
-        newChannels[0][i][j] = channels[0][i][j];
-        newChannels[1][i][j] = channels[1][i][j];
-        newChannels[2][i][j] = channels[2][i][j];
-      }
-      for (int j = newWidth; j < image.getWidth(); j++) {
-        newChannels[0][i][j] = channels2[0][i][j];
-        newChannels[1][i][j] = channels2[1][i][j];
-        newChannels[2][i][j] = channels2[2][i][j];
-      }
-    }
-
-    // Add a vertical line to separate the two images
-    for (int i = 0; i < image.getHeight(); i++) {
-      newChannels[0][i][newWidth] = 0;
-      newChannels[1][i][newWidth] = 0;
-      newChannels[2][i][newWidth] = 0;
-    }
-
-
-    Image splitImage = new RGBImage(newChannels[0], newChannels[1], newChannels[2]);
+    Image splitImage = imageProcessor.getSplitView(percentage, image, image2);
     images.put(img2, splitImage);
 
   }
+
 
   private Image getExistingImage(String imageName) {
     return images.get(imageName);

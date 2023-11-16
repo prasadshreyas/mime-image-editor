@@ -1,6 +1,7 @@
 package mime.controller.commands;
 
 import mime.model.Model;
+
 public class SepiaCommand implements Command {
   private final Model model;
 
@@ -29,7 +30,8 @@ public class SepiaCommand implements Command {
       }
       try {
         int splitValue = Integer.parseInt(args[3]);
-        // TODO: Add the logic to handle the split functionality here
+        model.sepia(args[0], args[1]);
+        model.splitView(args[0], args[1], splitValue);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException("Split value must be an integer");
       }

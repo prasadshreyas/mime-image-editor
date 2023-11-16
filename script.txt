@@ -1,3 +1,9 @@
+# Split test
+load resources/test.jpg test
+blur test test-blur-2 -split 99
+save resources/test-blur.jpg test-blur-2
+quit
+# Other
 load resources/manhattan-small.png test
 compress 90 test test-compress-90
 save resources/test-compress-90.jpg test-compress-90

@@ -152,7 +152,7 @@ public interface Model {
    * @param imageName name of the image.
    * @param newImageName name of the new image.
    */
-  void colorCorrection(String imageName, String newImageName, int splitValue);
+  void colorCorrection(String imageName, String newImageName);
 
   /**
    * This method splits the view of the image into two parts.

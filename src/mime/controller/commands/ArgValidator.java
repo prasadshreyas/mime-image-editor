@@ -28,7 +28,7 @@ class ArgValidator {
    * @throws IllegalArgumentException if the number of arguments is not equal to the expected
    *                                  number of arguments
    */
-  static void validate(String[] args, int[] expectedLength){
+  static void validate(String[] args, int[] expectedLength) {
     boolean valid = false;
     for (int i : expectedLength) {
       if (args.length == i) {

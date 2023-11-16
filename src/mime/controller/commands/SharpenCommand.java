@@ -35,6 +35,7 @@ public class SharpenCommand implements Command {
         if (splitValue < 0 || splitValue > 100) {
           throw new IllegalArgumentException("Split value must be between 0 and 100");
         }
+        model.sharpen(args[0], args[1]);
         model.splitView(args[0], args[1], splitValue);
 
       } catch (NumberFormatException e) {

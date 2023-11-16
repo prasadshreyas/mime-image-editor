@@ -8,10 +8,13 @@ import mime.model.RGBModel;
 import mime.view.CommandLineView;
 import mime.view.View;
 
+/**
+ * This class represents the main class for the program.
+ */
 public class Main {
 
   /**
-   * ime.Main method for the program.
+   * The main method creates the model, view, and controller and runs the program.
    *
    * @param args command line arguments
    */

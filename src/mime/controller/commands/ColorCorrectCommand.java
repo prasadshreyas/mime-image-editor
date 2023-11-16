@@ -1,10 +1,10 @@
 package mime.controller.commands;
 
-import mime.controller.commands.Command;
 import mime.model.Model;
 
 public class ColorCorrectCommand implements Command {
   private final Model model;
+
   public ColorCorrectCommand(Model model) {
     this.model = model;
   }
@@ -37,6 +37,9 @@ public class ColorCorrectCommand implements Command {
       }
     }
 
-    model.colorCorrection(args[0], args[1], splitValue);
+    model.colorCorrection(args[0], args[1]);
+    if (args.length == 4) {
+      model.splitView(args[0], args[1], splitValue);
+    }
   }
 }

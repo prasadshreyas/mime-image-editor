@@ -11,10 +11,11 @@ public class BlurCommand implements Command {
 
   @Override
   public void execute(String[] args) {
-
+    int splitValue;
     int[] expectedLength = {2, 4};
+
     ArgValidator.validate(args, expectedLength);
-    int splitValue = 0;
+
 
     if (!model.containsImage(args[0])) {
       throw new IllegalArgumentException("No such image exists");
@@ -35,6 +36,7 @@ public class BlurCommand implements Command {
         if (splitValue < 0 || splitValue > 100) {
           throw new IllegalArgumentException("Split value must be between 0 and 100");
         }
+        model.blur(args[0], args[1]);
         model.splitView(args[0], args[1], splitValue);
 
       } catch (NumberFormatException e) {

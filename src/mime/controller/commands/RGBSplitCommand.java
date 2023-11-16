@@ -13,8 +13,6 @@ public class RGBSplitCommand implements Command {
   public void execute(String[] args) {
     ArgValidator.validate(args, 4);
     for (int i = 0; i < 4; i++) {
-      // if i = 0, model should contain the image name
-      // if i = else, model should not contain the image. Throw
       if (i == 0) {
         if (!model.containsImage(args[i])) {
           throw new IllegalArgumentException("Image " + args[i] + " does not exist.");
