@@ -115,7 +115,7 @@ public interface Model {
   /**
    * Checks if the image is present in the model.
    *
-   * @param imageName
+   * @param imageName name of the image.
    * @return true if the image is present in the model, false otherwise.
    */
   boolean containsImage(String imageName);
@@ -156,11 +156,11 @@ public interface Model {
 
   /**
    * This method splits the view of the image into two parts.
-   * @param arg name of the image.
-   * @param arg1 name of the new image.
+   * @param imageName name of the image.
+   * @param newImageName name of the new image.
    * @param splitValue value at which the image is to be split.
    */
-  void splitView(String arg, String arg1, int splitValue);
+  void splitView(String imageName, String newImageName, int splitValue);
 
 
   /**

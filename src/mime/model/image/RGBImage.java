@@ -127,7 +127,8 @@ public class RGBImage implements Image {
     for (int row = 0; row < height; row++) {
       for (int col = 0; col < width; col++) {
 
-        int rgb = (redChannel[row][col] << 16) | (greenChannel[row][col] << 8) | blueChannel[row][col];
+        int rgb = (redChannel[row][col] << 16) | (greenChannel[row][col] << 8)
+                | blueChannel[row][col];
         bufferedImage.setRGB(col, row, rgb);
       }
     }
@@ -138,7 +139,7 @@ public class RGBImage implements Image {
   @Override
   public int[][] getChannel(Model.Channel channel) {
     if (channel == null) {
-      throw new NullPointerException("Channel cannot be null.");
+      throw new IllegalArgumentException("Channel cannot be null.");
     }
     switch (channel) {
       case RED:

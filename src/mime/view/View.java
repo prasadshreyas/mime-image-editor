@@ -1,7 +1,6 @@
 package mime.view;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 /**
  * This interface represents view. It is used to display output to the user.

@@ -12,6 +12,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
+/**
+ * This class tests the RGBImage class.
+ */
 public class RGBImageTest {
 
   @Test

@@ -2,6 +2,11 @@ package mime.model.image;
 
 import java.awt.image.BufferedImage;
 import mime.model.Model.Channel ;
+
+/**
+ * This interface represents the image. It contains methods to get the width, height, BufferedImage,
+ * and channels of the image.
+ */
 public interface Image {
 
   /**

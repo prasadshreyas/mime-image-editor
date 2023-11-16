@@ -29,10 +29,7 @@ public class RGBModel implements Model {
 
   @Override
   public boolean containsImage(String imageName) {
-    if (images.containsKey(imageName)) {
-      return true;
-    }
-    return false;
+    return images.containsKey(imageName);
   }
 
   @Override
@@ -44,10 +41,12 @@ public class RGBModel implements Model {
   }
 
   @Override
-  public void levelAdjuster(String imageName, int shadow, int mid, int highlight, String newImageName) {
+  public void levelAdjuster(String imageName, int shadow, int mid, int highlight,
+                            String newImageName) {
     Image image = getExistingImage(imageName);
     LevelAdjuster levelAdjuster = new LevelAdjuster();
-    BufferedImage adjustedImage = levelAdjuster.adjustLevels(image.getBufferedImage(), shadow, mid, highlight);
+    BufferedImage adjustedImage = levelAdjuster.adjustLevels(image.getBufferedImage(),
+            shadow, mid, highlight);
     Image rgbImage = new RGBImage(adjustedImage);
     images.put(newImageName, rgbImage);
   }
@@ -95,13 +94,14 @@ public class RGBModel implements Model {
     images.put(newImageName, brightenedImage);
   }
 
-
+@Override
   public void blur(String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
     Image blurredImage = imageProcessor.blur(image);
     images.put(newImageName, blurredImage);
   }
 
+  @Override
   public void sharpen(String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
     Image sharpenedImage = imageProcessor.sharpen(image);
@@ -134,7 +134,8 @@ public class RGBModel implements Model {
 
 
   @Override
-  public void rgbSplit(String imageName, String imageNameRed, String imageNameGreen, String imageNameBlue) {
+  public void rgbSplit(String imageName, String imageNameRed, String imageNameGreen,
+                       String imageNameBlue) {
 
     Image image = getExistingImage(imageName);
     int[][][] channels = image.getChannels();
@@ -148,7 +149,8 @@ public class RGBModel implements Model {
   }
 
   @Override
-  public void rgbCombine(String imageName, String imageNameRed, String imageNameGreen, String imageNameBlue) {
+  public void rgbCombine(String imageName, String imageNameRed, String imageNameGreen,
+                         String imageNameBlue) {
     Image redImage = getExistingImage(imageNameRed);
     Image greenImage = getExistingImage(imageNameGreen);
     Image blueImage = getExistingImage(imageNameBlue);

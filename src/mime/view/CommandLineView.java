@@ -1,9 +1,11 @@
 package mime.view;
 
 import java.awt.image.BufferedImage;
-import java.io.InputStreamReader;
 
-public class CommandLineView implements View{
+/**
+ * This class represents the command line view.
+ */
+public class CommandLineView implements View {
 
   private final Appendable out;
 

@@ -18,6 +18,12 @@ public class ImageProcessor {
     return Math.min(Math.max(value, 0), 255);
   }
 
+  /**
+   * Applies the given filter to the given channel.
+   * @param channel Channel to be filtered.
+   * @param filter Filter to be applied.
+   * @return Filtered channel.
+   */
   int[][] applyFilter(int[][] channel, double[][] filter) {
     int filterHeight = filter.length;
     int filterWidth = filter[0].length;
@@ -64,7 +70,8 @@ public class ImageProcessor {
    */
   public Image blur(Image image) {
 
-    double[][] filter = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16}, {1.0 / 16, 2.0 / 16, 1.0 / 16}};
+    double[][] filter = {{1.0 / 16, 2.0 / 16, 1.0 / 16},
+            {2.0 / 16, 4.0 / 16, 2.0 / 16}, {1.0 / 16, 2.0 / 16, 1.0 / 16}};
     int[][][] channels = image.getChannels();
 
     for (int channel = 0; channel < channels.length; channel++) {
@@ -142,9 +149,12 @@ public class ImageProcessor {
         int originalBlue = blueChannel[x][y];
 
         // Calculate new RGB values
-        int newRed = clamp((int) (0.393 * originalRed + 0.769 * originalGreen + 0.189 * originalBlue));
-        int newGreen = clamp((int) (0.349 * originalRed + 0.686 * originalGreen + 0.168 * originalBlue));
-        int newBlue = clamp((int) (0.272 * originalRed + 0.534 * originalGreen + 0.131 * originalBlue));
+        int newRed = clamp((int) (0.393 * originalRed + 0.769 * originalGreen + 0.189
+                * originalBlue));
+        int newGreen = clamp((int) (0.349 * originalRed + 0.686 * originalGreen + 0.168
+                * originalBlue));
+        int newBlue = clamp((int) (0.272 * originalRed + 0.534 * originalGreen + 0.131
+                * originalBlue));
 
         // Assign new values to the sepia channels
         sepiaRedChannel[x][y] = newRed;
@@ -173,7 +183,7 @@ public class ImageProcessor {
   }
 
   /**
-   * Returns a new image with the brightness increased by the given increment
+   * Returns a new image with the brightness increased by the given increment.
    * @param increment the amount to increase the brightness by
    * @param image the image to brighten
    * @return the brightened image
@@ -193,7 +203,7 @@ public class ImageProcessor {
   }
 
   /**
-   * Returns a new image with the greyscale component of the given brightness
+   * Returns a new image with the greyscale component of the given brightness.
    * @param brightness the brightness to use
    * @param image the image to darken
    * @return the darkened image
@@ -233,38 +243,13 @@ public class ImageProcessor {
     return resultImage;
   }
 
-  public static Image getSplitImage(int percentage, Image image, Image image2) {
-    int[][][] channels = image.getChannels();
-    int[][][] channels2 = image2.getChannels();
-    int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];
-    int width = image.getWidth();
-    int newWidth = (int) (width * (percentage / 100.0));
-
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < newWidth; j++) {
-        newChannels[0][i][j] = channels[0][i][j];
-        newChannels[1][i][j] = channels[1][i][j];
-        newChannels[2][i][j] = channels[2][i][j];
-      }
-      for (int j = newWidth; j < image.getWidth(); j++) {
-        newChannels[0][i][j] = channels2[0][i][j];
-        newChannels[1][i][j] = channels2[1][i][j];
-        newChannels[2][i][j] = channels2[2][i][j];
-      }
-    }
-
-    // Add a vertical line to separate the two images
-    for (int i = 0; i < image.getHeight(); i++) {
-      newChannels[0][i][newWidth] = 0;
-      newChannels[1][i][newWidth] = 0;
-      newChannels[2][i][newWidth] = 0;
-    }
-
-
-    Image splitImage = new RGBImage(newChannels[0], newChannels[1], newChannels[2]);
-    return splitImage;
-  }
-
+  /**
+   * Given an image, returns a new image with the given percentage of the original image's width
+   * @param percentage  the percentage of the original image's width to use
+   * @param image the image to split
+   * @param image2 the image to split
+   * @return the split image
+   */
   public Image getSplitView(int percentage, Image image, Image image2) {
     int[][][] channels = image.getChannels();
     int[][][] channels2 = image2.getChannels();

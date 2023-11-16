@@ -2,17 +2,30 @@ package mime.model.operations;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class represents the color correction operation.
+ */
 public class ColorCorrection {
   int[] redHistogram;
   int[] greenHistogram;
   int[] blueHistogram;
   BufferedImage img;
+
+  /**
+   * Constructs a ColorCorrection object.
+   */
   public  ColorCorrection() {
     this.redHistogram = new int[256];
     this.greenHistogram = new int[256];
     this.blueHistogram = new int[256];
   }
 
+  /**
+   * Corrects the color of the image.
+   *
+   * @param img image to be corrected.
+   * @return BufferedImage corrected image.
+   */
   public BufferedImage correctColor(BufferedImage img) {
 
     this.img = img;
@@ -26,7 +39,8 @@ public class ColorCorrection {
 
     int averagePeak = (redPeak + greenPeak + bluePeak) / 3;
 
-    BufferedImage correctedImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+    BufferedImage correctedImage = new BufferedImage(img.getWidth(), img.getHeight(),
+            BufferedImage.TYPE_INT_RGB);
 
     for (int i = 0; i < img.getWidth(); i++) {
       for (int j = 0; j < img.getHeight(); j++) {

@@ -2,16 +2,20 @@ package mime.model.operations;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class represents the b, m, and w levels adjustment operation.
+ */
 public class LevelAdjuster {
 
-  public BufferedImage adjustLevels(BufferedImage img, int black, int mid, int white) throws ArithmeticException, IllegalArgumentException {
-    if (black < 0 || black > 255 || mid < 0 || mid > 255 || white < 0 || white > 255) {
-      throw new IllegalArgumentException("Black, mid, and white values must be between 0 and 255");
-    }
-
-    if (black >= mid || mid >= white) {
-      throw new IllegalArgumentException("Black must be less than mid, and mid must be less than white");
-    }
+  /**
+   * Adjusts the levels of the image.
+   * @param img image to be adjusted.
+   * @param black black level.
+   * @param mid mid level.
+   * @param white white level.
+   * @return BufferedImage adjusted image.
+   */
+  public BufferedImage adjustLevels(BufferedImage img, int black, int mid, int white) {
 
     if (black == 0 && mid == 128 && white == 255) {
       return img; // No adjustment needed
@@ -34,25 +38,29 @@ public class LevelAdjuster {
     return adjustedImage;
   }
 
-    double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
-    double A = Math.pow(shadow, 2) * (mid - highlight) - shadow * (Math.pow(mid, 2) - Math.pow(highlight, 2)) + mid * Math.pow(highlight, 2) - highlight * Math.pow(mid, 2);
+    private double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
+    double v = Math.pow(shadow, 2) * (mid - highlight) - shadow * (Math.pow(mid, 2)
+            - Math.pow(highlight, 2)) + mid * Math.pow(highlight, 2) - highlight * Math.pow(mid, 2);
 
-    if (A == 0) {
-      throw new ArithmeticException("Invalid shadow, mid, and highlight values: they must not be collinear.");
+    if (v == 0) {
+      throw new ArithmeticException("Invalid shadow, mid, "
+              + "and highlight values: they must not be collinear.");
     }
 
-    double A_a = -shadow * (128 - 255) + 128 * highlight - 255 * mid;
-    double A_b = Math.pow(shadow, 2) * (128 - 255) + 255 * Math.pow(mid, 2) - 128 * Math.pow(highlight, 2);
-    double A_c = Math.pow(shadow, 2) * (255 * mid - 128 * highlight) - shadow * (255 * Math.pow(mid, 2) - 128 * Math.pow(highlight, 2));
+    double aA = -shadow * (128 - 255) + 128 * highlight - 255 * mid;
+    double aB = Math.pow(shadow, 2) * (128 - 255) + 255 * Math.pow(mid, 2) - 128
+            * Math.pow(highlight, 2);
+    double aC = Math.pow(shadow, 2) * (255 * mid - 128 * highlight) - shadow
+            * (255 * Math.pow(mid, 2) - 128 * Math.pow(highlight, 2));
 
-    double a = A_a / A;
-    double b = A_b / A;
-    double c = A_c / A;
+    double a = aA / v;
+    double b = aB / v;
+    double c = aC / v;
 
     return new double[]{a, b, c};
   }
 
-  int adjustColorValue(int colorValue, double[] coefficients) {
+  private int adjustColorValue(int colorValue, double[] coefficients) {
     double a = coefficients[0];
     double b = coefficients[1];
     double c = coefficients[2];

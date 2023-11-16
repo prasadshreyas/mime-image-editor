@@ -1,8 +1,13 @@
 package mime.model.operations;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class represents the histogram operation.
+ */
 public class Histogram {
 
   // Instance variables for the image and its histograms
@@ -11,6 +16,11 @@ public class Histogram {
   private int[] greenHistogram;
   private int[] blueHistogram;
 
+  /**
+   * Constructs a Histogram object.
+   *
+   * @param img image to be histogrammed.
+   */
   public Histogram(BufferedImage img) {
     this.img = img;
     this.redHistogram = new int[256];
@@ -18,12 +28,18 @@ public class Histogram {
     this.blueHistogram = new int[256];
   }
 
+  /**
+   * Creates a histogram of the image.
+   *
+   * @return BufferedImage histogram of the image.
+   */
   public BufferedImage createHistogram() {
     // Calculate the color occurrence for each pixel
     calculateHistograms();
 
     // Create a new image to draw the histograms
-    BufferedImage histogramImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
+    BufferedImage histogramImage = new BufferedImage(256, 256,
+            BufferedImage.TYPE_INT_ARGB);
     drawHistograms(histogramImage);
 
     return histogramImage;
@@ -58,14 +74,18 @@ public class Histogram {
     }
 
     // Draw the histograms as line graphs
-    drawHistogramLineGraph(g, redHistogram, new Color(255, 0, 0, 128), maxHistogramValue);
-    drawHistogramLineGraph(g, greenHistogram, new Color(0, 255, 0, 128), maxHistogramValue);
-    drawHistogramLineGraph(g, blueHistogram, new Color(0, 0, 255, 128), maxHistogramValue);
+    drawHistogramLineGraph(g, redHistogram, new Color(255, 0, 0, 128),
+            maxHistogramValue);
+    drawHistogramLineGraph(g, greenHistogram, new Color(0, 255, 0, 128),
+            maxHistogramValue);
+    drawHistogramLineGraph(g, blueHistogram, new Color(0, 0, 255, 128),
+            maxHistogramValue);
 
     g.dispose(); // Dispose graphics to release resources
   }
 
-  private void drawHistogramLineGraph(Graphics2D g, int[] histogram, Color color, int maxHistogramValue) {
+  private void drawHistogramLineGraph(Graphics2D g, int[] histogram, Color color,
+                                      int maxHistogramValue) {
     g.setColor(color);
     g.setStroke(new BasicStroke(2.0f));
 

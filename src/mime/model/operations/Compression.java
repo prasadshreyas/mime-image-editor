@@ -25,6 +25,11 @@ public class Compression {
     this.compressionRatio = percentage / 100.0;
   }
 
+  /**
+   * Compresses and un-compresses the image.
+   *
+   * @return The uncompressed image.
+   */
   public Image compressAndUncompress() {
 
     int[][][] uncompressedChannels = new int[3][][];
@@ -32,10 +37,10 @@ public class Compression {
     int s = Math.max(calculateNextPowerOfTwo(originalHeight),
             calculateNextPowerOfTwo(originalWidth));
 
-    double paddedMatrix[][][] = padToNextPowerOfTwo(originalImage.getChannels(), s);
+    double[][][] paddedMatrix = padToNextPowerOfTwo(originalImage.getChannels(), s);
 
     // Apply the Haar wavelet transform
-    double transformedMatrix[][][] = new double[3][s][s];
+    double[][][] transformedMatrix = new double[3][s][s];
     for (int i = 0; i < 3; i++) {
       transformedMatrix[i] = haar2D(paddedMatrix[i], s);
     }
@@ -47,7 +52,7 @@ public class Compression {
     // for all channels now,
     for (int i = 0; i < 3; i++) {
 
-      // Apply the threshold to compress the elements in the matrix X
+      // Apply the threshold to compress the elements in the matrix mat
       transformedMatrix[i] = setBelowThreshold(transformedMatrix[i], threshold);
 
 
@@ -55,7 +60,8 @@ public class Compression {
       transformedMatrix[i] = invHaar2D(transformedMatrix[i], s);
 
 
-      double[][] unPaddedMatrix = unpadToOriginalSize(transformedMatrix[i], originalHeight, originalWidth);
+      double[][] unPaddedMatrix = unpadToOriginalSize(transformedMatrix[i], originalHeight,
+              originalWidth);
 
       int[][] unPaddedMatrixInt = new int[unPaddedMatrix.length][unPaddedMatrix[0].length];
 
@@ -90,31 +96,31 @@ public class Compression {
   /**
    * Applies the threshold to the given matrix.
    *
-   * @param X         The matrix to be compressed.
+   * @param mat         The matrix to be compressed.
    * @param threshold The threshold to be applied.
    */
-  private double[][] setBelowThreshold(double[][] X, double threshold) {
-    // Apply threshold to compress the elements in the matrix X
-    for (int i = 0; i < X.length; i++) {
-      for (int j = 0; j < X[i].length; j++) {
-        if (Math.abs(X[i][j]) < threshold) {
-          X[i][j] = 0.0; // Compress elements below the threshold by setting them to zero
+  private double[][] setBelowThreshold(double[][] mat, double threshold) {
+    // Apply threshold to compress the elements in the matrix mat
+    for (int i = 0; i < mat.length; i++) {
+      for (int j = 0; j < mat[i].length; j++) {
+        if (Math.abs(mat[i][j]) < threshold) {
+          mat[i][j] = 0.0; // Compress elements below the threshold by setting them to zero
         }
       }
     }
-    return X;
+    return mat;
   }
 
   /**
    * Calculates the compression threshold for the given matrix.
    *
-   * @param X      The padded matrix.
+   * @param mat      The padded matrix.
    * @param height The height of the original matrix.
    * @param width  The width of the original matrix.
    * @return The compression threshold.
    */
-  private double calculateThreshold(double[][][] X, int height, int width) {
-    double[] flattenedMatrix = flattenMatrix(X, height, width);
+  private double calculateThreshold(double[][][] mat, int height, int width) {
+    double[] flattenedMatrix = flattenMatrix(mat, height, width);
     Arrays.sort(flattenedMatrix);
     int valuesToKeep = calculateValuesToKeep(flattenedMatrix.length, compressionRatio);
     return findThreshold(flattenedMatrix, valuesToKeep);
@@ -131,12 +137,12 @@ public class Compression {
     return sortedArray[sortedArray.length - valuesToKeep - 1];
   }
 
-  private double[] flattenMatrix(double[][][] X, int height, int width) {
+  private double[] flattenMatrix(double[][][] mat, int height, int width) {
     double[] temp = new double[height * width * 3]; // 3 for the three color channels
     int count = 0;
     for (int c = 0; c < 3; c++) {
       for (int i = 0; i < height; i++) {
-        System.arraycopy(X[c][i], 0, temp, count, width);
+        System.arraycopy(mat[c][i], 0, temp, count, width);
         count += width;
       }
     }
@@ -147,58 +153,58 @@ public class Compression {
   /**
    * Applies the Haar wavelet transform to the given matrix.
    *
-   * @param X The matrix to be transformed.
+   * @param mat The matrix to be transformed.
    * @param c The size of the square matrix.
    */
-  private double[][] haar2D(double[][] X, int c) {
+  private double[][] haar2D(double[][] mat, int c) {
     while (c > 1) {
       for (int i = 0; i < c; i++) {
-        // Apply transform T to each row
+        // Apply transform to each row
         double[] row = new double[c];
-        System.arraycopy(X[i], 0, row, 0, c);
-        row = T(row, c);
-        System.arraycopy(row, 0, X[i], 0, c);
+        System.arraycopy(mat[i], 0, row, 0, c);
+        row = transform(row, c);
+        System.arraycopy(row, 0, mat[i], 0, c);
       }
       for (int j = 0; j < c; j++) {
-        // Apply transform T to each column
+        // Apply transform to each column
         double[] col = new double[c];
         for (int i = 0; i < c; i++) {
-          col[i] = X[i][j];
+          col[i] = mat[i][j];
         }
-        col = T(col, c);
+        col = transform(col, c);
         for (int i = 0; i < c; i++) {
-          X[i][j] = col[i];
+          mat[i][j] = col[i];
         }
       }
       c = c / 2;
     }
-    return X;
+    return mat;
   }
 
-  private double[][] invHaar2D(double[][] X, int s) {
+  private double[][] invHaar2D(double[][] mat, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
-        // Apply inverse transform I to each column
+        // Apply inverse transform inverse to each column
         double[] col = new double[c];
         for (int i = 0; i < c; i++) {
-          col[i] = X[i][j];
+          col[i] = mat[i][j];
         }
-        col = I(col, c);
+        col = inverse(col, c);
         for (int i = 0; i < c; i++) {
-          X[i][j] = col[i];
+          mat[i][j] = col[i];
         }
       }
       for (int i = 0; i < c; i++) {
-        // Apply inverse transform I to each row
+        // Apply inverse transform inverse to each row
         double[] row = new double[c];
-        System.arraycopy(X[i], 0, row, 0, c);
-        row = I(row, c);
-        System.arraycopy(row, 0, X[i], 0, c);
+        System.arraycopy(mat[i], 0, row, 0, c);
+        row = inverse(row, c);
+        System.arraycopy(row, 0, mat[i], 0, c);
       }
       c = c * 2;
     }
-    return X;
+    return mat;
   }
 
   /**
@@ -208,7 +214,7 @@ public class Compression {
    * @param l The size of the array.
    * @return The transformed array.
    */
-  private double[] I(double[] s, int l) {
+  private double[] inverse(double[] s, int l) {
     double[] result = new double[l];
     int m = 2; // Start with the smallest grouping of 2
 
@@ -245,7 +251,7 @@ public class Compression {
    * @param m The size of the array.
    * @return The transformed array.
    */
-  private double[] T(double[] s, int m) {
+  private double[] transform(double[] s, int m) {
     while (m > 1) {
       double[] temp = new double[m];
       for (int i = 0; i < m; i++) {
