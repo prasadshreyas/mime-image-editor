@@ -5,20 +5,7 @@ This is a project for the course CS 5010: Program Design Paradigms at Northeaste
 ## Project Description
 
 This project is a command-line image processing program. It will read in an image from a file, perform some operations on it, and write the result to another file.
-
-The program will support the following operations:
-
-- Load an image from an ASCII PPM, JPG or PNG file.
-- Create images that visualize individual R,G,B components of an image.
-- Create images that visualize the value, intensity or luma of an image.
-- Flip an image horizontally or vertically.
-- Brighten or darken an image.
-- Split a single image into 3 images representing each of the three channels.
-- Combine three greyscale image into a single color image whose R,G,B values come from the three images.
-- Blur or sharpen an image
-- Convert an image into sepia
-- Save an image to an ASCII PPM, JPG or PNG file.
-
+Please see the [USEME.md](USEME.md) file for a detailed description of the program.
 This program also supports reading from scripts containing a sequence of commands, and writing the results to files. The program will also support conventional file formats.
 
 ## How to run
@@ -92,3 +79,8 @@ The image used in the program is a picture from Unsplash by photographer [Petr S
 The link to the image is [here](https://unsplash.com/photos/a-lighthouse-on-top-of-a-hill-near-the-ocean-YrQuagwtEbM).
 
 Under the Unsplash License, the image is free to use for any purpose.
+
+
+## Changes from the original design
+
+- Pixel wise operations are replaced with channel wise operations.

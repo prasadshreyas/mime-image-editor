@@ -1,0 +1,13 @@
+load resources/test.jpg test
+histogram test test-histogram
+save resources/test-histogram.jpg test-histogram
+compress 95 test test-compress-95
+save resources/test-compress-95.jpg test-compress-95
+compress 99 test test-compress-99
+save resources/test-compress-99.jpg test-compress-99
+color-correct test test-color-correct
+save resources/test-color-correct.jpg test-color-correct
+level-adjust 140 160 250 test test-level-adjust
+save resources/test-level-adjust.jpg test-level-adjust
+level-adjust 15 150 160 test test-level-adjust-1
+save resources/test-level-adjust-1.jpg test-level-adjust-1

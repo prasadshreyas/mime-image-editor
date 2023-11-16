@@ -66,6 +66,7 @@ public class RGBModel implements Model {
 
   @Override
   public void colorCorrection(String imageName, String newImageName) {
+
     Image image = getExistingImage(imageName);
     ColorCorrection colorCorrection = new ColorCorrection();
     BufferedImage correctedImage = colorCorrection.correctColor(image.getBufferedImage());

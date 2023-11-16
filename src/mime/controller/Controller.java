@@ -16,6 +16,7 @@ import mime.controller.commands.FlipVerticallyCommand;
 import mime.controller.commands.GreenComponentCommand;
 import mime.controller.commands.HistogramCommand;
 import mime.controller.commands.IntensityComponentCommand;
+import mime.controller.commands.LevelAdjustCommand;
 import mime.controller.commands.LoadCommand;
 import mime.controller.commands.LumaComponentCommand;
 import mime.controller.commands.RGBCombineCommand;
@@ -80,6 +81,7 @@ public class Controller {
     commands.put("compress", new CompressCommand(model));
     commands.put("color-correct", new ColorCorrectCommand(model));
     commands.put("histogram", new HistogramCommand(model));
+    commands.put("level-adjust", new LevelAdjustCommand(model));
   }
 
   /**
