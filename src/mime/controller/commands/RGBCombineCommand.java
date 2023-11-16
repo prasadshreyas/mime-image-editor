@@ -10,7 +10,7 @@ public class RGBCombineCommand implements Command {
 
   /**
    * Constructor for RGBCombineCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public RGBCombineCommand(Model model) {
     this.model = model;

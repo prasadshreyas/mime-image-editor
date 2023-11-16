@@ -10,7 +10,7 @@ public class RedComponentCommand implements Command {
 
   /**
    * Constructor for RedComponentCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public RedComponentCommand(Model model) {
     this.model = model;

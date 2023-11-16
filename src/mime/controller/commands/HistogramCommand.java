@@ -1,4 +1,5 @@
 package mime.controller.commands;
+
 import mime.model.Model;
 
 /**
@@ -10,7 +11,8 @@ public class HistogramCommand implements Command {
 
   /**
    * Constructor for HistogramCommand that takes in a model.
-   * @param model
+   *
+   * @param model model to be used
    */
   public HistogramCommand(Model model) {
     this.model = model;

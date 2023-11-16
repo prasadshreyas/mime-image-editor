@@ -11,7 +11,7 @@ public class FlipHorizontallyCommand implements Command {
 
   /**
    * Constructor for FlipHorizontallyCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public FlipHorizontallyCommand(Model model) {
     this.model = model;

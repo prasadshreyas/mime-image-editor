@@ -11,7 +11,7 @@ public class FlipVerticallyCommand implements Command {
 
   /**
    * Constructor for FlipVerticallyCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public FlipVerticallyCommand(Model model) {
     this.model = model;

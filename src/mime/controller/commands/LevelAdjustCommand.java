@@ -10,7 +10,7 @@ public class LevelAdjustCommand implements Command {
 
   /**
    * Constructor for LevelAdjustCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public LevelAdjustCommand(Model model) {
     this.model = model;

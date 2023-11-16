@@ -10,7 +10,7 @@ public class SharpenCommand implements Command {
 
   /**
    * Constructor for SharpenCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public SharpenCommand(Model model) {
     this.model = model;

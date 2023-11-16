@@ -38,7 +38,12 @@ quit
 ```
 to exit the program.
 
-**NOTE**: images are saved in the root/resources directory. New will not be saved if the image name already exists. Delete the image from the resources directory if you want to save a new image with the same name.
+**NOTE**: 
+- images are saved in the root/resources directory. New will not be saved if the image name 
+already exists. Delete the image from the resources directory if you want to save a new image with the same name.
+- The new functionalities added in this assignment are in the `res/script.txt` directory.
+- The commands from the previous assignment is in the `script-ime.txt` file in the root directory. 
+  You can use this file to test the program.
 
 
 

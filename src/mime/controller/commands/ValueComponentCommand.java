@@ -10,7 +10,7 @@ public class ValueComponentCommand implements Command {
 
   /**
    * Constructor for ValueComponentCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public ValueComponentCommand(Model model) {
     this.model = model;
@@ -38,7 +38,8 @@ public class ValueComponentCommand implements Command {
       }
       try {
         int splitValue = Integer.parseInt(args[3]);
-        // TODO: Add the logic to handle the split functionality here
+        model.getBrightnessComponent(args[0], Model.Brightness.VALUE, args[1]);
+        model.splitView(args[0], args[1], splitValue);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException("Split value must be an integer");
       }

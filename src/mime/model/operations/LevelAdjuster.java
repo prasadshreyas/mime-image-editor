@@ -1,4 +1,5 @@
 package mime.model.operations;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -38,7 +39,7 @@ public class LevelAdjuster {
     return adjustedImage;
   }
 
-    private double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
+  private double[] fitQuadraticCurve(int shadow, int mid, int highlight) {
     double v = Math.pow(shadow, 2) * (mid - highlight) - shadow * (Math.pow(mid, 2)
             - Math.pow(highlight, 2)) + mid * Math.pow(highlight, 2) - highlight * Math.pow(mid, 2);
 

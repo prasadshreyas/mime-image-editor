@@ -1,5 +1,6 @@
 package mime.model.operations;
-import java.awt.Color;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -14,7 +15,7 @@ public class ColorCorrection {
   /**
    * Constructs a ColorCorrection object.
    */
-  public  ColorCorrection() {
+  public ColorCorrection() {
     this.redHistogram = new int[256];
     this.greenHistogram = new int[256];
     this.blueHistogram = new int[256];

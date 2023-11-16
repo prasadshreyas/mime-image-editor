@@ -11,6 +11,7 @@ public class ImageProcessor {
 
   /**
    * Clamps the given value to the [0,255] range.
+   *
    * @param value Value to be clamped.
    * @return Clamped value.
    */
@@ -20,8 +21,9 @@ public class ImageProcessor {
 
   /**
    * Applies the given filter to the given channel.
+   *
    * @param channel Channel to be filtered.
-   * @param filter Filter to be applied.
+   * @param filter  Filter to be applied.
    * @return Filtered channel.
    */
   int[][] applyFilter(int[][] channel, double[][] filter) {
@@ -65,13 +67,16 @@ public class ImageProcessor {
 
   /**
    * Blurs the image.
+   *
    * @param image Image to be blurred.
    * @return Blurred image.
    */
   public Image blur(Image image) {
 
-    double[][] filter = {{1.0 / 16, 2.0 / 16, 1.0 / 16},
-            {2.0 / 16, 4.0 / 16, 2.0 / 16}, {1.0 / 16, 2.0 / 16, 1.0 / 16}};
+    double[][] filter = {
+            {1.0 / 16, 2.0 / 16, 1.0 / 16},
+            {2.0 / 16, 4.0 / 16, 2.0 / 16},
+            {1.0 / 16, 2.0 / 16, 1.0 / 16}};
     int[][][] channels = image.getChannels();
 
     for (int channel = 0; channel < channels.length; channel++) {
@@ -82,6 +87,12 @@ public class ImageProcessor {
 
   }
 
+  /**
+   * Sharpens the image.
+   *
+   * @param image Image to be sharpened.
+   * @return Sharpened image.
+   */
   public Image sharpen(Image image) {
     double[][] filter = {{-1, -1, -1}, {-1, 9, -1}, {-1, -1, -1}};
     int[][][] channels = image.getChannels();
@@ -93,9 +104,9 @@ public class ImageProcessor {
   }
 
 
-
   /**
    * Flips the image vertically.
+   *
    * @param image Image to be flipped.
    * @return Flipped image.
    */
@@ -110,6 +121,7 @@ public class ImageProcessor {
 
   /**
    * Flips the image horizontally.
+   *
    * @param image Image to be flipped.
    * @return Flipped image.
    */
@@ -125,6 +137,7 @@ public class ImageProcessor {
 
   /**
    * Applies a sepia filter to the image.
+   *
    * @param image Image to be sepia toned.
    * @return Sepia toned image.
    */
@@ -168,7 +181,6 @@ public class ImageProcessor {
   }
 
 
-
   private int[][] flipChannel(int[][] channel, boolean vertical, boolean horizontal) {
     int[][] flippedChannel = new int[channel.length][channel[0].length];
 
@@ -184,8 +196,9 @@ public class ImageProcessor {
 
   /**
    * Returns a new image with the brightness increased by the given increment.
+   *
    * @param increment the amount to increase the brightness by
-   * @param image the image to brighten
+   * @param image     the image to brighten
    * @return the brightened image
    */
   public Image getBrightenedImage(int increment, Image image) {
@@ -204,8 +217,9 @@ public class ImageProcessor {
 
   /**
    * Returns a new image with the greyscale component of the given brightness.
+   *
    * @param brightness the brightness to use
-   * @param image the image to darken
+   * @param image      the image to darken
    * @return the darkened image
    */
   public Image getGrayscaleImage(Model.Brightness brightness, Image image) {
@@ -244,10 +258,11 @@ public class ImageProcessor {
   }
 
   /**
-   * Given an image, returns a new image with the given percentage of the original image's width
-   * @param percentage  the percentage of the original image's width to use
-   * @param image the image to split
-   * @param image2 the image to split
+   * Given an image, returns a new image with the given percentage of the original image's width.
+   *
+   * @param percentage the percentage of the original image's width to use
+   * @param image      the image to split
+   * @param image2     the image to split
    * @return the split image
    */
   public Image getSplitView(int percentage, Image image, Image image2) {

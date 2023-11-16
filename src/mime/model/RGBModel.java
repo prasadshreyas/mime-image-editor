@@ -15,8 +15,8 @@ import mime.model.operations.LevelAdjuster;
  * This class represents the model of the image in the RGB color space.
  */
 public class RGBModel implements Model {
-  private HashMap<String, Image> images;
-  private ImageProcessor imageProcessor;
+  private final HashMap<String, Image> images;
+  private final ImageProcessor imageProcessor;
 
 
   /**
@@ -94,7 +94,7 @@ public class RGBModel implements Model {
     images.put(newImageName, brightenedImage);
   }
 
-@Override
+  @Override
   public void blur(String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
     Image blurredImage = imageProcessor.blur(image);

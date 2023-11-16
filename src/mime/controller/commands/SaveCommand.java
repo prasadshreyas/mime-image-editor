@@ -20,7 +20,7 @@ public class SaveCommand implements Command {
   /**
    * Constructor for SaveCommand that takes in a model.
    *
-   * @param model
+   * @param model model to be used
    */
   public SaveCommand(Model model) {
     this.model = model;

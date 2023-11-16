@@ -96,7 +96,7 @@ public class Compression {
   /**
    * Applies the threshold to the given matrix.
    *
-   * @param mat         The matrix to be compressed.
+   * @param mat       The matrix to be compressed.
    * @param threshold The threshold to be applied.
    */
   private double[][] setBelowThreshold(double[][] mat, double threshold) {
@@ -114,7 +114,7 @@ public class Compression {
   /**
    * Calculates the compression threshold for the given matrix.
    *
-   * @param mat      The padded matrix.
+   * @param mat    The padded matrix.
    * @param height The height of the original matrix.
    * @param width  The width of the original matrix.
    * @return The compression threshold.
@@ -154,7 +154,7 @@ public class Compression {
    * Applies the Haar wavelet transform to the given matrix.
    *
    * @param mat The matrix to be transformed.
-   * @param c The size of the square matrix.
+   * @param c   The size of the square matrix.
    */
   private double[][] haar2D(double[][] mat, int c) {
     while (c > 1) {
@@ -223,9 +223,7 @@ public class Compression {
       double[] temp = new double[l]; // Temporary array to store intermediate values
 
       // Copy s to temp for manipulation
-      for (int i = 0; i < l; i++) {
-        temp[i] = s[i];
-      }
+      System.arraycopy(s, 0, temp, 0, l);
 
       // Perform the inverse operation on pairs within the current grouping
       for (int i = 0; i < m / 2; i++) {
@@ -235,9 +233,7 @@ public class Compression {
       }
 
       // Prepare for the next iteration by copying the results back to s
-      for (int i = 0; i < m; i++) {
-        s[i] = result[i];
-      }
+      if (m >= 0) System.arraycopy(result, 0, s, 0, m);
 
       m *= 2; // Double the grouping size for the next iteration
     }
@@ -254,9 +250,8 @@ public class Compression {
   private double[] transform(double[] s, int m) {
     while (m > 1) {
       double[] temp = new double[m];
-      for (int i = 0; i < m; i++) {
-        temp[i] = s[i]; // Copy current segment to a temp array
-      }
+      // Copy current segment to a temp array
+      System.arraycopy(s, 0, temp, 0, m);
       for (int i = 0; i < m / 2; i++) {
         s[i] = (temp[2 * i] + temp[2 * i + 1]) / Math.sqrt(2); // Normalized average
         s[i + m / 2] = (temp[2 * i] - temp[2 * i + 1]) / Math.sqrt(2); // Normalized difference
@@ -300,9 +295,7 @@ public class Compression {
   private double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
     double[][] newMatrix = new double[height][width];
     for (int i = 0; i < newMatrix.length; i++) {
-      for (int j = 0; j < newMatrix[i].length; j++) {
-        newMatrix[i][j] = matrix[i][j];
-      }
+      System.arraycopy(matrix[i], 0, newMatrix[i], 0, newMatrix[i].length);
     }
     return newMatrix;
   }

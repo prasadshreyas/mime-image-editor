@@ -11,7 +11,7 @@ public class ColorCorrectCommand implements Command {
 
   /**
    * Constructor for ColorCorrectCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public ColorCorrectCommand(Model model) {
     this.model = model;

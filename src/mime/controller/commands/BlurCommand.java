@@ -11,7 +11,8 @@ public class BlurCommand implements Command {
 
   /**
    * Constructor for BlurCommand that takes in a model.
-   * @param model
+   *
+   * @param model model to be used
    */
   public BlurCommand(Model model) {
     this.model = model;
@@ -31,7 +32,7 @@ public class BlurCommand implements Command {
     if (model.containsImage(args[1])) {
       throw new IllegalArgumentException("New Image already exists");
     }
-    if (args.length == 2){
+    if (args.length == 2) {
       model.blur(args[0], args[1]);
     }
     if (args.length == 4) {

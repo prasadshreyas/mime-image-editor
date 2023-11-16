@@ -1,8 +1,6 @@
 package mime.model.operations;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**

@@ -20,7 +20,7 @@ public class LoadCommand implements Command {
   /**
    * Constructor for LoadCommand that takes in a model.
    *
-   * @param model
+   * @param model model to be used
    */
   public LoadCommand(Model model) {
     this.model = model;

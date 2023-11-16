@@ -11,7 +11,7 @@ public class CompressCommand implements Command {
 
   /**
    * Constructor for CompressCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public CompressCommand(Model model) {
     this.model = model;

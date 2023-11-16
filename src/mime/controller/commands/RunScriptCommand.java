@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 import mime.controller.Controller;
-import mime.model.Model;
 
 import static mime.controller.Controller.QUIT_COMMAND;
 

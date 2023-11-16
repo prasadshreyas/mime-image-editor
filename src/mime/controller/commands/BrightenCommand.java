@@ -11,7 +11,7 @@ public class BrightenCommand implements Command {
 
   /**
    * Constructor for BrightenCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public BrightenCommand(Model model) {
     this.model = model;

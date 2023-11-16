@@ -10,7 +10,7 @@ public class SepiaCommand implements Command {
 
   /**
    * Constructor for SepiaCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public SepiaCommand(Model model) {
     this.model = model;

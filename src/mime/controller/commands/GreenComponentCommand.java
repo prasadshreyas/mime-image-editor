@@ -11,7 +11,7 @@ public class GreenComponentCommand implements Command {
 
   /**
    * Constructor for GreenComponentCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public GreenComponentCommand(Model model) {
     this.model = model;

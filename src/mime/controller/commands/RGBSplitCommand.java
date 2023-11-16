@@ -10,7 +10,7 @@ public class RGBSplitCommand implements Command {
 
   /**
    * Constructor for RGBSplitCommand that takes in a model.
-   * @param model
+   * @param model model to be used
    */
   public RGBSplitCommand(Model model) {
     this.model = model;
