@@ -49,24 +49,24 @@ to exit the program.
 model, controller, view.
 
 This the high-level architecture diagram for the program:
-![MVC](resources/MVC.png)
+![MVC](res/MVC.png)
 
 ### Model
 The model is responsible for the data and the logic of the program.
 
-![Model](resources/MODEL.png)
+![Model](res/MODEL.png)
 
 
 ### View
 There are two views in the program: the command-line view and the script view. The command-line view is the default view. The script view is used when the user enters the `run-script` command.
 
-![View](resources/View.png)
+![View](res/View.png)
 
 ### Controller
 
 The controller is responsible for the communication between the model and the view. It is also responsible for the execution of the commands.
 
-![Controller](resources/Controller.png)
+![Controller](res/Controller.png)
 
 Every command is a class that implements the `Command` interface. The `Command` interface has a single method `execute()`. The `execute()` method is called by the controller when the user enters a command. The `execute()` method is responsible for executing the command and returning the result to the controller.
 

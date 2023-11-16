@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * BlurCommand class that implements Command interface. This class represents the blur command that
+ * blurs an image.
+ */
 public class BlurCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for BlurCommand that takes in a model.
+   * @param model
+   */
   public BlurCommand(Model model) {
     this.model = model;
   }

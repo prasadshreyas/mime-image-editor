@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the FlipVerticallyCommand class that implements the Command interface. It
+ * represents the command that flips an image vertically.
+ */
 public class FlipVerticallyCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for FlipVerticallyCommand that takes in a model.
+   * @param model
+   */
   public FlipVerticallyCommand(Model model) {
     this.model = model;
   }

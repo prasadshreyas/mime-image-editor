@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to sharpen an image.
+ */
 public class SharpenCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for SharpenCommand that takes in a model.
+   * @param model
+   */
   public SharpenCommand(Model model) {
     this.model = model;
   }
@@ -22,7 +29,7 @@ public class SharpenCommand implements Command {
     if (model.containsImage(args[1])) {
       throw new IllegalArgumentException("New Image already exists");
     }
-    if (args.length == 2){
+    if (args.length == 2) {
       model.sharpen(args[0], args[1]);
     }
     if (args.length == 4) {

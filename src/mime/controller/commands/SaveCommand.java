@@ -11,9 +11,17 @@ import javax.imageio.ImageIO;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to save an image to a file.
+ */
 public class SaveCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for SaveCommand that takes in a model.
+   *
+   * @param model
+   */
   public SaveCommand(Model model) {
     this.model = model;
   }

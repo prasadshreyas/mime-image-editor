@@ -9,11 +9,16 @@ import mime.model.Model;
 
 import static mime.controller.Controller.QUIT_COMMAND;
 
+/**
+ * This class represents the command to run a script.
+ */
 public class RunScriptCommand implements Command {
-  private final Model model;
 
-  public RunScriptCommand(Model model) {
-    this.model = model;
+  /**
+   * Constructor for RunScriptCommand that takes in a model.
+   */
+  public RunScriptCommand() {
+    // This constructor is intentionally empty. Nothing special is needed here.
   }
 
 
@@ -24,7 +29,9 @@ public class RunScriptCommand implements Command {
     try (Scanner scanner = new Scanner(new FileReader(inputFilePath))) {
       while (scanner.hasNextLine()) {
         String curLine = scanner.nextLine().trim();
-        if (curLine.isEmpty() || curLine.startsWith("#")) continue;
+        if (curLine.isEmpty() || curLine.startsWith("#")){
+          continue;
+        }
 
         String[] curLineArgs = curLine.split("\\s+");
         String commandName = curLineArgs[0];

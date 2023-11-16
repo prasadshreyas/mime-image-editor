@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the BrightenCommand class that implements the Command interface. It
+ * represents the command that brightens an image.
+ */
 public class BrightenCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for BrightenCommand that takes in a model.
+   * @param model
+   */
   public BrightenCommand(Model model) {
     this.model = model;
   }

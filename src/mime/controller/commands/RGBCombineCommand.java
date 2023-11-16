@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to combine the RGB components of three images into one.
+ */
 public class RGBCombineCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for RGBCombineCommand that takes in a model.
+   * @param model
+   */
   public RGBCombineCommand(Model model) {
     this.model = model;
   }

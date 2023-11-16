@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the red component of an image.
+ */
 public class RedComponentCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for RedComponentCommand that takes in a model.
+   * @param model
+   */
   public RedComponentCommand(Model model) {
     this.model = model;
   }

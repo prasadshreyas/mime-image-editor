@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the value component of an image.
+ */
 public class ValueComponentCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for ValueComponentCommand that takes in a model.
+   * @param model
+   */
   public ValueComponentCommand(Model model) {
     this.model = model;
   }

@@ -38,11 +38,8 @@ public class RGBModel implements Model {
   @Override
   public void compressImage(int percentage, String imageName, String newImageName) {
     Image image = getExistingImage(imageName);
-
     Compression compression = new Compression(image, percentage);
-    System.out.println("Compressing image...");
     Image newImage = compression.compressAndUncompress();
-
     images.put(newImageName, newImage);
   }
 

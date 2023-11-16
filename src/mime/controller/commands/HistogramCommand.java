@@ -1,11 +1,17 @@
 package mime.controller.commands;
-
-import mime.controller.commands.Command;
 import mime.model.Model;
 
+/**
+ * This class represents the HistogramCommand class that implements the Command interface. It
+ * represents the command that creates a histogram of an image.
+ */
 public class HistogramCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for HistogramCommand that takes in a model.
+   * @param model
+   */
   public HistogramCommand(Model model) {
     this.model = model;
   }

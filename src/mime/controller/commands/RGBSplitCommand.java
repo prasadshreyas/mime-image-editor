@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the RGB components of an image.
+ */
 public class RGBSplitCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for RGBSplitCommand that takes in a model.
+   * @param model
+   */
   public RGBSplitCommand(Model model) {
     this.model = model;
   }

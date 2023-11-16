@@ -8,6 +8,10 @@ import mime.model.Model;
 public class LevelAdjustCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for LevelAdjustCommand that takes in a model.
+   * @param model
+   */
   public LevelAdjustCommand(Model model) {
     this.model = model;
   }

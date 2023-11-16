@@ -1,0 +1,17 @@
+load res/test.jpg test
+histogram test test-histogram
+save res/test-histogram.jpg test-histogram
+compress 95 test test-compress-95
+save res/test-compress-95.jpg test-compress-95
+compress 99 test test-compress-99
+save res/test-compress-99.jpg test-compress-99
+color-correct test test-color-correct
+save res/test-color-correct.jpg test-color-correct
+level-adjust 140 160 250 test test-level-adjust
+save res/test-level-adjust.jpg test-level-adjust
+level-adjust 15 150 160 test test-level-adjust-1
+save res/test-level-adjust-1.jpg test-level-adjust-1
+blur test test-blur-2 -split 50
+save res/test-blur-2.jpg test-blur-2
+sepia test test-sepia-2 -split 25
+save res/test-sepia-2.jpg test-sepia-2

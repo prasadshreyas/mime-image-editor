@@ -69,7 +69,7 @@ public class Controller {
     commands.put("sharpen", new SharpenCommand(model));
     commands.put("horizontal-flip", new FlipHorizontallyCommand(model));
     commands.put("vertical-flip", new FlipVerticallyCommand(model));
-    commands.put("run-script", new RunScriptCommand(model));
+    commands.put("run-script", new RunScriptCommand());
     commands.put("rgb-split", new RGBSplitCommand(model));
     commands.put("rgb-combine", new RGBCombineCommand(model));
     commands.put("value-component", new ValueComponentCommand(model));

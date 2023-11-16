@@ -11,9 +11,17 @@ import javax.imageio.ImageIO;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to load an image from a file.
+ */
 public class LoadCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for LoadCommand that takes in a model.
+   *
+   * @param model
+   */
   public LoadCommand(Model model) {
     this.model = model;
   }

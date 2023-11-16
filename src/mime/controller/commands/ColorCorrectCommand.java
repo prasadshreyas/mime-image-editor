@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the ColorCorrectCommand class that implements the Command interface. It
+ * represents the command that color corrects an image.
+ */
 public class ColorCorrectCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for ColorCorrectCommand that takes in a model.
+   * @param model
+   */
   public ColorCorrectCommand(Model model) {
     this.model = model;
   }

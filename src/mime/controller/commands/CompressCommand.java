@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the CompressCommand class that implements the Command interface. It
+ * represents the command that compresses an image.
+ */
 public class CompressCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for CompressCommand that takes in a model.
+   * @param model
+   */
   public CompressCommand(Model model) {
     this.model = model;
   }

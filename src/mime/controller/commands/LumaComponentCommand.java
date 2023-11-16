@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the luma component of an image.
+ */
 public class LumaComponentCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for LumaComponentCommand that takes in a model.
+   * @param model
+   */
   public LumaComponentCommand(Model model) {
     this.model = model;
   }

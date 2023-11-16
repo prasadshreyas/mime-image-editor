@@ -2,9 +2,17 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the GreenComponentCommand class that implements the Command interface. It
+ * represents the command that gets the green component of an image.
+ */
 public class GreenComponentCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for GreenComponentCommand that takes in a model.
+   * @param model
+   */
   public GreenComponentCommand(Model model) {
     this.model = model;
   }

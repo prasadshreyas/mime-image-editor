@@ -2,9 +2,16 @@ package mime.controller.commands;
 
 import mime.model.Model;
 
+/**
+ * This class represents the command to get the sepia version of an image.
+ */
 public class SepiaCommand implements Command {
   private final Model model;
 
+  /**
+   * Constructor for SepiaCommand that takes in a model.
+   * @param model
+   */
   public SepiaCommand(Model model) {
     this.model = model;
   }
