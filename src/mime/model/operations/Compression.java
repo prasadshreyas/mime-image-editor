@@ -20,6 +20,12 @@ public class Compression {
    * the compression ratio.
    */
   public Compression(Image image, int percentage) {
+    if (percentage < 0 || percentage > 100) {
+      throw new IllegalArgumentException("Compression percentage must be between 0 and 100");
+    }
+    if (image == null) {
+      throw new IllegalArgumentException("Image cannot be null");
+    }
     this.originalImage = image;
     this.originalHeight = image.getHeight();
     this.originalWidth = image.getWidth();
@@ -85,7 +91,7 @@ public class Compression {
    * @param n The number to calculate the next power of two.
    * @return The next power of two of the given number.
    */
-  private int calculateNextPowerOfTwo(int n) {
+  public int calculateNextPowerOfTwo(int n) {
     int power = 1;
     while (power < n) {
       power *= 2;
@@ -100,7 +106,7 @@ public class Compression {
    * @param mat       The matrix to be compressed.
    * @param threshold The threshold to be applied.
    */
-  private double[][] setBelowThreshold(double[][] mat, double threshold) {
+  public double[][] setBelowThreshold(double[][] mat, double threshold) {
     // Apply threshold to compress the elements in the matrix mat
     for (int i = 0; i < mat.length; i++) {
       for (int j = 0; j < mat[i].length; j++) {
@@ -157,7 +163,7 @@ public class Compression {
    * @param mat The matrix to be transformed.
    * @param c   The size of the square matrix.
    */
-  private double[][] haar2D(double[][] mat, int c) {
+  public double[][] haar2D(double[][] mat, int c) {
     while (c > 1) {
       for (int i = 0; i < c; i++) {
         // Apply transform to each row
@@ -182,7 +188,7 @@ public class Compression {
     return mat;
   }
 
-  private double[][] invHaar2D(double[][] mat, int s) {
+  public double[][] invHaar2D(double[][] mat, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
@@ -215,7 +221,7 @@ public class Compression {
    * @param l The size of the array.
    * @return The transformed array.
    */
-  private double[] inverse(double[] s, int l) {
+  public double[] inverse(double[] s, int l) {
     double[] result = new double[l];
     int m = 2; // Start with the smallest grouping of 2
 
@@ -250,7 +256,7 @@ public class Compression {
    * @param m The size of the array.
    * @return The transformed array.
    */
-  private double[] transform(double[] s, int m) {
+  public double[] transform(double[] s, int m) {
     while (m > 1) {
       double[] temp = new double[m];
       // Copy current segment to a temp array
@@ -271,7 +277,7 @@ public class Compression {
    * @param s        The next power of two.
    * @return The padded matrix.
    */
-  private double[][][] padToNextPowerOfTwo(int[][][] channels, int s) {
+  public double[][][] padToNextPowerOfTwo(int[][][] channels, int s) {
 
     double[][][] paddedChannels = new double[channels.length][s][s];
 
@@ -295,7 +301,7 @@ public class Compression {
    * @param width  The original width of the matrix.
    * @return The unpadded matrix.
    */
-  private double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
+  public double[][] unpadToOriginalSize(double[][] matrix, int height, int width) {
     double[][] newMatrix = new double[height][width];
     for (int i = 0; i < newMatrix.length; i++) {
       System.arraycopy(matrix[i], 0, newMatrix[i], 0, newMatrix[i].length);
