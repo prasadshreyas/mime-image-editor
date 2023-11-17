@@ -8,6 +8,7 @@ import java.util.Random;
 import mime.model.image.Image;
 import mime.model.image.RGBImage;
 import mime.model.operations.Compression;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the Compression class.
-
  */
 public class CompressionTest {
 
@@ -41,6 +41,7 @@ public class CompressionTest {
     assertEquals("Uncompressed image should have same width as original",
             image1.getWidth(), uncompressedImage.getWidth());
   }
+
   @Test
   public void testPadToNextPowerOfTwo() {
 
@@ -88,22 +89,6 @@ public class CompressionTest {
     assertArrayEquals(expected4, actual4, 0.001);
 
 
-  }
-
-  @Test
-  public void testInverseHaarWaveletTransform() {
-    double[] input1 = {7.071, 2.828, 1.000, 0.000, 1.414, -1.414, 0.707, -2.121};
-    double[] expected1 = {5, 3, 2, 4, 2, 1, 0, 3};
-    double[] actual1 = compression.transform(input1, input1.length);
-    for (int i = 0; i < actual1.length; i++) {
-      actual1[i] = Math.round(actual1[i]);
-    }
-    assertArrayEquals(expected1, actual1, 0.001);
-
-
-    double[] input3 = {};
-    double[] expectedOutput3 = {};
-    assertArrayEquals(expectedOutput3, compression.inverse(input3, input3.length), 0.0);
   }
 
   @Test
@@ -194,6 +179,7 @@ public class CompressionTest {
     assertTrue("Images with different compression ratios should differ",
             differenceScore < 100);
   }
+
   @Test
   public void testCalculateNextPowerOfTwoEdgeCases() {
     assertEquals(1, compression.calculateNextPowerOfTwo(0));

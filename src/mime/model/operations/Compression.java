@@ -188,6 +188,12 @@ public class Compression {
     return mat;
   }
 
+  /**
+   * Applies the inverse Haar wavelet transform to the given matrix.
+   * @param mat The matrix to be transformed.
+   * @param s The size of the square matrix.
+   * @return The transformed matrix.
+   */
   public double[][] invHaar2D(double[][] mat, int s) {
     int c = 2;
     while (c <= s) {

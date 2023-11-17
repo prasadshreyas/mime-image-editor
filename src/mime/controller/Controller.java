@@ -41,19 +41,25 @@ public class Controller {
   private final Model model;
   private final View view;
   private final Scanner scanner;
+  private final boolean isFileMode;
 
   /**
    * Constructs a controller object.
    *
-   * @param model the model to be used by the controller.
-   * @param view  the view to be used by the controller.
+   * @param model      the model to be used by the controller.
+   * @param view       the view to be used by the controller.
+   * @param scanner    the scanner to be used by the controller.
+   *                   This is used to read input from the user.
+   *                   If the controller is in file mode, this is used to read input from the file.
+   * @param isFileMode a flag to indicate whether the controller is in file mode.
    */
-  public Controller(Model model, View view, Scanner scanner) {
+  public Controller(Model model, View view, Scanner scanner, boolean isFileMode) {
     this.model = model;
     this.view = view;
     commands = new HashMap<>();
     initializeCommands();
     this.scanner = scanner;
+    this.isFileMode = isFileMode;
   }
 
   public static Command getCommand(String commandName) {
@@ -90,10 +96,18 @@ public class Controller {
   public void run() {
     boolean quit = false;
     while (!quit) {
-      view.display("Enter a command:");
-      List<String> lineArgs = scanner.hasNextLine() ? List.of(scanner.nextLine().split("\\s+"))
-              : List.of();
+      if (!isFileMode) {
+        view.display("Enter a command:");
+      }
 
+      if (!scanner.hasNextLine()) {
+        if (isFileMode) {
+          break; // End of file reached
+        }
+        continue;
+      }
+
+      List<String> lineArgs = List.of(scanner.nextLine().split("\\s+"));
       if (lineArgs.isEmpty()) {
         handleException(new IllegalArgumentException("Command cannot be empty."));
         continue;

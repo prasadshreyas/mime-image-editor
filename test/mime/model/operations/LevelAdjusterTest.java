@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import java.awt.image.BufferedImage;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This class tests the LevelAdjuster class.
@@ -26,6 +28,7 @@ public class LevelAdjusterTest {
     // Populate the image with test data
     return img;
   }
+
   @Test
   public void testNoAdjustmentNeeded() {
     BufferedImage result = levelAdjuster.adjustLevels(testImage, 0, 128, 255);

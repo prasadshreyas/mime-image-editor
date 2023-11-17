@@ -16,6 +16,7 @@ public class ImageProcessorTest {
   private Image image1;
   private Image image2;
   private ImageProcessor processor;
+
   @Before
   public void setUp() throws Exception {
     int[][] r_channel = new int[][]{
@@ -55,15 +56,17 @@ public class ImageProcessorTest {
 
   @Test(expected = NullPointerException.class)
   public void testGetSplitViewWithNullImage1() {
-    processor.getSplitView(50, null, image2);
+    processor.getSplitView(50,
+            null, image2);
   }
 
   @Test(expected = NullPointerException.class)
   public void testGetSplitViewWithNullImage2() {
-    processor.getSplitView(50, image1, null);
+    processor.getSplitView(50, image1,
+            null);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testGetSplitViewWithVaryingSizes() {
     int[][] r_channel = new int[][]{
             {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
