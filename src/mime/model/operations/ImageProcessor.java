@@ -266,6 +266,24 @@ public class ImageProcessor {
    * @return the split image
    */
   public Image getSplitView(int percentage, Image image, Image image2) {
+    if (percentage == 0) {
+      return image;
+    }
+
+    if (percentage == 100) {
+      return image2;
+    }
+
+    if (percentage < 0 || percentage > 100) {
+      throw new IllegalArgumentException("Percentage must be between 0 and 100.");
+    }
+
+    if (image.getHeight() != image2.getHeight() || image.getWidth() != image2.getWidth()) {
+      throw new IllegalArgumentException("Images must be the same size.");
+    }
+
+
+
     int[][][] channels = image.getChannels();
     int[][][] channels2 = image2.getChannels();
     int[][][] newChannels = new int[3][image.getHeight()][image.getWidth()];

@@ -128,3 +128,13 @@ class.
 As this new assignment's feature extensions were standalone and required multiple helper methods,
 I created a new class for each of the features. This made the code more modular and easier to 
 maintain requiring less changes to the existing code.
+
+## Parts of the program that are not complete
+
+Everything is complete.
+
+However,  I am facing error while creating and running the jar file addressed in the issue [#779_f2]
+  (https://piazza.com/class/lm56hyi29co6zr/post/779). I have tried to fix it, but I am not able to.
+I also attended the office hours but no luck. I have attached the screenshot of the error below.
+
+![Error](res/error.png)

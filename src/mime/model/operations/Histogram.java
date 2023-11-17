@@ -112,4 +112,31 @@ public class Histogram {
     return max;
   }
 
+  /**
+   * Returns the red histogram.
+   *
+   * @return int[] red histogram.
+   */
+  public int[] getRedHistogram() {
+    return redHistogram;
+  }
+
+  /**
+   * Returns the green histogram.
+   *
+   * @return int[] green histogram.
+   */
+  public int[] getGreenHistogram() {
+    return greenHistogram;
+  }
+
+  /**
+   * Returns the blue histogram.
+   *
+   * @return int[] blue histogram.
+   */
+  public int[] getBlueHistogram() {
+    return blueHistogram;
+  }
+
 }
