@@ -17,6 +17,22 @@ This program also supports reading from scripts containing a sequence of command
 
 ### Running the program
 
+
+
+#### Using the jar file
+
+move `res/mime.jar` to the root directory of the project.
+delete all the contents of the `res` directory except the `script.txt` file.
+this is necessary because the images that are going to be created are already present in the `res` directory.
+if you do not delete the contents of the `res` directory, the program will not be able to create the images.
+then, run the following command from the root directory of the project.
+
+```bash
+java -jar mime.jar -file res/script.txt
+```
+
+#### Command-line view
+
 - Clone the repository
 - Navigate to the root/src/ime directory
 - Run the Main class
@@ -29,7 +45,7 @@ or enter commands manually.
 ```
 load <image-file-path> <image-name>
 ```
-and so on.
+
 
 
 When you are done, enter
@@ -132,9 +148,3 @@ maintain requiring less changes to the existing code.
 ## Parts of the program that are not complete
 
 Everything is complete.
-
-However,  I am facing error while creating and running the jar file addressed in the issue [#779_f2]
-  (https://piazza.com/class/lm56hyi29co6zr/post/779). I have tried to fix it, but I am not able to.
-I also attended the office hours but no luck. I have attached the screenshot of the error below.
-
-![Error](res/error.png)

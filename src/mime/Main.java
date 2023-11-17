@@ -48,8 +48,7 @@ public class Main {
     if (args.length == 2) {
       try {
         scanner = new Scanner(new File(args[1])); // Change to read from file
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         System.out.println("File does not exist or is not readable.");
         System.exit(1);
       }
@@ -57,7 +56,8 @@ public class Main {
 
     Model model = new RGBModel();
     View commandLineView = new CommandLineView();
-    Controller controller = new Controller(model, commandLineView, scanner, args.length == 2); // Pass a flag to indicate file mode
+    Controller controller = new Controller(model, commandLineView, scanner,
+            args.length == 2); // Pass a flag to indicate file mode
 
     controller.run();
   }
