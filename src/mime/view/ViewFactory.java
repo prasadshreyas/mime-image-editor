@@ -1,0 +1,21 @@
+package mime.view;
+
+import mime.utils.Config;
+
+public class ViewFactory {
+
+  /**
+   * Creates and returns a View object based on the provided configuration or context.
+   *
+   * @param config The application configuration that determines the type of view to create.
+   * @return A concrete implementation of the View interface.
+   */
+  public static View createView(Config config) {
+    if (config.isGraphicalMode()) {
+      // TODO: return a new GraphicalView object
+    } else {
+      return new CommandLineView();
+    }
+    return null;
+  }
+}

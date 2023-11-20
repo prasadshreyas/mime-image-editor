@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-import mime.controller.Controller;
+import mime.controller.CLIController;
 
-import static mime.controller.Controller.QUIT_COMMAND;
+import static mime.controller.CLIController.QUIT_COMMAND;
 
 /**
  * This class represents the command to run a script.
@@ -44,7 +44,7 @@ public class RunScriptCommand implements Command {
         System.arraycopy(curLineArgs, 1, commandArgs, 0, curLineArgs.length - 1);
 
         // Get and execute the command if it's recognized
-        Command command = Controller.getCommand(commandName);
+        Command command = CLIController.getCommand(commandName);
         if (command != null) {
           command.execute(commandArgs);
         } else {

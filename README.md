@@ -67,7 +67,7 @@ already exists. Delete the image from the resources directory if you want to sav
 ## Overview of the code
 
 `ime` package contains the entire source code for the program. The `ime` package contains the following sub-packages:
-model, controller, view.
+model, CLIController, view.
 
 This the high-level architecture diagram for the program:
 ![MVC](res/MVC.png)
@@ -85,11 +85,11 @@ There are two views in the program: the command-line view and the script view. T
 
 ### Controller
 
-The controller is responsible for the communication between the model and the view. It is also responsible for the execution of the commands.
+The CLIController is responsible for the communication between the model and the view. It is also responsible for the execution of the commands.
 
 ![Controller](res/Controller.png)
 
-Every command is a class that implements the `Command` interface. The `Command` interface has a single method `execute()`. The `execute()` method is called by the controller when the user enters a command. The `execute()` method is responsible for executing the command and returning the result to the controller.
+Every command is a class that implements the `Command` interface. The `Command` interface has a single method `execute()`. The `execute()` method is called by the CLIController when the user enters a command. The `execute()` method is responsible for executing the command and returning the result to the CLIController.
 
 
 
@@ -130,7 +130,7 @@ this by combining the ImageManipulator class with the Image FileManager class.
 - Integrate enums into the model interface
 
 The Model interface now has enums which are used to represent the different types of brightness 
-and color channels. This lets the controller and the view know what type of brightness or color
+and color channels. This lets the CLIController and the view know what type of brightness or color
 channel are available.
 
 - Fixing design issues
