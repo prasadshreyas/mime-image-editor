@@ -12,10 +12,9 @@ public class ViewFactory {
    */
   public static View createView(Config config) {
     if (config.isGraphicalMode()) {
-      // TODO: return a new GraphicalView object
+      return new GUIView();
     } else {
       return new CommandLineView();
     }
-    return null;
   }
 }
