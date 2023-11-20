@@ -6,6 +6,9 @@ import java.util.Scanner;
 import mime.controller.Controller;
 import mime.model.Model;
 import mime.model.RGBModel;
+import mime.utils.ArgumentParser;
+import mime.utils.Config;
+import mime.utils.ConfigurationException;
 import mime.view.CommandLineView;
 import mime.view.View;
 
@@ -19,7 +22,9 @@ public class Main {
    *
    * @param args command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ConfigurationException {
+
+    Config config = ArgumentParser.parse(args);
 
     Scanner scanner;
 
