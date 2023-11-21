@@ -14,6 +14,6 @@ public class GUIController extends AbstractController {
   @Override
   protected List<String> readInput() {
     // Implementation for GUI input (e.g., button clicks, text fields)
-    return null; // Placeholder
+    return null;
   }
 }
