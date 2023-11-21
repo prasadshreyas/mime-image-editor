@@ -1,9 +1,5 @@
 package mime;
 
-import java.io.File;
-import java.util.Scanner;
-
-import mime.controller.CLIController;
 import mime.controller.Controller;
 import mime.controller.ControllerFactory;
 import mime.model.Model;
@@ -11,7 +7,6 @@ import mime.model.RGBModel;
 import mime.utils.ArgumentParser;
 import mime.utils.Config;
 import mime.utils.ConfigurationException;
-import mime.view.CommandLineView;
 import mime.view.View;
 import mime.view.ViewFactory;
 
