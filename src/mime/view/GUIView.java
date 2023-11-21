@@ -10,9 +10,4 @@ public class GUIView implements View {
   public void display(String message) {
 
   }
-
-  @Override
-  public void displayImage(BufferedImage bufferedImage) {
-
-  }
 }

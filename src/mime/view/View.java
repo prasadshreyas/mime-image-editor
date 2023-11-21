@@ -13,5 +13,4 @@ public interface View {
    * @param message the message to be displayed to the user.
    */
   void display(String message);
-
 }

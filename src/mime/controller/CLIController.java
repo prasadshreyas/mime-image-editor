@@ -41,25 +41,21 @@ public class CLIController implements Controller{
   private final Model model;
   private final View view;
   private final Scanner scanner;
-  private final boolean isFileMode;
+
 
   /**
-   * Constructs a controller object.
+   * Constructs a CLIController object.
    *
-   * @param model      the model to be used by the controller.
-   * @param view       the view to be used by the controller.
-   * @param scanner    the scanner to be used by the controller.
-   *                   This is used to read input from the user.
-   *                   If the controller is in file mode, this is used to read input from the file.
-   * @param isFileMode a flag to indicate whether the controller is in file mode.
+   * @param model   the model to be used by the controller.
+   * @param view    the view to be used by the controller.
+   * @param scanner the scanner to be used by the controller to read input from the user.
    */
-  public CLIController(Model model, View view, Scanner scanner, boolean isFileMode) {
+  public CLIController(Model model, View view, Scanner scanner) {
     this.model = model;
     this.view = view;
+    this.scanner = scanner;
     commands = new HashMap<>();
     initializeCommands();
-    this.scanner = scanner;
-    this.isFileMode = isFileMode;
   }
 
   public static Command getCommand(String commandName) {
@@ -97,14 +93,9 @@ public class CLIController implements Controller{
   public void run() {
     boolean quit = false;
     while (!quit) {
-      if (!isFileMode) {
-        view.display("Enter a command:");
-      }
+      view.display("Enter a command:");
 
       if (!scanner.hasNextLine()) {
-        if (isFileMode) {
-          break; // End of file reached
-        }
         continue;
       }
 
@@ -118,7 +109,6 @@ public class CLIController implements Controller{
       } catch (Exception e) {
         handleException(e);
       }
-
     }
   }
 

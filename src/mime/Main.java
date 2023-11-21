@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import mime.controller.CLIController;
 import mime.controller.Controller;
+import mime.controller.ControllerFactory;
 import mime.model.Model;
 import mime.model.RGBModel;
 import mime.utils.ArgumentParser;
@@ -29,7 +30,7 @@ public class Main {
       Config config = ArgumentParser.parse(args);
       View view = ViewFactory.createView(config);
       Model model = new RGBModel();
-      Controller controller = new CLIController(model, view, new Scanner(System.in), false);
+      Controller controller = ControllerFactory.createController(config, model, view);
       controller.run();
     } catch (ConfigurationException e) {
       System.err.println("Failed to start the application: " + e.getMessage());
