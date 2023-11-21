@@ -1,7 +1,4 @@
 package mime.view;
-
-import java.awt.image.BufferedImage;
-
 /**
  * This class represents the command line view.
  */

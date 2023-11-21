@@ -30,6 +30,7 @@ import mime.controller.commands.ValueComponentCommand;
 import mime.model.Model;
 import mime.view.View;
 
+
 /**
  * This class represents the controller for the program.
  * It takes input from the user and passes it to the model.

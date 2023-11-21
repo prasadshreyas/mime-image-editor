@@ -19,7 +19,7 @@ public class ControllerFactory {
    */
   public static Controller createController(Config config, Model model, View view) {
     if (config.isGraphicalMode()) {
-      return new GUIController();
+      return new GUIController(model, view);
     } else if (config.isCommandLineMode()) {
       return new CLIController(model, view, new Scanner(System.in));
     } else {
