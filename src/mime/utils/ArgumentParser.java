@@ -20,7 +20,7 @@ public class ArgumentParser {
       config.setGraphicalMode(true);
     } else if (args.length == 1 && "-text".equals(args[0])) {
       // Text mode
-      config.setTextMode(true);
+      config.setCommandLineMode(true);
     } else if (args.length == 2 && "-file".equals(args[0])) {
       // File mode
       String filePath = args[1];
