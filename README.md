@@ -104,46 +104,11 @@ Under the Unsplash License, the image is free to use for any purpose.
 
 ## Design changes and justifications
 
-- Pixel wise operations are replaced with channel wise operations.
+- Added a new Interface for the controller
+- Factory Methods to create controllers and views
+- Configuration file to handle all the arguments passed to the program
+- 
 
-The original implementation of the program had pixel wise operations. This meant that the program had to iterate over every pixel in the image to perform the operation.
-This was inefficient. The new implementation has channel wise operations. This means that the program iterates over every channel in the image to perform the operation. 
-The need for this change was clear from the new extensions that were needed. This would enable 
-us to handle channels more efficiently. For example, if we want to create an image that 
-visualizes the red component of an image, we can simply copy the red channel of the original 
-image to the new image. Also, if we ever need to access the pixel values, we can simply access 
-it from the channel.
-
-- Separation of concerns
-
-As a result of the change from pixel wise operations to channel wise operations, the RGBImage class
-became simpler. It is now responsible for only storing the image data. And the manipulation of the
-image is done by RGBModel class and other classes like ImageProcessors. This separation of concerns
-makes the code more modular and easier to maintain.
-
-- Eliminating redundant code
-
-I previously had an ImageManipulator class that was responsible for manipulating the image. It 
-was redundant because the Image class already had methods to manipulate the image. So, I eliminated
-this by combining the ImageManipulator class with the Image FileManager class.
-
-- Integrate enums into the model interface
-
-The Model interface now has enums which are used to represent the different types of brightness 
-and color channels. This lets the CLIController and the view know what type of brightness or color
-channel are available.
-
-- Fixing design issues
-
-I previously was managing the files in the FileManager class. This was a design issue because
-Controller was responsible for managing the files. So, I moved the file management to the Controller
-class.
-
-- Adding new features
-
-As this new assignment's feature extensions were standalone and required multiple helper methods,
-I created a new class for each of the features. This made the code more modular and easier to 
-maintain requiring less changes to the existing code.
 
 ## Parts of the program that are not complete
 
