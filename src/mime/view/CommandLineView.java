@@ -22,13 +22,9 @@ public class CommandLineView implements View {
     try {
       this.out.append(message).append("\n");
     } catch (Exception e) {
-      throw new IllegalStateException("Could not write to file");
+      throw new IllegalStateException("Failed to display message: " + e.getMessage());
     }
   }
 
-  @Override
-  public void displayImage(BufferedImage bufferedImage) {
-    this.display("Displaying image:\n");
-    this.display(bufferedImage.toString());
-  }
+
 }

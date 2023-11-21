@@ -14,11 +14,4 @@ public interface View {
    */
   void display(String message);
 
-  /**
-   * Displays the given image to the user.
-   *
-   * @param bufferedImage the image to be displayed to the user.
-   */
-  void displayImage(BufferedImage bufferedImage);
-
 }
