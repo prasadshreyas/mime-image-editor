@@ -107,7 +107,10 @@ Under the Unsplash License, the image is free to use for any purpose.
 - Added a new Interface for the controller
 - Factory Methods to create controllers and views
 - Configuration file to handle all the arguments passed to the program
-- 
+
+- Added a CommandExecutor and AbstractController to handle command processing
+  - The CommandExecutor handles command processing for all controllers, AbstractController provides 
+  a common run mechanism and template method for input reading, and specific controllers only need to implement how they read their respective inputs.
 
 
 ## Parts of the program that are not complete
