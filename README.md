@@ -21,14 +21,14 @@ This program also supports reading from scripts containing a sequence of command
 
 #### Using the jar file
 
-move `res/mime.jar` to the root directory of the project.
+move `res/grime.jar` to the root directory of the project.
 delete all the contents of the `res` directory except the `script.txt` file.
 this is necessary because the images that are going to be created are already present in the `res` directory.
 if you do not delete the contents of the `res` directory, the program will not be able to create the images.
 then, run the following command from the root directory of the project.
 
 ```bash
-java -jar mime.jar -file res/script.txt
+java -jar grime.jar -file res/script.txt
 ```
 
 #### Command-line view
