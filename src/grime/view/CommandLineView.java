@@ -1,6 +1,7 @@
 package grime.view;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 /**
  * This class represents the command line view.
@@ -26,9 +27,21 @@ public class CommandLineView implements View {
     }
   }
 
+  @Override
+  public void makeVisible() {
+
+  }
+
+  @Override
+  public String getInput(String prompt) {
+    return null;
+  }
+
+
   public void addListener(String actionCommand, ActionListener listener) {
     // TODO Auto-generated method stub
   }
+
 
 
 }

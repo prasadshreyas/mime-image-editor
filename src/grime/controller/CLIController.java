@@ -59,6 +59,12 @@ public class CLIController implements Controller{
     initializeCommands();
   }
 
+  /**
+   * Gets the command with the given name.
+   *
+   * @param commandName the name of the command.
+   * @return the command with the given name.
+   */
   public static Command getCommand(String commandName) {
     return commands.get(commandName);
   }

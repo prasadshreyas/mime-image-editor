@@ -22,11 +22,11 @@ public interface View {
 
 
   /**
-   * Gets the command from the user.
+   * Gets the input from the user by displaying a prompt and reading the input.
    *
-   * @return the string representing the command.
+   * @return the string representing the input from the user.
    */
-  String getCommand();
+  String getInput(String prompt);
 
   /**
    * Adds the given listener to the view.
@@ -35,23 +35,6 @@ public interface View {
    * @param listener      the listener to be added.
    */
   void addListener(String actionCommand, ActionListener listener);
-
-
-  /**
-   * Sets the image to the given BufferedImage.
-   *
-   * @param image    BufferedImage to be set.
-   * @param imageName name of the image.
-   * @return
-   */
-  void setImage(BufferedImage image, String imageName);
-
-  /**
-   * Refreshes the view.
-   *
-   * @param imageName name of the image.
-   */
-  void refresh(String imageName);
 
 
 }
