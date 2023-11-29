@@ -11,12 +11,13 @@ public class GUIView extends JFrame implements View {
   private JMenuItem loadMenuItem;
   private JMenuItem saveMenuItem;
   private JComboBox<String> imageComboBox;
-
+  DialogManager dialogManager;
   public GUIView() {
     super("GRIME");
     setupWindow();
     setupComponents();
     makeVisible();
+    this.dialogManager = new DialogManager();
   }
 
   private void setupWindow() {
@@ -47,11 +48,7 @@ public class GUIView extends JFrame implements View {
     JPanel imagePanel = new JPanel();
     add(imagePanel, BorderLayout.CENTER);
   }
-
-  public void displayMessage(String message) {
-    JOptionPane.showMessageDialog(this, message);
-  }
-
+  
   public void makeVisible() {
     setVisible(true);
   }
@@ -74,35 +71,17 @@ public class GUIView extends JFrame implements View {
 
   @Override
   public void updateView(String viewType, Object data) {
-    if ("list-images".equals(viewType) && data instanceof String[]) {
-      updateComboBox((String[]) data);
-    }
+    // TODO: Implement this method
   }
 
-  private void updateComboBox(String[] newImageList) {
-    if (shouldUpdateComboBox(newImageList)) {
-      imageComboBox.removeAllItems();
-      for (String image : newImageList) {
-        imageComboBox.addItem(image);
-      }
-      imageComboBox.revalidate();
-      imageComboBox.repaint();
-    }
+  @Override
+  public void displayMessage(String message) {
+
+    dialogManager.showMessage(this, message);
   }
 
-  private boolean shouldUpdateComboBox(String[] newImageList) {
-    if (imageComboBox.getItemCount() != newImageList.length) {
-      return true;
-    }
-    for (int i = 0; i < newImageList.length; i++) {
-      if (!imageComboBox.getItemAt(i).equals(newImageList[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
   @Override
   public String getInput(String prompt) {
-    return JOptionPane.showInputDialog(this, prompt);
+    return dialogManager.getInput(this, prompt);
   }
 }

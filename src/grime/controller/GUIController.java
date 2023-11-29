@@ -2,9 +2,12 @@ package grime.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import grime.controller.commands.LoadCommand;
+
+import grime.controller.commands.Command;
+import grime.controller.commands.CommandFactory;
 import grime.model.Model;
 import grime.view.View;
 
@@ -15,70 +18,52 @@ public class GUIController implements Controller {
   public GUIController(Model model, View view) {
     this.model = model;
     this.view = view;
+    addListeners();
+  }
 
+  private void addListeners() {
     view.addListener("load", new LoadButtonListener());
-    CommandRegistry.registerCommand("load", new LoadCommand(model));
+    // You can add more listeners for other actions here
+  }
 
-    view.addListener("list-images", new ComboBoxUpdateListener());
-    CommandRegistry.registerCommand("list-images", new LoadCommand(model));
+  private class LoadButtonListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+      JFileChooser fileChooser = new JFileChooser();
+      FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg", "gif");
+      fileChooser.setFileFilter(imageFilter);
+
+      int result = fileChooser.showOpenDialog(null);
+      if (result == JFileChooser.APPROVE_OPTION) {
+        try {
+          java.io.File selectedFile = fileChooser.getSelectedFile();
+          String selectedFilePath = selectedFile.getAbsolutePath();
+          String imageName = view.getInput("Enter the name of the image: ");
+
+          String[] args = {selectedFilePath, imageName};
+          executeCommand("load", args);
+        } catch (Exception ex) {
+          handleException(ex);
+        }
+      }
+    }
   }
 
   public void run() {
     view.displayMessage("Controller is running.");
   }
 
-  private void handleException(Exception e) {
-    view.displayMessage(e.getMessage());
-    e.printStackTrace();
-  }
-
-  public void executeCommand(String command, String[] args) {
+  public void executeCommand(String commandName, String[] args) {
     try {
-      if (CommandRegistry.getCommand(command) != null) {
-        CommandRegistry.getCommand(command).execute(args);
-      } else {
-        handleException(new IllegalArgumentException("Invalid command: " + command));
-      }
+      Command command = CommandFactory.createCommand(commandName, model);
+      command.execute(args);
     } catch (Exception e) {
       handleException(e);
     }
   }
 
-  private class ComboBoxUpdateListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-      try {
-        updateImageList();
-      } catch (Exception ex) {
-        handleException(ex);
-      }
-    }
-
-    private void updateImageList() {
-      String[] imageList = model.getImages().toArray(new String[0]);
-      view.updateView("list-images", imageList);
-    }
-  }
-
-  private class LoadButtonListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-      try {
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg", "gif");
-        fileChooser.setFileFilter(imageFilter);
-
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-          java.io.File selectedFile = fileChooser.getSelectedFile();
-          String selectedFilePath = selectedFile.getAbsolutePath();
-          String imageName = view.getInput("Enter the name of the image: ");
-
-          String[] args = { selectedFilePath, imageName };
-          executeCommand("load", args);
-        }
-      } catch (Exception ex) {
-        handleException(ex);
-      }
-    }
+  private void handleException(Exception e) {
+    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
   }
 
   // Additional ActionListener classes for other functionalities like 'save' can be added here.
