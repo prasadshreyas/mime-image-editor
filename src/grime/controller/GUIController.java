@@ -1,9 +1,8 @@
 package grime.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import grime.controller.commands.Command;
@@ -22,28 +21,30 @@ public class GUIController implements Controller {
   }
 
   private void addListeners() {
-    view.addListener("load", new LoadButtonListener());
-    // You can add more listeners for other actions here
+    view.addListener("load", this::loadAction);
+    view.addListener("list-images", this::listImagesAction);
   }
 
-  private class LoadButtonListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-      JFileChooser fileChooser = new JFileChooser();
-      FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg", "gif");
-      fileChooser.setFileFilter(imageFilter);
+  private void listImagesAction(ActionEvent actionEvent) {
+// TODO: Implement this method
+  }
 
-      int result = fileChooser.showOpenDialog(null);
-      if (result == JFileChooser.APPROVE_OPTION) {
-        try {
-          java.io.File selectedFile = fileChooser.getSelectedFile();
-          String selectedFilePath = selectedFile.getAbsolutePath();
-          String imageName = view.getInput("Enter the name of the image: ");
+  private void loadAction(ActionEvent e) {
+    JFileChooser fileChooser = new JFileChooser();
+    FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg", "gif");
+    fileChooser.setFileFilter(imageFilter);
 
-          String[] args = {selectedFilePath, imageName};
-          executeCommand("load", args);
-        } catch (Exception ex) {
-          handleException(ex);
-        }
+    int result = fileChooser.showOpenDialog(null);
+    if (result == JFileChooser.APPROVE_OPTION) {
+      try {
+        java.io.File selectedFile = fileChooser.getSelectedFile();
+        String selectedFilePath = selectedFile.getAbsolutePath();
+        String imageName = view.getInput("Enter the name of the image: ");
+
+        String[] args = {selectedFilePath, imageName};
+        executeCommand("load", args);
+      } catch (Exception ex) {
+        handleException(ex);
       }
     }
   }
@@ -66,5 +67,5 @@ public class GUIController implements Controller {
     e.printStackTrace();
   }
 
-  // Additional ActionListener classes for other functionalities like 'save' can be added here.
+  // Additional methods and inner classes
 }

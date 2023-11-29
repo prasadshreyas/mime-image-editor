@@ -2,20 +2,16 @@ package grime.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
-/**
- * This class represents the GUI view for the program.
- */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
   private static final int WINDOW_WIDTH = 800;
   private static final int WINDOW_HEIGHT = 800;
-  DialogManager dialogManager;
   private JMenuItem loadMenuItem;
   private JMenuItem saveMenuItem;
   private JComboBox<String> imageComboBox;
+  DialogManager dialogManager;
 
   public GUIView() {
     super("GRIME");
@@ -54,12 +50,10 @@ public class GUIView extends JFrame implements View {
     add(imagePanel, BorderLayout.CENTER);
   }
 
-  @Override
   public void makeVisible() {
     setVisible(true);
   }
 
-  @Override
   public void addListener(String actionCommand, ActionListener listener) {
     switch (actionCommand) {
       case "load":
@@ -91,3 +85,5 @@ public class GUIView extends JFrame implements View {
     return dialogManager.getInput(this, prompt);
   }
 }
+
+// Other classes like DialogManager, etc., are not included here but should be defined as needed.
