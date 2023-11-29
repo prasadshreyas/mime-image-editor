@@ -36,5 +36,14 @@ public interface View {
    */
   void addListener(String actionCommand, ActionListener listener);
 
+  /**
+   * Updates the view with the given data.
+   *
+   * @param viewType the type of view to be updated.
+   * @param data     the data to be used to update the view.
+   */
+  void updateView(String viewType, Object data);
 
 }
+
+

@@ -71,9 +71,9 @@ public class CommandExecutor {
 
     if (command != null) {
       command.execute(lineArgs.subList(1, lineArgs.size()).toArray(new String[0]));
-      return false;
-    } else if ("quit".equals(commandName)) {
       return true;
+    } else if ("quit".equals(commandName)) {
+      return false;
     } else {
       throw new IllegalArgumentException("Invalid command. Enter a valid command or 'quit' to exit.");
     }

@@ -42,6 +42,10 @@ public class CommandLineView implements View {
     // TODO Auto-generated method stub
   }
 
+  @Override
+  public void updateView(String viewType, Object data) {
+
+  }
 
 
 }
