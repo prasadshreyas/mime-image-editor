@@ -49,5 +49,6 @@ public class ColorCorrectCommand implements Command {
     if (args.length == 4) {
       model.splitView(args[0], args[1], splitValue);
     }
+
   }
 }

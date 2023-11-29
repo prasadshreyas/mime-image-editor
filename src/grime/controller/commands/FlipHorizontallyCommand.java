@@ -29,6 +29,7 @@ public class FlipHorizontallyCommand implements Command {
     } else {
       throw new IllegalArgumentException("No such image exists");
     }
+
   }
 
 }

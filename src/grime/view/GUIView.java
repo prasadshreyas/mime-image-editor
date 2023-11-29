@@ -9,12 +9,16 @@ public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
   private static final int WINDOW_WIDTH = 800;
   private static final int WINDOW_HEIGHT = 800;
-  private JButton loadButton;
+  private JMenuItem loadMenuItem; // Replaced JButton with JMenuItem
+  private JMenuItem saveMenuItem; // Initialize JMenuItem
+
+  private JComboBox<String> imageComboBox; // ComboBox for selecting the image to display
+
 
   public GUIView() {
     super("GRIME");
-    setupWindow(); // Initialize the window properties
-    setupComponents(); // Initialize the GUI components
+    setupWindow();
+    setupComponents();
     makeVisible();
   }
 
@@ -25,13 +29,39 @@ public class GUIView extends JFrame implements View {
   }
 
   private void setupComponents() {
-    JPanel buttonPanel = new JPanel();
-    loadButton = new JButton("Load");
+    // Removed button panel and load button
 
-    buttonPanel.add(loadButton);
+    // Add a drop-down menu
+    JMenuBar menuBar = new JMenuBar();
+    JMenu fileMenu = new JMenu("File");
 
-    add(buttonPanel, BorderLayout.NORTH);
+    loadMenuItem = new JMenuItem("Load"); // Initialize JMenuItem
+    fileMenu.add(loadMenuItem);
+
+    saveMenuItem = new JMenuItem("Save"); // Initialize JMenuItem
+    fileMenu.add(saveMenuItem);
+
+    JMenu editMenu = new JMenu("Edit");
+
+    menuBar.add(fileMenu);
+    menuBar.add(editMenu);
+    setJMenuBar(menuBar);
+
+    // Add a combo box for selecting the image to display
+    imageComboBox = new JComboBox<String>();
+
+    // Add the combo box to the window
+    add(imageComboBox, BorderLayout.NORTH);
+
+    // Add a panel for displaying the image
+    JPanel imagePanel = new JPanel();
+
+    // Add the panel to the window
+    add(imagePanel, BorderLayout.CENTER);
+
+
   }
+
 
   public void displayMessage(String message) {
     JOptionPane.showMessageDialog(this, message);
@@ -43,7 +73,9 @@ public class GUIView extends JFrame implements View {
 
   public void addListener(String actionCommand, ActionListener listener) {
     if (actionCommand.equals("load")) {
-      loadButton.addActionListener(listener);
+      loadMenuItem.addActionListener(listener); // Attach listener to menu item
+    } else if (actionCommand.equals("save")) {
+      saveMenuItem.addActionListener(listener); // Attach listener to menu item
     } else {
       throw new IllegalArgumentException("Invalid action command");
     }
@@ -53,5 +85,4 @@ public class GUIView extends JFrame implements View {
   public String getInput(String prompt) {
     return JOptionPane.showInputDialog(this, prompt);
   }
-
 }

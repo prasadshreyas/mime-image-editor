@@ -15,6 +15,7 @@ public class BlueComponentCommand implements Command {
 
   @Override
   public void execute(String[] args) {
+
     ArgValidator.validate(args, 2);
     if (model.containsImage(args[0])) {
       if (!model.containsImage(args[1])) {
@@ -25,5 +26,7 @@ public class BlueComponentCommand implements Command {
     } else {
       throw new IllegalArgumentException("Image " + args[0] + " does not exist.");
     }
+
   }
+
 }

@@ -29,5 +29,6 @@ public class FlipVerticallyCommand implements Command {
     } else {
       throw new IllegalArgumentException("No such image exists");
     }
+
   }
 }

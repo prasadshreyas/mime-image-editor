@@ -28,11 +28,17 @@ public class LoadCommand implements Command {
 
   @Override
   public void execute(String[] args) throws Exception {
-    ArgValidator.validate(args, 2);
-    String filePath = args[0];
-    String fileName = args[1];
-    BufferedImage image = load(filePath);
-    model.setImage(image, fileName);
+      try {
+        ArgValidator.validate(args, 2);
+        String filePath = args[0];
+        String fileName = args[1];
+        BufferedImage image = load(filePath);
+        model.setImage(image, fileName);
+      }
+      catch (Exception e) {
+        throw new IllegalArgumentException("Invalid arguments for load command.");
+      }
+
   }
 
 

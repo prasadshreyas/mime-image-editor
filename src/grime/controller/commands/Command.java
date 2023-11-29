@@ -7,6 +7,7 @@ public interface Command {
 
   /**
    * Executes the command on the model.
+   *
    * @param args Arguments for the command.
    * @throws Exception If the command cannot be executed.
    */
