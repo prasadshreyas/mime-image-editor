@@ -1,19 +1,23 @@
 package grime.controller;
 
-import java.util.List;
-
 import grime.model.Model;
+import grime.view.GUIView;
 import grime.view.View;
 
-public class GUIController extends AbstractController {
+public class GUIController implements Controller {
+  private final Model model;
+  private final View view;
 
   public GUIController(Model model, View view) {
-    super(model, view);
+    this.model = model;
+    this.view = view;
+
   }
 
   @Override
-  protected List<String> readInput() {
-    // Implementation for GUI input (e.g., button clicks, text fields)
-    return null;
+  public void run() {
+
   }
+
+  // Implement other methods for different actions as needed
 }

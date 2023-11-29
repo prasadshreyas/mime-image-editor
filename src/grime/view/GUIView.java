@@ -33,14 +33,20 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * This class represents the Graphical User Interface view for the program.
+ * This class represents the GUI view. It is used to display output to the user.
  */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
-  private JPanel buttonPanel;
+  private static final int WINDOW_WIDTH = 800;
+  private static final int WINDOW_HEIGHT = 800;
+  private JButton loadButton;
+  private JButton saveButton;
 
   private JPanel mainPanel;
 
@@ -56,24 +62,69 @@ public class GUIView extends JFrame implements View {
 
 
   /**
-   * Constructs a GUIView object and initializes it to display the GUI.
+   * Constructs a GUIView object.
    */
   public GUIView() {
-    super();
 
+    super("GRIME"); // Title for the window
     initializeWindow();
-
-
-   initializeButtonPanel();
-
-
-    setVisible(true);
+    SwingUtilities.invokeLater(() -> {
+      setupWindow();
+      setupButtonPanel();
+      setUpDropDown();
+      initializeListeners(); // Set up listeners here
+      setVisible(true); // Make the GUI visible here
+    });
   }
 
-  private void initializeButtonPanel() {
-    final JButton commandButton;
-    buttonPanel = new JPanel();
+  private void setUpDropDown() {
+    String[] options = {"1", "2", "3", "4", "5"};
+    JComboBox<String> dropDown = new JComboBox<>(options); // Initialize the dropdown
+    dropDown.setSelectedIndex(0);
+    add(dropDown, BorderLayout.NORTH);
+  }
 
+   initializeButtonPanel();
+  private void setupButtonPanel() {
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.setLayout(new GridLayout(1, 2));
+    loadButton = new JButton("Load");
+    saveButton = new JButton("Save");
+    buttonPanel.add(loadButton);
+    buttonPanel.add(saveButton);
+    add(buttonPanel, BorderLayout.SOUTH);
+  }
+
+  private void setupWindow() {
+    setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
+  }
+
+  public void displayMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
+  }
+
+  @Override
+  public void makeVisible() {
+    this.setVisible(true);
+  }
+
+  public void loadImage() {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Select a file");
+    // Image files only
+    fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "ppm",
+            "jpeg", "bmp"));
+    int result = fileChooser.showOpenDialog(this);
+
+    if (result == JFileChooser.APPROVE_OPTION) {
+      displayMessage("File selected: " + fileChooser.getSelectedFile().getAbsolutePath());
+    }
+
+    // Now, ask for the name of the image
+    String imageName = JOptionPane.showInputDialog(this, "Enter the name of the image");
+    displayMessage("Image name: " + imageName);
 
     // Load
     JButton loadButton = new JButton("Load");
@@ -84,7 +135,7 @@ public class GUIView extends JFrame implements View {
       if (returnValue == JFileChooser.APPROVE_OPTION) {
         System.out.println(fileChooser.getSelectedFile().getPath());
         updateImage(fileChooser.getSelectedFile().getPath());
-        //
+        
       }
     });
     buttonPanel.add(loadButton);
@@ -104,23 +155,25 @@ public class GUIView extends JFrame implements View {
     });
     buttonPanel.add(saveButton);
 
-
-
-
     // quit button
     commandButton = new JButton("Quit");
     commandButton.setActionCommand("quit");
     commandButton.addActionListener(e -> System.exit(0));
     buttonPanel.add(commandButton);
 
-    //
-
-
-
-    add(buttonPanel, BorderLayout.SOUTH);
   }
 
-  private void initializeWindow() {
+  private void initializeListeners() {
+    loadButton.addActionListener(e -> loadImage());
+    saveButton.addActionListener(e -> saveImage());
+  }
+
+  public void saveImage() {
+    // Implement save functionality here
+    displayMessage("Save functionality not implemented yet.");
+  }
+
+private void initializeWindow() {
     setSize(800, 600);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
@@ -149,13 +202,26 @@ public class GUIView extends JFrame implements View {
     dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
     mainPanel.add(dialogBoxesPanel);
 
+  @Override
+  public void addListener(String actionCommand, ActionListener listener) {
+    // TODO Auto-generated method stub
+
   }
 
+  @Override
+  public void setImage(BufferedImage image, String imageName) {
+
+  }
 
   @Override
-  public void display(String message) {
-    JOptionPane.showMessageDialog(this, message);
+  public String getCommand() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
+  @Override
+  public void refresh(String imageName) {
+    // TODO Auto-generated method stub
   }
 
   private void updateImage(String Filename)

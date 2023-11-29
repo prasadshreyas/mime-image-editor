@@ -94,7 +94,7 @@ public class CLIController implements Controller{
   public void run() {
     boolean quit = false;
     while (!quit) {
-      view.display("Enter a command:");
+      view.displayMessage("Enter a command:");
 
       if (!scanner.hasNextLine()) {
         continue;
@@ -138,6 +138,6 @@ public class CLIController implements Controller{
   }
 
   private void handleException(Exception e) {
-    view.display(e.getMessage());
+    view.displayMessage(e.getMessage());
   }
 }

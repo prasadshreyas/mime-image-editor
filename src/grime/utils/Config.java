@@ -40,7 +40,7 @@ public class Config {
     this.commandLineMode = commandLineMode;
   }
 
-/**
+  /**
    * Gets the file path.
    *
    * @return the file path.
@@ -89,7 +89,7 @@ public class Config {
   @Override
   public String toString() {
     return "Config [graphicalMode=" + graphicalMode + ", commandLineMode=" + commandLineMode + ", fileMode=" + fileMode
-        + ", filePath=" + filePath + "]";
+            + ", filePath=" + filePath + "]";
   }
 
 }

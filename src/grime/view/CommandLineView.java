@@ -1,4 +1,7 @@
 package grime.view;
+
+import java.awt.event.ActionListener;
+
 /**
  * This class represents the command line view.
  */
@@ -15,12 +18,16 @@ public class CommandLineView implements View {
   }
 
   @Override
-  public void display(String message) {
+  public void displayMessage(String message) {
     try {
       this.out.append(message).append("\n");
     } catch (Exception e) {
       throw new IllegalStateException("Failed to display message: " + e.getMessage());
     }
+  }
+
+  public void addListener(String actionCommand, ActionListener listener) {
+    // TODO Auto-generated method stub
   }
 
 
