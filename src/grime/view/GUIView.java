@@ -1,10 +1,41 @@
 package grime.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -17,11 +48,26 @@ public class GUIView extends JFrame implements View {
   private JButton loadButton;
   private JButton saveButton;
 
+  private JPanel mainPanel;
+
+  private JPanel imagePanel;
+
+  private JScrollPane mainScrollPane;
+  private JLabel fileOpenDisplay;
+  private JLabel fileSaveDisplay;
+
+  private JLabel imageLabel;
+
+ private JScrollPane imageScrollPane;
+
+
   /**
    * Constructs a GUIView object.
    */
   public GUIView() {
+
     super("GRIME"); // Title for the window
+    initializeWindow();
     SwingUtilities.invokeLater(() -> {
       setupWindow();
       setupButtonPanel();
@@ -38,6 +84,7 @@ public class GUIView extends JFrame implements View {
     add(dropDown, BorderLayout.NORTH);
   }
 
+   initializeButtonPanel();
   private void setupButtonPanel() {
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridLayout(1, 2));
@@ -69,7 +116,6 @@ public class GUIView extends JFrame implements View {
     // Image files only
     fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "ppm",
             "jpeg", "bmp"));
-
     int result = fileChooser.showOpenDialog(this);
 
     if (result == JFileChooser.APPROVE_OPTION) {
@@ -80,6 +126,40 @@ public class GUIView extends JFrame implements View {
     String imageName = JOptionPane.showInputDialog(this, "Enter the name of the image");
     displayMessage("Image name: " + imageName);
 
+    // Load
+    JButton loadButton = new JButton("Load");
+    loadButton.setActionCommand("load");
+    loadButton.addActionListener(e -> {
+      JFileChooser fileChooser = new JFileChooser();
+      int returnValue = fileChooser.showOpenDialog(null);
+      if (returnValue == JFileChooser.APPROVE_OPTION) {
+        System.out.println(fileChooser.getSelectedFile().getPath());
+        updateImage(fileChooser.getSelectedFile().getPath());
+        
+      }
+    });
+    buttonPanel.add(loadButton);
+
+    //Save
+    JButton saveButton = new JButton("Save");
+    saveButton.setActionCommand("save");
+    saveButton.addActionListener(e -> {
+      JFileChooser fileChooser = new JFileChooser();
+      int returnValue = fileChooser.showOpenDialog(null);
+      if (returnValue == JFileChooser.APPROVE_OPTION) {
+        System.out.println(fileChooser.getSelectedFile().getPath());
+        //updateImage(fileChooser.getSelectedFile().getPath());
+        File f = fileChooser.getSelectedFile();
+        //CLI to save image
+      }
+    });
+    buttonPanel.add(saveButton);
+
+    // quit button
+    commandButton = new JButton("Quit");
+    commandButton.setActionCommand("quit");
+    commandButton.addActionListener(e -> System.exit(0));
+    buttonPanel.add(commandButton);
 
   }
 
@@ -92,6 +172,35 @@ public class GUIView extends JFrame implements View {
     // Implement save functionality here
     displayMessage("Save functionality not implemented yet.");
   }
+
+private void initializeWindow() {
+    setSize(800, 600);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
+
+    mainPanel = new JPanel();
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+    mainScrollPane = new JScrollPane(mainPanel);
+    add(mainScrollPane);
+
+    JPanel imagePanel = new JPanel();
+    imagePanel.setBorder(BorderFactory.createTitledBorder("Showing an image"));
+    imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
+    mainPanel.add(imagePanel);
+
+    String images = "res/Penguins.jpg";
+    imageLabel = new JLabel();
+    imageScrollPane = new JScrollPane(imageLabel);
+    imageLabel.setIcon(new ImageIcon(images));
+    imageScrollPane.setPreferredSize(new Dimension(100, 400));
+    imagePanel.add(imageScrollPane);
+
+
+    //dialog boxes
+    JPanel dialogBoxesPanel = new JPanel();
+    dialogBoxesPanel.setBorder(BorderFactory.createTitledBorder("Dialog boxes"));
+    dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
+    mainPanel.add(dialogBoxesPanel);
 
   @Override
   public void addListener(String actionCommand, ActionListener listener) {
@@ -115,5 +224,10 @@ public class GUIView extends JFrame implements View {
     // TODO Auto-generated method stub
   }
 
+  private void updateImage(String Filename)
+  {
+    imageLabel.setIcon(new ImageIcon(Filename));
+    imageScrollPane.setPreferredSize(new Dimension(100, 400));
+  }
 
 }

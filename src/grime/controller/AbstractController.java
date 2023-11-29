@@ -32,6 +32,20 @@ public abstract class AbstractController implements Controller {
 
   @Override
   public void run() {
+    boolean quit = false;
+
+//    while (!quit) {
+//      List<String> lineArgs = readInput();
+//      if (lineArgs == null || lineArgs.isEmpty()) {
+//        view.display("Command cannot be empty.");
+//        continue;
+//      }
+//      try {
+//        quit = commandExecutor.executeCommand(lineArgs);
+//      } catch (Exception e) {
+//        view.display(e.getMessage());
+//      }
+//    }
       // TODO: Implement this method
   }
 }
