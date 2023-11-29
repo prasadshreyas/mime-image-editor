@@ -48,7 +48,7 @@ public class GUIView extends JFrame implements View {
     setLayout(new BorderLayout());
   }
 
-  public void display(String message) {
+  public void displayMessage(String message) {
     JOptionPane.showMessageDialog(this, message);
   }
 
@@ -83,8 +83,14 @@ public class GUIView extends JFrame implements View {
     int result = fileChooser.showOpenDialog(this);
 
     if (result == JFileChooser.APPROVE_OPTION) {
-      display("File selected: " + fileChooser.getSelectedFile().getAbsolutePath());
+      displayMessage("File selected: " + fileChooser.getSelectedFile().getAbsolutePath());
     }
+
+    // Now, ask for the name of the image
+    String imageName = JOptionPane.showInputDialog(this, "Enter the name of the image");
+    displayMessage("Image name: " + imageName);
+
+
   }
 
   private void initializeListeners() {
@@ -94,6 +100,6 @@ public class GUIView extends JFrame implements View {
 
   public void saveImage() {
     // Implement save functionality here
-    display("Save functionality not implemented yet.");
+    displayMessage("Save functionality not implemented yet.");
   }
 }

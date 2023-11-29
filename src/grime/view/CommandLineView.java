@@ -18,7 +18,7 @@ public class CommandLineView implements View {
   }
 
   @Override
-  public void display(String message) {
+  public void displayMessage(String message) {
     try {
       this.out.append(message).append("\n");
     } catch (Exception e) {

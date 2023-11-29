@@ -27,7 +27,7 @@ public class CLIController2 extends AbstractController {
 
   @Override
   protected List<String> readInput() {
-    view.display("Enter a command:");
+    view.displayMessage("Enter a command:");
     return scanner.hasNextLine() ? Arrays.asList(scanner.nextLine().split("\\s+")) : null;
   }
 }

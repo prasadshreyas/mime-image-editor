@@ -23,7 +23,7 @@ public class FileController extends AbstractController {
         return Arrays.asList(scanner.nextLine().split("\\s+"));
       }
     } catch (FileNotFoundException e) {
-      view.display("File not found: " + inputFile.getPath());
+      view.displayMessage("File not found: " + inputFile.getPath());
     }
     return null;
   }
