@@ -1,71 +1,99 @@
 package grime.view;
 
 import java.awt.*;
-
+import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- * This class represents the Graphical User Interface view for the program.
- */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
+  private static final int WINDOW_WIDTH = 800;
+  private static final int WINDOW_HEIGHT = 800;
+  private JButton loadButton;
+  private JButton saveButton;
   private JPanel buttonPanel;
+  private JComboBox<String> dropDown;
 
-  /**
-   * Constructs a GUIView object and initializes it to display the GUI.
-   */
   public GUIView() {
-    super();
-    initializeWindow();
-
-
-    initializeButtonPanel();
-
-
-    setVisible(true);
+    super("My Application"); // Title for the window
+    SwingUtilities.invokeLater(() -> {
+      setupWindow();
+      setupButtonPanel();
+      setUpDropDown();
+      initializeListeners(); // Set up listeners here
+      setVisible(true); // Make the GUI visible here
+    });
   }
 
-  private void initializeButtonPanel() {
-    final JButton commandButton;
+  private void setUpDropDown() {
+    String[] options = {"1", "2", "3", "4", "5"};
+    dropDown = new JComboBox<>(options); // Initialize the dropdown
+    dropDown.setSelectedIndex(0);
+    add(dropDown, BorderLayout.NORTH);
+  }
+
+  private void setupButtonPanel() {
     buttonPanel = new JPanel();
-
-
-    // Load
-    JButton loadButton = new JButton("Load");
-    loadButton.setActionCommand("load");
-    loadButton.addActionListener(e -> {
-      JFileChooser fileChooser = new JFileChooser();
-      int returnValue = fileChooser.showOpenDialog(null);
-      if (returnValue == JFileChooser.APPROVE_OPTION) {
-        System.out.println(fileChooser.getSelectedFile().getPath());
-      }
-    });
+    buttonPanel.setLayout(new GridLayout(1, 2));
+    loadButton = new JButton("Load");
+    saveButton = new JButton("Save");
     buttonPanel.add(loadButton);
-
-    // quit button
-    commandButton = new JButton("Quit");
-    commandButton.setActionCommand("quit");
-    commandButton.addActionListener(e -> System.exit(0));
-
-    buttonPanel.add(commandButton);
-
-    //
-
-
-
+    buttonPanel.add(saveButton);
     add(buttonPanel, BorderLayout.SOUTH);
   }
 
-  private void initializeWindow() {
-    setSize(800, 600);
+  private void setupWindow() {
+    setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
   }
 
-
-  @Override
   public void display(String message) {
     JOptionPane.showMessageDialog(this, message);
+  }
 
+  public void addListener(String actionCommand, ActionListener listener) {
+    switch (actionCommand) {
+      case "load":
+        loadButton.addActionListener(listener);
+        break;
+      case "save":
+        saveButton.addActionListener(listener);
+        break;
+      default:
+        addButton(actionCommand, listener);
+        break;
+    }
+  }
+
+  private void addButton(String label, ActionListener listener) {
+    JButton button = new JButton(label);
+    button.setActionCommand(label.toLowerCase());
+    button.addActionListener(listener);
+    buttonPanel.add(button);
+  }
+
+  public void loadImage() {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Select a file");
+    // Image files only
+    fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "ppm",
+            "jpeg", "bmp"));
+
+    int result = fileChooser.showOpenDialog(this);
+
+    if (result == JFileChooser.APPROVE_OPTION) {
+      display("File selected: " + fileChooser.getSelectedFile().getAbsolutePath());
+    }
+  }
+
+  private void initializeListeners() {
+    loadButton.addActionListener(e -> loadImage());
+    saveButton.addActionListener(e -> saveImage());
+  }
+
+  public void saveImage() {
+    // Implement save functionality here
+    display("Save functionality not implemented yet.");
   }
 }

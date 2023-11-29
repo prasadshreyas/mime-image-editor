@@ -11,6 +11,7 @@ public class GUIController extends AbstractController {
     super(model, view);
   }
 
+
   @Override
   protected List<String> readInput() {
     // Implementation for GUI input (e.g., button clicks, text fields)

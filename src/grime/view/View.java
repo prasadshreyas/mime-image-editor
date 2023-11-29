@@ -1,5 +1,7 @@
 package grime.view;
 
+import java.awt.event.ActionListener;
+
 /**
  * This interface represents view. It is used to display output to the user.
  */
@@ -11,4 +13,6 @@ public interface View {
    * @param message the message to be displayed to the user.
    */
   void display(String message);
+
+  void addListener(String actionCommand, ActionListener listener);
 }
