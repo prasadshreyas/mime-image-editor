@@ -2,20 +2,26 @@ package grime.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * This class represents the GUI view. It is used to display output to the user.
+ */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
   private static final int WINDOW_WIDTH = 800;
   private static final int WINDOW_HEIGHT = 800;
   private JButton loadButton;
   private JButton saveButton;
-  private JPanel buttonPanel;
-  private JComboBox<String> dropDown;
 
+  /**
+   * Constructs a GUIView object.
+   */
   public GUIView() {
-    super("My Application"); // Title for the window
+    super("GRIME"); // Title for the window
     SwingUtilities.invokeLater(() -> {
       setupWindow();
       setupButtonPanel();
@@ -27,13 +33,13 @@ public class GUIView extends JFrame implements View {
 
   private void setUpDropDown() {
     String[] options = {"1", "2", "3", "4", "5"};
-    dropDown = new JComboBox<>(options); // Initialize the dropdown
+    JComboBox<String> dropDown = new JComboBox<>(options); // Initialize the dropdown
     dropDown.setSelectedIndex(0);
     add(dropDown, BorderLayout.NORTH);
   }
 
   private void setupButtonPanel() {
-    buttonPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridLayout(1, 2));
     loadButton = new JButton("Load");
     saveButton = new JButton("Save");
@@ -52,25 +58,9 @@ public class GUIView extends JFrame implements View {
     JOptionPane.showMessageDialog(this, message);
   }
 
-  public void addListener(String actionCommand, ActionListener listener) {
-    switch (actionCommand) {
-      case "load":
-        loadButton.addActionListener(listener);
-        break;
-      case "save":
-        saveButton.addActionListener(listener);
-        break;
-      default:
-        addButton(actionCommand, listener);
-        break;
-    }
-  }
-
-  private void addButton(String label, ActionListener listener) {
-    JButton button = new JButton(label);
-    button.setActionCommand(label.toLowerCase());
-    button.addActionListener(listener);
-    buttonPanel.add(button);
+  @Override
+  public void makeVisible() {
+    this.setVisible(true);
   }
 
   public void loadImage() {
@@ -102,4 +92,28 @@ public class GUIView extends JFrame implements View {
     // Implement save functionality here
     displayMessage("Save functionality not implemented yet.");
   }
+
+  @Override
+  public void addListener(String actionCommand, ActionListener listener) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void setImage(BufferedImage image, String imageName) {
+
+  }
+
+  @Override
+  public String getCommand() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void refresh(String imageName) {
+    // TODO Auto-generated method stub
+  }
+
+
 }

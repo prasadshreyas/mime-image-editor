@@ -1,6 +1,7 @@
 package grime.controller;
 
 import grime.model.Model;
+import grime.view.GUIView;
 import grime.view.View;
 
 public class GUIController implements Controller {
