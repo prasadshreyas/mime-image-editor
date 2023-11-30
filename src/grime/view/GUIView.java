@@ -120,8 +120,8 @@ public class GUIView extends JFrame implements View {
 
     //red-component-view
     JButton redViewButton = new JButton("View Red Component");
-    saveButton.setActionCommand("view-red");
-    saveButton.addActionListener(e -> {
+    redViewButton.setActionCommand("view-red");
+    redViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("red-component");
         lineArgs.add("image");
@@ -134,8 +134,8 @@ public class GUIView extends JFrame implements View {
 
     //blue-component-view
     JButton blueViewButton = new JButton("View Blue Component");
-    saveButton.setActionCommand("view-blue");
-    saveButton.addActionListener(e -> {
+    blueViewButton.setActionCommand("view-blue");
+    blueViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("blue-component");
         lineArgs.add("image");
@@ -147,8 +147,8 @@ public class GUIView extends JFrame implements View {
 
     //green-component-view
     JButton greenViewButton = new JButton("View Green Component");
-    saveButton.setActionCommand("view-green");
-    saveButton.addActionListener(e -> {
+    greenViewButton.setActionCommand("view-green");
+    greenViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("green-component");
         lineArgs.add("image");
@@ -160,8 +160,8 @@ public class GUIView extends JFrame implements View {
 
     //Save
     JButton blurButton = new JButton("Blur");
-    saveButton.setActionCommand("blur");
-    saveButton.addActionListener(e -> {
+    blurButton.setActionCommand("blur");
+    blurButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("blur");
         lineArgs.add("image");
@@ -171,7 +171,7 @@ public class GUIView extends JFrame implements View {
         //CLI to save image
 
     });
-    buttonPanel.add(saveButton);
+    buttonPanel.add(blurButton);
 
 
 
