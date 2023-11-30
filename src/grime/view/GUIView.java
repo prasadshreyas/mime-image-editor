@@ -1,46 +1,20 @@
 package grime.view;
 
 import grime.controller.GUIController;
-import grime.model.RGBModel;
-import grime.model.image.RGBImage;
 
-import java.awt.Color;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 /**
@@ -48,9 +22,9 @@ import java.util.ArrayList;
  */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
-  private JPanel buttonPanel1;
-  private JPanel buttonPanel2;
-  private JPanel buttonPanel3;
+  private JPanel buttonPanel1 = new JPanel(new FlowLayout());
+  private JPanel buttonPanel2 = new JPanel(new FlowLayout());
+  private JPanel buttonPanel3 = new JPanel(new FlowLayout());
 
   private JPanel mainPanel;
 
@@ -62,10 +36,13 @@ public class GUIView extends JFrame implements View {
 
   private static JLabel imageLabel;
 
+  private static JLabel imageLabel1;
+
  private static JScrollPane imageScrollPane;
+ private static JScrollPane imageScrollPane1;
 
-
-  /**
+ String previous_file = "";
+    /**
    * Constructs a GUIView object and initializes it to display the GUI.
    */
   public GUIView() {
@@ -78,12 +55,9 @@ public class GUIView extends JFrame implements View {
 
   private void initializeButtonPanel() {
     final JButton commandButton;
-    buttonPanel1 = new JPanel(new FlowLayout());
-    buttonPanel2 = new JPanel(new FlowLayout());
-    buttonPanel3 = new JPanel(new FlowLayout());
 
 
-    // Load
+      // Load
     JButton loadButton = new JButton("Load");
     loadButton.setActionCommand("load");
     loadButton.addActionListener(e -> {
@@ -95,6 +69,7 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("load");
         lineArgs.add(fileChooser.getSelectedFile().getPath());
         lineArgs.add("image");
+          previous_file = "image";
         GUIController.executeCommand(lineArgs);
 //        GUIController.executeCommand(Collections.singletonList("load something D:\\Bluepen\\L10\\MIME\\Koala.jpg"));
        // BufferedImage Model = RGBModel.getImage();
@@ -115,7 +90,7 @@ public class GUIView extends JFrame implements View {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("save");
         lineArgs.add(fileChooser.getSelectedFile().getPath());
-        lineArgs.add("image");
+        lineArgs.add(previous_file);
         GUIController.executeCommand(lineArgs);
         //CLI to save image
       }
@@ -128,9 +103,9 @@ public class GUIView extends JFrame implements View {
     redViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("red-component");
-        lineArgs.add("image");
+        lineArgs.add(previous_file);
         lineArgs.add("red-image");
-
+        previous_file = "red-image";
         GUIController.executeCommand(lineArgs);
     });
     buttonPanel2.add(redViewButton);
@@ -141,8 +116,9 @@ public class GUIView extends JFrame implements View {
     blueViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("blue-component");
-        lineArgs.add("image");
+        lineArgs.add(previous_file);
         lineArgs.add("blue-image");
+        previous_file = "blue-image";
         GUIController.executeCommand(lineArgs);
     });
     buttonPanel2.add(blueViewButton);
@@ -153,28 +129,27 @@ public class GUIView extends JFrame implements View {
     greenViewButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("green-component");
-        lineArgs.add("image");
+        lineArgs.add(previous_file);
         lineArgs.add("green-image");
+        previous_file = "green-image";
         GUIController.executeCommand(lineArgs);
     });
     buttonPanel2.add(greenViewButton);
 
-    //Save
+    //Blur
     JButton blurButton = new JButton("Blur");
     blurButton.setActionCommand("blur");
     blurButton.addActionListener(e -> {
         List<String> lineArgs = new ArrayList<>();
         lineArgs.add("blur");
-        lineArgs.add("image");
+        lineArgs.add(previous_file);
         lineArgs.add("blur-image");
+        previous_file = "blur-image";
         GUIController.executeCommand(lineArgs);
 
 
     });
     buttonPanel2.add(blurButton);
-
-
-
 
     // quit button
     commandButton = new JButton("Quit");
@@ -183,7 +158,6 @@ public class GUIView extends JFrame implements View {
     buttonPanel3.add(commandButton);
 
     //
-
 
     setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     add(buttonPanel1);
@@ -206,15 +180,26 @@ public class GUIView extends JFrame implements View {
     imagePanel.setLayout(new GridLayout(1, 0, 10, 10));
     mainPanel.add(imagePanel);
 
-    String images = "res/Penguins.jpg";
+    String images = "";
     imageLabel = new JLabel();
     imageScrollPane = new JScrollPane(imageLabel);
     imageLabel.setIcon(new ImageIcon(images));
     imageScrollPane.setPreferredSize(new Dimension(100, 400));
     imagePanel.add(imageScrollPane);
 
+    JPanel imagePanel1 = new JPanel();
+    imageLabel1 = new JLabel();
+    imageScrollPane1 = new JScrollPane(imageLabel1);
+    imageLabel1.setIcon(new ImageIcon(images));
+    imageScrollPane1.setPreferredSize(new Dimension(100, 400));
+    imagePanel.add(imageScrollPane1);
 
-    //dialog boxes
+    mainPanel.add(imagePanel1);
+
+
+
+
+      //dialog boxes
     JPanel dialogBoxesPanel = new JPanel();
     dialogBoxesPanel.setBorder(BorderFactory.createTitledBorder("Dialog boxes"));
     dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
@@ -229,10 +214,15 @@ public class GUIView extends JFrame implements View {
 
   }
 
+    public static void updateHistogram(BufferedImage image)
+    {
+        imageLabel1.setIcon(new ImageIcon(image));
+    }
+
   public static void updateImage(BufferedImage image)
   {
     imageLabel.setIcon(new ImageIcon(image));
    // pack();
-    imageScrollPane.setPreferredSize(new Dimension(100, 400));
+    //imageScrollPane.setPreferredSize(new Dimension(100, 400));
   }
 }
