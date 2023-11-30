@@ -3,7 +3,9 @@
 This document contains a detailed description of the program and all the features it supports.
 
 
-Command-Line Arguments for Program.jar
+Command-Line Arguments
+---
+
 This program supports three modes of operation, each triggered by specific command-line arguments. Below are the instructions for each:
 
 Script File Execution Mode:

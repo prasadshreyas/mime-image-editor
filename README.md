@@ -17,49 +17,44 @@ This program also supports reading from scripts containing a sequence of command
 
 ### Running the program
 
+This program supports three modes of operation, each triggered by specific command-line arguments. Below are the instructions for each:
 
+Script File Execution Mode:
 
-#### Using the jar file
-
-move `res/grime.jar` to the root directory of the project.
-delete all the contents of the `res` directory except the `script.txt` file.
-this is necessary because the images that are going to be created are already present in the `res` directory.
-if you do not delete the contents of the `res` directory, the program will not be able to create the images.
-then, run the following command from the root directory of the project.
+Use:
 
 ```bash
-java -jar grime.jar -file res/script.txt
+java -jar Program.jar -file [path-of-script-file]
 ```
+Description: Executes a script file and then shuts down the program. Replace [path-of-script-file] with the actual path to your script file.
+Interactive Text Mode:
 
-#### Command-line view
-
-- Clone the repository
-- Navigate to the root/src/ime directory
-- Run the Main class
-- When prompted, either enter
-
+Use:
 ```bash
-run-script <script-file-path>
+java -jar Program.jar -text
 ```
-or enter commands manually.
-```
-load <image-file-path> <image-name>
+
+Description: Opens the program in an interactive text mode, allowing the user to input and execute scripts line by line.
+Graphical User Interface (GUI) Mode:
+
+Use:
+```bash
+java -jar Program.jar
 ```
 
 
 
-When you are done, enter
-```
-quit
-```
-to exit the program.
+Description: Launches the program's graphical user interface. This mode is also activated by double-clicking the JAR file.
+Invalid Arguments
+If any command-line arguments other than the above are used, the program will display an error message and terminate.
 
-**NOTE**: 
-- images are saved in the root/resources directory. New will not be saved if the image name 
-already exists. Delete the image from the resources directory if you want to save a new image with the same name.
-- The new functionalities added in this assignment are in the `res/script.txt` directory.
-- The commands from the previous assignment is in the `script-ime.txt` file in the root directory. 
-  You can use this file to test the program.
+
+
+## Using the GUI
+
+The GUI is the default mode of operation for the program. It can also be launched by double-clicking the JAR file.
+
+
 
 
 
