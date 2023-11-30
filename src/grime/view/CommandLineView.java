@@ -47,5 +47,10 @@ public class CommandLineView implements View {
 
   }
 
+  @Override
+  public BufferedImage getCurrentImage() {
+    return null;
+  }
+
 
 }

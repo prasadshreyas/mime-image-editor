@@ -44,6 +44,7 @@ public interface View {
    */
   void updateView(String viewType, Object data);
 
+  BufferedImage getCurrentImage();
 }
 
 

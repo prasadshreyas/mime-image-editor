@@ -17,7 +17,8 @@ public class GUIView extends JFrame implements View {
   private JButton refreshButton; // Declare the refresh button
   private JPanel imagePanel; // Declare the image panel
   private JLabel imageLabel; // To display the image
-
+  private BufferedImage currentImage; // To store the currently displayed image
+  private String currentImageName;
 
   public GUIView() {
     super("GRIME");
@@ -78,8 +79,20 @@ public class GUIView extends JFrame implements View {
     imagePanel.add(imageLabel);
   }
 
+  // Getter methods for current image and its name
+  public BufferedImage getCurrentImage() {
+    return currentImage;
+  }
+
+  public String getCurrentImageName() {
+    return currentImageName;
+  }
+
+
   // Method to update the image in the view
-  public void updateImage(BufferedImage image) {
+  public void updateImage(BufferedImage image, String imageName) {
+    this.currentImage = image;
+    this.currentImageName = imageName;
     // Scale the image
     BufferedImage scaledImage = scaleImage(image, imagePanel.getWidth(), imagePanel.getHeight());
 
@@ -136,7 +149,8 @@ public class GUIView extends JFrame implements View {
     }
     if ("image-display".equals(viewType) && data instanceof BufferedImage) {
       BufferedImage image = (BufferedImage) data;
-      updateImage(image);
+      updateImage(image,
+          imageComboBox.getSelectedItem() != null ? imageComboBox.getSelectedItem().toString() : "");
     }
   }
 
