@@ -2,6 +2,9 @@ package grime.view;
 
 import grime.utils.Config;
 
+/**
+ * This class represents the view factory for the program.
+ */
 public class ViewFactory {
 
   /**

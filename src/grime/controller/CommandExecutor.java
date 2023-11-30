@@ -39,6 +39,11 @@ import grime.model.Model;
 public class CommandExecutor {
   private Map<String, Command> commands;
 
+  /**
+   * Constructs a CommandExecutor object.
+   *
+   * @param model the model to be used by the command executor.
+   */
   public CommandExecutor(Model model) {
     commands = new java.util.HashMap<>();
     commands.put("load", new LoadCommand(model));
@@ -65,6 +70,13 @@ public class CommandExecutor {
     commands.put("get-images", new GetImagesCommand(model));
   }
 
+  /**
+   * Executes the command with the given name.
+   *
+   * @param lineArgs the arguments for the command.
+   * @return true if the command was executed successfully, false otherwise.
+   * @throws Exception if the command cannot be executed.
+   */
   public boolean executeCommand(List<String> lineArgs) throws Exception {
     String commandName = lineArgs.get(0);
     Command command = commands.get(commandName);
@@ -75,7 +87,8 @@ public class CommandExecutor {
     } else if ("quit".equals(commandName)) {
       return false;
     } else {
-      throw new IllegalArgumentException("Invalid command. Enter a valid command or 'quit' to exit.");
+      throw new IllegalArgumentException("Invalid command. Enter"
+              + " a valid command or 'quit' to exit.");
     }
   }
 }

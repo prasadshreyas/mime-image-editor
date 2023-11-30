@@ -21,6 +21,13 @@ public class GUIController implements Controller {
   private final Model model;
   private final View view;
 
+
+  /**
+   * Constructs a GUIController object.
+   *
+   * @param model the model to be used by the controller.
+   * @param view  the view to be used by the controller.
+   */
   public GUIController(Model model, View view) {
     this.model = model;
     this.view = view;
@@ -67,7 +74,8 @@ public class GUIController implements Controller {
 
   private void loadAction(ActionEvent e) {
     JFileChooser fileChooser = new JFileChooser();
-    FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "png", "jpg", "jpeg", "gif");
+    FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files",
+            "png", "jpg", "jpeg", "gif");
     fileChooser.setFileFilter(imageFilter);
 
     int result = fileChooser.showOpenDialog(null);
@@ -85,10 +93,19 @@ public class GUIController implements Controller {
     }
   }
 
+  /**
+   * Runs the controller by taking input from the user and passing it to the model.
+   */
   public void run() {
-    view.displayMessage("Controller is running.");
+    view.makeVisible();
   }
 
+  /**
+   * Executes the command with the given name.
+   *
+   * @param commandName the name of the command.
+   * @param args        the arguments for the command.
+   */
   public void executeCommand(String commandName, String[] args) {
     try {
       Command command = CommandFactory.createCommand(commandName, model);
@@ -110,10 +127,14 @@ public class GUIController implements Controller {
     fileChooser.setDialogTitle("Save Image");
 
     // Set file extension filters
-    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
-    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG file", "png"));
-    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("BMP file", "bmp"));
-    fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PPM file", "ppm")); // Implement PPM format save if needed
+    fileChooser.addChoosableFileFilter(new
+            FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
+    fileChooser.addChoosableFileFilter(new
+            FileNameExtensionFilter("PNG file", "png"));
+    fileChooser.addChoosableFileFilter(new
+            FileNameExtensionFilter("BMP file", "bmp"));
+    fileChooser.addChoosableFileFilter(new
+            FileNameExtensionFilter("PPM file", "ppm"));
 
     fileChooser.setAcceptAllFileFilterUsed(false);
 
@@ -142,9 +163,8 @@ public class GUIController implements Controller {
   }
 
   private void handleException(Exception e) {
-    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    e.printStackTrace();
+    JOptionPane.showMessageDialog(null,
+            e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
   }
 
-  // Additional methods and inner classes
 }

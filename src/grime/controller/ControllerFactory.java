@@ -21,7 +21,7 @@ public class ControllerFactory {
     if (config.isGraphicalMode()) {
       return new GUIController(model, view);
     } else if (config.isCommandLineMode()) {
-      return new CLIController2(model, view, new Scanner(System.in));
+      return new CLIController(model, view, new Scanner(System.in));
     } else {
       return new FileController(model, view, new File(config.getFilePath()));
     }

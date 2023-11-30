@@ -88,8 +88,8 @@ public class Config {
 
   @Override
   public String toString() {
-    return "Config [graphicalMode=" + graphicalMode + ", commandLineMode=" + commandLineMode + ", fileMode=" + fileMode
-            + ", filePath=" + filePath + "]";
+    return "Config [graphicalMode=" + graphicalMode + ", commandLineMode="
+            + commandLineMode + ", fileMode=" + fileMode + ", filePath=" + filePath + "]";
   }
 
 }

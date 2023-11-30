@@ -38,9 +38,10 @@ public class GUIView extends JFrame implements View {
       @Override
       public void windowClosing(java.awt.event.WindowEvent windowEvent) {
         if (JOptionPane.showConfirmDialog(GUIView.this,
-                "Are you sure you want to close this window?", "Close Window?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                "Are you sure you want to close this window?"
+                , "Close Window?"
+                , JOptionPane.YES_NO_OPTION
+                , JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
           System.exit(0);
         }
       }
@@ -150,8 +151,7 @@ public class GUIView extends JFrame implements View {
     }
     if ("image-display".equals(viewType) && data instanceof BufferedImage) {
       BufferedImage image = (BufferedImage) data;
-      updateImage(image,
-              imageComboBox.getSelectedItem() != null ? imageComboBox.getSelectedItem().toString() : "");
+      updateImage(image, imageComboBox.getSelectedItem() != null ? imageComboBox.getSelectedItem().toString() : "");
     }
   }
 

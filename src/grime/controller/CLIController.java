@@ -36,7 +36,7 @@ import grime.view.View;
  * It takes input from the user and passes it to the model.
  * It also takes input from the model and passes it to the view.
  */
-public class CLIController implements Controller{
+public class CLIController implements Controller {
   public static final String QUIT_COMMAND = "quit";
   private static Map<String, Command> commands;
   private final Model model;
