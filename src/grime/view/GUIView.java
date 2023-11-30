@@ -58,6 +58,7 @@ public class GUIView extends JFrame implements View {
     saveMenuItem = new JMenuItem("Save");
     fileMenu.add(saveMenuItem);
 
+
     JMenu editMenu = new JMenu("Edit");
 
     menuBar.add(fileMenu);
@@ -150,7 +151,7 @@ public class GUIView extends JFrame implements View {
     if ("image-display".equals(viewType) && data instanceof BufferedImage) {
       BufferedImage image = (BufferedImage) data;
       updateImage(image,
-          imageComboBox.getSelectedItem() != null ? imageComboBox.getSelectedItem().toString() : "");
+              imageComboBox.getSelectedItem() != null ? imageComboBox.getSelectedItem().toString() : "");
     }
   }
 

@@ -14,6 +14,9 @@ import grime.controller.commands.CommandFactory;
 import grime.model.Model;
 import grime.view.View;
 
+/**
+ * This class represents the controller for the GUI mode.
+ */
 public class GUIController implements Controller {
   private final Model model;
   private final View view;
@@ -98,7 +101,8 @@ public class GUIController implements Controller {
   private void saveAction(ActionEvent e) {
     BufferedImage imageToSave = view.getCurrentImage();
     if (imageToSave == null) {
-      JOptionPane.showMessageDialog(null, "No image to save.", "Error", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, "No image to save.",
+              "Error", JOptionPane.ERROR_MESSAGE);
       return;
     }
 
@@ -119,9 +123,11 @@ public class GUIController implements Controller {
         String ext = getFileExtension(fileToSave.getName());
         ImageIO.write(imageToSave, ext, fileToSave);
         // Display success message
-        JOptionPane.showMessageDialog(null, "Image saved successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Image saved successfully.",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
       } catch (IOException ex) {
-        JOptionPane.showMessageDialog(null, "Error saving image: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error saving image: "
+                + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }

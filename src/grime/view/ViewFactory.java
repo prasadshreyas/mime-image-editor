@@ -14,7 +14,7 @@ public class ViewFactory {
     if (config.isGraphicalMode()) {
       return new GUIView();
     } else {
-      return new CommandLineView();
+      return null;
     }
   }
 }

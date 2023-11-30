@@ -40,7 +40,6 @@ public class CLIController implements Controller{
   public static final String QUIT_COMMAND = "quit";
   private static Map<String, Command> commands;
   private final Model model;
-  private final View view;
   private final Scanner scanner;
 
 
@@ -53,7 +52,6 @@ public class CLIController implements Controller{
    */
   public CLIController(Model model, View view, Scanner scanner) {
     this.model = model;
-    this.view = view;
     this.scanner = scanner;
     commands = new HashMap<>();
     initializeCommands();
@@ -100,7 +98,7 @@ public class CLIController implements Controller{
   public void run() {
     boolean quit = false;
     while (!quit) {
-      view.displayMessage("Enter a command:");
+      System.out.println("Enter a command:");
 
       if (!scanner.hasNextLine()) {
         continue;
@@ -144,6 +142,6 @@ public class CLIController implements Controller{
   }
 
   private void handleException(Exception e) {
-    view.displayMessage(e.getMessage());
+    System.out.println(e.getMessage());
   }
 }
