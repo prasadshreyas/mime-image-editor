@@ -22,26 +22,18 @@ import java.util.ArrayList;
  */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
-  private JPanel buttonPanel1 = new JPanel(new FlowLayout());
-  private JPanel buttonPanel2 = new JPanel(new FlowLayout());
-  private JPanel buttonPanel3 = new JPanel(new FlowLayout());
+  private final JPanel buttonPanel1 = new JPanel(new FlowLayout());
+  private final JPanel buttonPanel2 = new JPanel(new FlowLayout());
+  private final JPanel buttonPanel3 = new JPanel(new FlowLayout());
 
-  private JPanel mainPanel;
-
-  private JPanel imagePanel;
 
   private JScrollPane mainScrollPane;
-  private JLabel fileOpenDisplay;
-  private JLabel fileSaveDisplay;
 
   private static JLabel imageLabel;
 
   private static JLabel imageLabel1;
 
- private static JScrollPane imageScrollPane;
- private static JScrollPane imageScrollPane1;
-
- String previous_file = "";
+  String previous_file = "";
     /**
    * Constructs a GUIView object and initializes it to display the GUI.
    */
@@ -71,10 +63,6 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("image");
           previous_file = "image";
         GUIController.executeCommand(lineArgs);
-//        GUIController.executeCommand(Collections.singletonList("load something D:\\Bluepen\\L10\\MIME\\Koala.jpg"));
-       // BufferedImage Model = RGBModel.getImage();
-        //updateImage(fileChooser.getSelectedFile().getPath());
-
       }
     });
     buttonPanel1.add(loadButton);
@@ -170,7 +158,7 @@ public class GUIView extends JFrame implements View {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
-    mainPanel = new JPanel();
+      JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     mainScrollPane = new JScrollPane(mainPanel);
     add(mainScrollPane);
@@ -182,14 +170,14 @@ public class GUIView extends JFrame implements View {
 
     String images = "";
     imageLabel = new JLabel();
-    imageScrollPane = new JScrollPane(imageLabel);
+      JScrollPane imageScrollPane = new JScrollPane(imageLabel);
     imageLabel.setIcon(new ImageIcon(images));
     imageScrollPane.setPreferredSize(new Dimension(100, 400));
     imagePanel.add(imageScrollPane);
 
     JPanel imagePanel1 = new JPanel();
     imageLabel1 = new JLabel();
-    imageScrollPane1 = new JScrollPane(imageLabel1);
+      JScrollPane imageScrollPane1 = new JScrollPane(imageLabel1);
     imageLabel1.setIcon(new ImageIcon(images));
     imageScrollPane1.setPreferredSize(new Dimension(100, 400));
     imagePanel.add(imageScrollPane1);
