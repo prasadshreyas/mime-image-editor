@@ -80,10 +80,26 @@ public class GUIView extends JFrame implements View {
 
   // Method to update the image in the view
   public void updateImage(BufferedImage image) {
-    ImageIcon imageIcon = new ImageIcon(image);
+    // Scale the image
+    BufferedImage scaledImage = scaleImage(image, imagePanel.getWidth(), imagePanel.getHeight());
+
+    ImageIcon imageIcon = new ImageIcon(scaledImage);
     imageLabel.setIcon(imageIcon);
     imageLabel.revalidate();
     imageLabel.repaint();
+  }
+
+  // Method to scale the image
+  private BufferedImage scaleImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+    // Create a new scaled image
+    Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+
+    Graphics2D g2d = outputImage.createGraphics();
+    g2d.drawImage(resultingImage, 0, 0, null);
+    g2d.dispose();
+
+    return outputImage;
   }
 
   public void makeVisible() {
