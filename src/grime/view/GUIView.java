@@ -13,7 +13,7 @@ public class GUIView extends JFrame implements View {
   private JMenuItem loadMenuItem;
   private JMenuItem saveMenuItem;
   private JComboBox<String> imageComboBox;
-  private DialogManager dialogManager;
+  private final DialogManager dialogManager;
   private JButton refreshButton; // Declare the refresh button
   private JPanel imagePanel; // Declare the image panel
   private JLabel imageLabel; // To display the image
@@ -91,7 +91,11 @@ public class GUIView extends JFrame implements View {
   }
 
 
-  // Method to update the image in the view
+  /**
+   * Updates the image displayed in the view.
+   * @param image the image to be displayed
+   * @param imageName the name of the image
+   */
   public void updateImage(BufferedImage image, String imageName) {
     this.currentImage = image;
     this.currentImageName = imageName;

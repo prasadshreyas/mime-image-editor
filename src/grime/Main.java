@@ -30,10 +30,9 @@ public class Main {
       if (config.isGraphicalMode()) {
         SwingUtilities.invokeLater(() -> {
           Controller controller = ControllerFactory.createController(config, model, view);
-          controller.run(); // Assuming your controller has a run method to start the GUI
+          controller.run();
         });
       } else {
-        // For CLI or File based, you can proceed normally as they don't require the EDT
         Controller controller = ControllerFactory.createController(config, model, view);
         controller.run();
       }

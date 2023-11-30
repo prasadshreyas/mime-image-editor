@@ -2,12 +2,45 @@
 
 This document contains a detailed description of the program and all the features it supports.
 
-All the below commands can be run from a script file. To run a script file, enter the following command when prompted:
 
+Command-Line Arguments for Program.jar
+This program supports three modes of operation, each triggered by specific command-line arguments. Below are the instructions for each:
+
+Script File Execution Mode:
+
+Use: 
 
 ```bash
-run-script <script-file-path>
+java -jar Program.jar -file [path-of-script-file]
 ```
+Description: Executes a script file and then shuts down the program. Replace [path-of-script-file] with the actual path to your script file.
+Interactive Text Mode:
+
+Use: 
+```bash
+java -jar Program.jar -text
+```
+
+Description: Opens the program in an interactive text mode, allowing the user to input and execute scripts line by line.
+Graphical User Interface (GUI) Mode:
+
+Use: 
+```bash
+java -jar Program.jar
+```
+
+
+
+Description: Launches the program's graphical user interface. This mode is also activated by double-clicking the JAR file.
+Invalid Arguments
+If any command-line arguments other than the above are used, the program will display an error message and terminate.
+
+
+
+---
+
+All the below commands can be run from a script file. To run a script file, enter the following command when prompted:
+
 
 
 ## Overview of the program
