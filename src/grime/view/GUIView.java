@@ -2,6 +2,7 @@ package grime.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class GUIView extends JFrame implements View {
@@ -11,7 +12,9 @@ public class GUIView extends JFrame implements View {
   private JMenuItem loadMenuItem;
   private JMenuItem saveMenuItem;
   private JComboBox<String> imageComboBox;
-  DialogManager dialogManager;
+  private DialogManager dialogManager;
+  private JButton refreshButton; // Declare the refresh button
+
 
   public GUIView() {
     super("GRIME");
@@ -43,12 +46,19 @@ public class GUIView extends JFrame implements View {
     menuBar.add(editMenu);
     setJMenuBar(menuBar);
 
-    imageComboBox = new JComboBox<String>();
+    imageComboBox = new JComboBox<>();
     add(imageComboBox, BorderLayout.NORTH);
+    add(imageComboBox, BorderLayout.NORTH);
+
+
+    refreshButton = new JButton("Refresh Images");
+    add(refreshButton, BorderLayout.SOUTH);
+
 
     JPanel imagePanel = new JPanel();
     add(imagePanel, BorderLayout.CENTER);
   }
+
 
   public void makeVisible() {
     setVisible(true);
@@ -65,6 +75,9 @@ public class GUIView extends JFrame implements View {
       case "list-images":
         imageComboBox.addActionListener(listener);
         break;
+      case "refresh-images":
+        refreshButton.addActionListener(listener);
+        break;
       default:
         throw new IllegalArgumentException("Invalid action command");
     }
@@ -72,8 +85,15 @@ public class GUIView extends JFrame implements View {
 
   @Override
   public void updateView(String viewType, Object data) {
-    // TODO: Implement this method
+    if ("image-list".equals(viewType) && data instanceof java.util.List) {
+      imageComboBox.removeAllItems();
+      java.util.List<String> images = (java.util.List<String>) data;
+      for (String image : images) {
+        imageComboBox.addItem(image);
+      }
+    }
   }
+
 
   @Override
   public void displayMessage(String message) {

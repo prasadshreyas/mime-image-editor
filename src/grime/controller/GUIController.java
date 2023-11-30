@@ -18,16 +18,30 @@ public class GUIController implements Controller {
     this.model = model;
     this.view = view;
     addListeners();
+    listImagesAction(); // Populate the ComboBox initially
   }
 
   private void addListeners() {
     view.addListener("load", this::loadAction);
     view.addListener("list-images", this::listImagesAction);
+    view.addListener("refresh-images", this::refreshImagesAction);
+  }
+
+
+  private void refreshImagesAction(ActionEvent e) {
+    listImagesAction();
   }
 
   private void listImagesAction(ActionEvent actionEvent) {
-// TODO: Implement this method
+    java.util.List<String> images = model.getImages();
+    view.updateView("image-list", images);
   }
+
+  private void listImagesAction() {
+    java.util.List<String> images = model.getImages();
+    view.updateView("image-list", images);
+  }
+
 
   private void loadAction(ActionEvent e) {
     JFileChooser fileChooser = new JFileChooser();
