@@ -1,5 +1,9 @@
 package grime.view;
 
+import grime.controller.GUIController;
+import grime.model.RGBModel;
+import grime.model.image.RGBImage;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,7 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -34,7 +40,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 /**
  * This class represents the Graphical User Interface view for the program.
  */
@@ -50,25 +58,21 @@ public class GUIView extends JFrame implements View {
   private JLabel fileOpenDisplay;
   private JLabel fileSaveDisplay;
 
-  private JLabel imageLabel;
+  private static JLabel imageLabel;
 
- private JScrollPane imageScrollPane;
+ private static JScrollPane imageScrollPane;
 
 
   /**
    * Constructs a GUIView object and initializes it to display the GUI.
    */
   public GUIView() {
-    super();
-
+    super("GRIME");
     initializeWindow();
-
-
-   initializeButtonPanel();
-
-
+    initializeButtonPanel();
     setVisible(true);
   }
+
 
   private void initializeButtonPanel() {
     final JButton commandButton;
@@ -83,8 +87,15 @@ public class GUIView extends JFrame implements View {
       int returnValue = fileChooser.showOpenDialog(null);
       if (returnValue == JFileChooser.APPROVE_OPTION) {
         System.out.println(fileChooser.getSelectedFile().getPath());
-        updateImage(fileChooser.getSelectedFile().getPath());
-        //
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("load");
+        lineArgs.add(fileChooser.getSelectedFile().getPath());
+        lineArgs.add("image");
+        GUIController.executeCommand(lineArgs);
+//        GUIController.executeCommand(Collections.singletonList("load something D:\\Bluepen\\L10\\MIME\\Koala.jpg"));
+       // BufferedImage Model = RGBModel.getImage();
+        //updateImage(fileChooser.getSelectedFile().getPath());
+
       }
     });
     buttonPanel.add(loadButton);
@@ -97,10 +108,68 @@ public class GUIView extends JFrame implements View {
       int returnValue = fileChooser.showOpenDialog(null);
       if (returnValue == JFileChooser.APPROVE_OPTION) {
         System.out.println(fileChooser.getSelectedFile().getPath());
-        //updateImage(fileChooser.getSelectedFile().getPath());
-        File f = fileChooser.getSelectedFile();
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("save");
+        lineArgs.add(fileChooser.getSelectedFile().getPath());
+        lineArgs.add("image");
+        GUIController.executeCommand(lineArgs);
         //CLI to save image
       }
+    });
+    buttonPanel.add(saveButton);
+
+    //red-component-view
+    JButton redViewButton = new JButton("View Red Component");
+    saveButton.setActionCommand("view-red");
+    saveButton.addActionListener(e -> {
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("red-component");
+        lineArgs.add("image");
+        lineArgs.add("red-image");
+
+        GUIController.executeCommand(lineArgs);
+        //CLI to save image
+    });
+    buttonPanel.add(redViewButton);
+
+    //blue-component-view
+    JButton blueViewButton = new JButton("View Blue Component");
+    saveButton.setActionCommand("view-blue");
+    saveButton.addActionListener(e -> {
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("blue-component");
+        lineArgs.add("image");
+        lineArgs.add("blue-image");
+        GUIController.executeCommand(lineArgs);
+        //CLI to save image
+    });
+    buttonPanel.add(blueViewButton);
+
+    //green-component-view
+    JButton greenViewButton = new JButton("View Green Component");
+    saveButton.setActionCommand("view-green");
+    saveButton.addActionListener(e -> {
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("green-component");
+        lineArgs.add("image");
+        lineArgs.add("green-image");
+        GUIController.executeCommand(lineArgs);
+        //CLI to save image
+    });
+    buttonPanel.add(greenViewButton);
+
+    //Save
+    JButton blurButton = new JButton("Blur");
+    saveButton.setActionCommand("blur");
+    saveButton.addActionListener(e -> {
+        List<String> lineArgs = new ArrayList<>();
+        lineArgs.add("blur");
+        lineArgs.add("image");
+        lineArgs.add("blur-image");
+        GUIController.executeCommand(lineArgs);
+
+        //CLI to save image
+
     });
     buttonPanel.add(saveButton);
 
@@ -158,10 +227,10 @@ public class GUIView extends JFrame implements View {
 
   }
 
-  private void updateImage(String Filename)
+  public static void updateImage(BufferedImage image)
   {
-    imageLabel.setIcon(new ImageIcon(Filename));
+    imageLabel.setIcon(new ImageIcon(image));
+   // pack();
     imageScrollPane.setPreferredSize(new Dimension(100, 400));
   }
-
 }
