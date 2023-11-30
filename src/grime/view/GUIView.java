@@ -2,6 +2,7 @@ package grime.view;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -14,6 +15,8 @@ public class GUIView extends JFrame implements View {
   private JComboBox<String> imageComboBox;
   private DialogManager dialogManager;
   private JButton refreshButton; // Declare the refresh button
+  private JPanel imagePanel; // Declare the image panel
+  private JLabel imageLabel; // To display the image
 
 
   public GUIView() {
@@ -26,9 +29,23 @@ public class GUIView extends JFrame implements View {
 
   private void setupWindow() {
     setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Change to do nothing on close
     setLayout(new BorderLayout());
+
+    // Add window listener for close operation
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      @Override
+      public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        if (JOptionPane.showConfirmDialog(GUIView.this,
+                "Are you sure you want to close this window?", "Close Window?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+          System.exit(0);
+        }
+      }
+    });
   }
+
 
   private void setupComponents() {
     JMenuBar menuBar = new JMenuBar();
@@ -55,10 +72,19 @@ public class GUIView extends JFrame implements View {
     add(refreshButton, BorderLayout.SOUTH);
 
 
-    JPanel imagePanel = new JPanel();
+    imagePanel = new JPanel();
     add(imagePanel, BorderLayout.CENTER);
+    imageLabel = new JLabel();
+    imagePanel.add(imageLabel);
   }
 
+  // Method to update the image in the view
+  public void updateImage(BufferedImage image) {
+    ImageIcon imageIcon = new ImageIcon(image);
+    imageLabel.setIcon(imageIcon);
+    imageLabel.revalidate();
+    imageLabel.repaint();
+  }
 
   public void makeVisible() {
     setVisible(true);
@@ -92,6 +118,10 @@ public class GUIView extends JFrame implements View {
         imageComboBox.addItem(image);
       }
     }
+    if ("image-display".equals(viewType) && data instanceof BufferedImage) {
+      BufferedImage image = (BufferedImage) data;
+      updateImage(image);
+    }
   }
 
 
@@ -106,4 +136,3 @@ public class GUIView extends JFrame implements View {
   }
 }
 
-// Other classes like DialogManager, etc., are not included here but should be defined as needed.

@@ -1,6 +1,7 @@
 package grime.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,8 +26,22 @@ public class GUIController implements Controller {
     view.addListener("load", this::loadAction);
     view.addListener("list-images", this::listImagesAction);
     view.addListener("refresh-images", this::refreshImagesAction);
+    view.addListener("list-images", this::imageSelectedAction);
   }
 
+
+  private void imageSelectedAction(ActionEvent e) {
+    JComboBox comboBox = (JComboBox) e.getSource();
+    String selectedImageName = (String) comboBox.getSelectedItem();
+    if (selectedImageName != null && !selectedImageName.isEmpty()) {
+      try {
+        BufferedImage image = model.getImage(selectedImageName);
+        view.updateView("image-display", image);
+      } catch (Exception ex) {
+        handleException(ex);
+      }
+    }
+  }
 
   private void refreshImagesAction(ActionEvent e) {
     listImagesAction();
