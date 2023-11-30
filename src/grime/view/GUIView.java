@@ -48,7 +48,9 @@ import java.util.ArrayList;
  */
 public class GUIView extends JFrame implements View {
   private static final long serialVersionUID = 1L;
-  private JPanel buttonPanel;
+  private JPanel buttonPanel1;
+  private JPanel buttonPanel2;
+  private JPanel buttonPanel3;
 
   private JPanel mainPanel;
 
@@ -76,7 +78,9 @@ public class GUIView extends JFrame implements View {
 
   private void initializeButtonPanel() {
     final JButton commandButton;
-    buttonPanel = new JPanel();
+    buttonPanel1 = new JPanel(new FlowLayout());
+    buttonPanel2 = new JPanel(new FlowLayout());
+    buttonPanel3 = new JPanel(new FlowLayout());
 
 
     // Load
@@ -98,7 +102,7 @@ public class GUIView extends JFrame implements View {
 
       }
     });
-    buttonPanel.add(loadButton);
+    buttonPanel1.add(loadButton);
 
     //Save
     JButton saveButton = new JButton("Save");
@@ -116,7 +120,7 @@ public class GUIView extends JFrame implements View {
         //CLI to save image
       }
     });
-    buttonPanel.add(saveButton);
+    buttonPanel1.add(saveButton);
 
     //red-component-view
     JButton redViewButton = new JButton("View Red Component");
@@ -128,9 +132,8 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("red-image");
 
         GUIController.executeCommand(lineArgs);
-        //CLI to save image
     });
-    buttonPanel.add(redViewButton);
+    buttonPanel2.add(redViewButton);
 
     //blue-component-view
     JButton blueViewButton = new JButton("View Blue Component");
@@ -141,9 +144,8 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("image");
         lineArgs.add("blue-image");
         GUIController.executeCommand(lineArgs);
-        //CLI to save image
     });
-    buttonPanel.add(blueViewButton);
+    buttonPanel2.add(blueViewButton);
 
     //green-component-view
     JButton greenViewButton = new JButton("View Green Component");
@@ -154,9 +156,8 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("image");
         lineArgs.add("green-image");
         GUIController.executeCommand(lineArgs);
-        //CLI to save image
     });
-    buttonPanel.add(greenViewButton);
+    buttonPanel2.add(greenViewButton);
 
     //Save
     JButton blurButton = new JButton("Blur");
@@ -168,10 +169,9 @@ public class GUIView extends JFrame implements View {
         lineArgs.add("blur-image");
         GUIController.executeCommand(lineArgs);
 
-        //CLI to save image
 
     });
-    buttonPanel.add(blurButton);
+    buttonPanel2.add(blurButton);
 
 
 
@@ -180,13 +180,15 @@ public class GUIView extends JFrame implements View {
     commandButton = new JButton("Quit");
     commandButton.setActionCommand("quit");
     commandButton.addActionListener(e -> System.exit(0));
-    buttonPanel.add(commandButton);
+    buttonPanel3.add(commandButton);
 
     //
 
 
-
-    add(buttonPanel, BorderLayout.SOUTH);
+    setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+    add(buttonPanel1);
+    add(buttonPanel2);
+    add(buttonPanel3, BorderLayout.SOUTH);
   }
 
   private void initializeWindow() {
