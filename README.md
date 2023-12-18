@@ -1,7 +1,5 @@
 # MIME
 
-This is a project for the course CS 5010: Program Design Paradigms at Northeastern University.
-
 ## Project Description
 
 This project is a command-line image processing program. It will read in an image from a file, perform some operations on it, and write the result to another file.
