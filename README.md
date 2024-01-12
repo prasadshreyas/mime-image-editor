@@ -1,6 +1,5 @@
 # MIME
 
-This is a project for the course CS 5010: Program Design Paradigms at Northeastern University.
 
 ## Project Description
 
